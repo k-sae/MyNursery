@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        FirebaseAuth.getInstance().signOut();
         //this may introduce a bug in app first run
         //if so just w8 for the async task to finish then continue as normal
         if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
