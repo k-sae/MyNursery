@@ -1,6 +1,5 @@
 package com.kareem.mynursery;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,10 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
@@ -23,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private TextView mTextMessage;
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
+    //leave it as it is i will need it later
     private Fragment activeFragment;
     private HomeFragment homeFragment;
     private HomeFragment profileFragment;
@@ -35,9 +33,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     navigate(homeFragment);
-                    mTextMessage.setText(R.string.title_home);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.favourites:
                     return redirectIfNotAuth(favouritesFragment);
                 case R.id.navigation_notifications:
                     return redirectIfNotAuth(profileFragment);
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragments();
-        mTextMessage = findViewById(R.id.message);
+        navigate(homeFragment);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //this may introduce a bug in app first run
