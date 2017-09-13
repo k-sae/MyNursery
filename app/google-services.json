@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "146520708075",
+    "firebase_url": "https://mynursery-f6ac2.firebaseio.com",
+    "project_id": "mynursery-f6ac2",
+    "storage_bucket": "mynursery-f6ac2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146520708075:android:6e76495bc9cd9fde",
+        "android_client_info": {
+          "package_name": "com.kareem.mynursery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146520708075-odfnddeub9oa1gnu13ogritee0kgmd0d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kareem.mynursery",
+            "certificate_hash": "66ed1e52da64a0999b0f7152e39611a0fe3fb4f7"
+          }
+        },
+        {
+          "client_id": "146520708075-vcsuh2e2tprj6pktkuf3cabk0f9bl911.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB34mUTBh503HQ7uboiUr6s8ra6fNnKJDs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146520708075-vcsuh2e2tprj6pktkuf3cabk0f9bl911.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
