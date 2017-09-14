@@ -18,7 +18,6 @@ import com.kareem.mynursery.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
-    private TextView mTextMessage;
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     //leave it as it is i will need it later
     private Fragment activeFragment;
