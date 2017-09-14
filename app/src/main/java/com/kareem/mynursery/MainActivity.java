@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
+import com.kareem.mynursery.model.User;
 
 public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         //if so just w8 for the async task to finish then continue as normal
         if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
         Log.e("firebase", "onCreate: " + FirebaseAuth.getInstance().getCurrentUser());
-
+        test();
     }
 
 
@@ -108,5 +109,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         else
         navigate(fragment);
         return true;
+    }
+
+    private void test()
+    {
+        User user  = new User();
+        user.setName("test");
+        user.setId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        user.save();
+        user.addNursery("test2");
     }
 }
