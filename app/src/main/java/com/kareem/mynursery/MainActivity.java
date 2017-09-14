@@ -17,6 +17,9 @@ import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
 import com.kareem.mynursery.model.User;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
@@ -116,7 +119,13 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         User user  = new User();
         user.setName("test");
         user.setId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        user.save();
+
+        user.update("name", "updated");
+
         user.addNursery("test2");
+        user.addNursery("test1");
+        user.addNursery("test3");
+        user.startUserSync();
+
     }
 }

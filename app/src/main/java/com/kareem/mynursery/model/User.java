@@ -1,26 +1,126 @@
 package com.kareem.mynursery.model;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
  * Created by kareem on 9/14/17.
  */
 
-public class User implements DatabaseReference.CompletionListener{
-    private static final String REFRENCE_NAME = "users";
+@SuppressWarnings({"DefaultFileTemplate", "WeakerAccess"})
+public class User implements DatabaseReference.CompletionListener, RealTimeObject<User>{
+    private static final String REFERENCE_NAME = "users";
+    //database objects
     private String id;
     private String name = "";
-    private int type = 1;
-    private ArrayList<String> nurseriesId = new ArrayList<>();
-
+    private long type = 1;
+    private ArrayList<String> nurseries = new ArrayList<>();
+    //end of database Objects
+    //TODO
     public static User get(String id){
         return new User();
     }
+
+    /**
+     *   using this method will cause the nurseries to be overwrited
+     *   use update instead
+      */
+    @Exclude
+    @Deprecated
+    public void save()
+    {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        if (id != null)
+        {
+            databaseReference.child(REFERENCE_NAME).child(id).setValue(this, this);
+        }
+    }
+
+    @Exclude
+    public void update(String key, Object value)
+    {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        if (id != null)
+        {
+            databaseReference.child(REFERENCE_NAME).child(id).child(key).setValue(value, this);
+        }
+    }
+    //override this in order to listen to update event
+    //most of cases just ignore it
+    @Exclude
+    @Override
+    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+    }
+    @Exclude
+    public void addNursery(String nurseryId)
+    {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(id).child("nurseries").child(nurseryId).setValue(true, this);
+    }
+
+    @Exclude
+    public void startUserSync()
+    {
+        FirebaseDatabase.getInstance().getReference().child(REFERENCE_NAME).child(id).addValueEventListener(new ValueEventListener() {
+            @SuppressWarnings("TryWithIdenticalCatches")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()
+                     ) {
+                    try {
+
+                        if (!snapshot.getKey().equals("nurseries")) {
+                            Field field = User.class.getDeclaredField(snapshot.getKey());
+                            field.setAccessible(true);
+                            field.set(User.this, snapshot.getValue());
+                            field.setAccessible(false);
+                        }
+                        else {
+                            for (DataSnapshot subSnap :
+                                    snapshot.getChildren()) {
+                                nurseries.add(subSnap.getKey());
+                            }
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                onChange(User.this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    //override this in order to be notified upon user updates
+    @Exclude
+    @Override
+    public void onChange(User newObject) {
+        for (String s :
+                newObject.getNurseries()) {
+            Log.e("tag", "test: " + s );
+        }
+    }
+
 
     public String getName() {
         return name;
@@ -30,7 +130,7 @@ public class User implements DatabaseReference.CompletionListener{
         this.name = name;
     }
 
-    public int getType() {
+    public long getType() {
         return type;
     }
 
@@ -39,12 +139,12 @@ public class User implements DatabaseReference.CompletionListener{
     }
 
     @Exclude
-    public ArrayList<String> getNurseriesId() {
-        return nurseriesId;
+    public ArrayList<String> getNurseries() {
+        return nurseries;
     }
 
-    public void setNurseriesId(ArrayList<String> nurseriesId) {
-        this.nurseriesId = nurseriesId;
+    public void setNurseries(ArrayList<String> nurseries) {
+        this.nurseries = nurseries;
     }
 
     @Exclude
@@ -56,23 +156,6 @@ public class User implements DatabaseReference.CompletionListener{
         this.id = id;
     }
 
-    public void save()
-    {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (id != null)
-        {
-            databaseReference.child(REFRENCE_NAME).child(id).setValue(this, this);
-        }
-    }
-    //override this in order to listen to update event
-    //most of cases just ignore it
-    @Override
-    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-    }
-    public void addNursery(String nurseryId)
-    {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(REFRENCE_NAME).child(id).child("nurseries").setValue(nurseryId, this);
-    }
+
 }
