@@ -1,7 +1,5 @@
 package com.kareem.mynursery.model;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -10,8 +8,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -71,7 +67,7 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
     }
 
     @Exclude
-    public void startUserSync()
+    public void startSync()
     {
         FirebaseDatabase.getInstance().getReference().child(REFERENCE_NAME).child(id).addValueEventListener(new ValueEventListener() {
             @SuppressWarnings("TryWithIdenticalCatches")
@@ -115,10 +111,6 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
     @Exclude
     @Override
     public void onChange(User newObject) {
-        for (String s :
-                newObject.getNurseries()) {
-            Log.e("tag", "test: " + s );
-        }
     }
 
 

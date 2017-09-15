@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by kareem on 9/14/17.
  */
 
-public class Nursery {
+public class Nursery implements RealTimeObject<Nursery> {
 
     private ArrayList<String> likes = new ArrayList<>();
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -43,6 +43,21 @@ public class Nursery {
     //custom access info
     private boolean isSponsored;
     private String sponsershipEndDate;
+
+
+
+
+    @Override
+    public void startSync() {
+
+    }
+
+    @Override
+    public void onChange(Nursery newObject) {
+
+    }
+
+
 
 
     public double getLongitude() {
@@ -252,4 +267,5 @@ public class Nursery {
     public void setSponsershipEndDate(String sponsershipEndDate) {
         this.sponsershipEndDate = sponsershipEndDate;
     }
+
 }
