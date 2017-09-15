@@ -1,5 +1,7 @@
 package com.kareem.mynursery.model;
 
+import com.kareem.mynursery.model.FirebaseParser.KeyList;
+
 import java.util.ArrayList;
 
 /**
@@ -8,10 +10,13 @@ import java.util.ArrayList;
 
 public class Nursery implements RealTimeObject<Nursery> {
 
+    @KeyList
     private ArrayList<String> likes = new ArrayList<>();
+    @KeyList
     private ArrayList<Comment> comments = new ArrayList<>();
 
     // area info
+
     private double longitude =  0;
     private double latitude = 0;
     private String govenment = "";
@@ -39,6 +44,7 @@ public class Nursery implements RealTimeObject<Nursery> {
     private String endTime = "";
     private boolean isSupportingDisablilites;
     private ArrayList<String> imagesId = new ArrayList<>();
+    @KeyList
     private ArrayList<String> activities = new ArrayList<>();
     //custom access info
     private boolean isSponsored;
