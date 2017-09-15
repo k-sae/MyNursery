@@ -1,6 +1,13 @@
 package com.kareem.mynursery.model;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.model.FirebaseParser.KeyList;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 
 import java.util.ArrayList;
 
@@ -10,6 +17,8 @@ import java.util.ArrayList;
 
 public class Nursery implements RealTimeObject<Nursery> {
 
+    private static final String REFERENCE_NAME = "nurseries";
+    private String id;
     @KeyList
     private ArrayList<String> likes = new ArrayList<>();
     @KeyList
@@ -52,19 +61,54 @@ public class Nursery implements RealTimeObject<Nursery> {
 
 
 
+    @Exclude
+    public void startSync()
+    {
+        FirebaseDatabase.getInstance().getReference().child(REFERENCE_NAME).child(id).addValueEventListener(new ValueEventListener() {
+            @SuppressWarnings("TryWithIdenticalCatches")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                new ObjectParser().getValue(Nursery.this, dataSnapshot);
+                onChange(Nursery.this);
+            }
 
-    @Override
-    public void startSync() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
+    //override this in order to be notified upon user updates
+    @Exclude
     @Override
     public void onChange(Nursery newObject) {
-
     }
 
 
+    private void save()
+    {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        if (id != null)
+        {
+            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
+        }
+        else
+        {
+            DatabaseReference reference = databaseReference.child(REFERENCE_NAME).push();
+            id = reference.getKey();
+            reference.setValue(new ObjectParser().mapObject(this), this);
+        }
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public double getLongitude() {
         return longitude;

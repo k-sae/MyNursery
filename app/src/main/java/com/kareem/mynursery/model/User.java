@@ -42,13 +42,12 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
      *   use update instead
       */
     @Exclude
-    @Deprecated
     public void save()
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (id != null)
         {
-            databaseReference.child(REFERENCE_NAME).child(id).setValue(this, this);
+            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
         }
     }
 
