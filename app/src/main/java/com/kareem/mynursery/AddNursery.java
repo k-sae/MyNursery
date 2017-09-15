@@ -23,19 +23,22 @@ public class AddNursery extends AppCompatActivity {
     private ArrayList<String> pickedImagesPaht;
     private ArrayList<String>  activities;
     private Nursery nurseryObj;
+    private String NurseryId;
 
     //Form Buttons
     Button addPic , addLocation , addNursery;
 
     EditText nurseryName , nurseryDescription , startTime , endTime,
              phone1 , phone2 , facebook , instagram , snapchat , price,
-             minAge , maxAge , additionalActivities ;
+             minAge , maxAge , additionalActivities ,city ,district ,
+            street  , building , notes;
 
     CheckBox swimming , drawing, football , disabilites;
 
     String nurseryNameData ,nurseryDescriptionData , startTimeData , endTimeData,
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
-             additionalActivitiesData ;
+             additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
+            , notesData;
     double  priceData;
     int minAgeData , maxAgeData;
     boolean disabilitesData = false;
@@ -47,28 +50,32 @@ public class AddNursery extends AppCompatActivity {
         setContentView(R.layout.activity_add_nursery);
         this.intent=getIntent();
         this.setComponents();
-        if (this.intent.getAction().equals(this.EDIT_NURSERY))
+        if (this.intent.getAction().equals(this.EDIT_NURSERY)) {
+            NurseryId = intent.getStringExtra("NurseryId");
             editRender();//TODO fill the form with the nursery data
-        else
-            render();
+        }
 
 
         addNursery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 featchData();
+                if (intent.getAction().equals(EDIT_NURSERY)) {
+
+                }
+
                 parseToNursery();
+
             }
         });
     }
 
-    public void editRender(){
-
+    private void editRender(){
+        setComponents();
+        parseFromNursery();
     }
 
-    public void render(){
 
-    }
 
     private void setComponents(){
 
@@ -88,6 +95,12 @@ public class AddNursery extends AppCompatActivity {
         minAge = (EditText) findViewById(R.id.addNurseryMinAge);
         maxAge = (EditText) findViewById(R.id.addNurseryMaxAge);
         additionalActivities = (EditText) findViewById(R.id.addNursery_activity_additional);
+        city = (EditText) findViewById(R.id.addNurseryCity);
+        district = (EditText) findViewById(R.id.addNurseryDistrict);
+        street = (EditText) findViewById(R.id.addNurseryStreet);
+        building = (EditText) findViewById(R.id.addNurseryBuilding);
+        notes = (EditText) findViewById(R.id.addNurseryNotes);
+
         swimming = (CheckBox) findViewById(R.id.addNursery_activity_swim);
         football =(CheckBox) findViewById(R.id.addNursery_activity_football);
         drawing = (CheckBox) findViewById(R.id.addNursery_activity_draw);
@@ -112,6 +125,12 @@ public class AddNursery extends AppCompatActivity {
         minAgeData = Integer.parseInt(minAge.getText().toString());
         maxAgeData = Integer.parseInt(maxAge.getText().toString());
         additionalActivitiesData = additionalActivities.getText().toString();
+        cityData = city.getText().toString();
+        districtData =district.getText().toString();
+        buildingData = building.getText().toString();
+        streetData = street.getText().toString();
+        notesData = notes.getText().toString();
+
 
         if (swimming.isChecked())
             activities.add("SWIMMING");
@@ -127,7 +146,7 @@ public class AddNursery extends AppCompatActivity {
 
     }
 
-    public void parseToNursery(){
+    private void parseToNursery(){
         nurseryObj = new Nursery();
         nurseryObj.setName(nurseryNameData);
         nurseryObj.setDescription(nurseryDescriptionData);
@@ -143,6 +162,17 @@ public class AddNursery extends AppCompatActivity {
         nurseryObj.setMaxAge(maxAgeData);
         nurseryObj.setActivities(activities);
         nurseryObj.setSupportingDisablilites(disabilitesData);
+        nurseryObj.setCity(cityData);
+        nurseryObj.setDistrict(districtData);
+        nurseryObj.setStreet(streetData);
+        nurseryObj.setBuilding(buildingData);
+        nurseryObj.setMoreDetails(notesData);
+    }
+
+    private void parseFromNursery(){
+        //TODO feach nursery obj by id
+
+
     }
 
 
