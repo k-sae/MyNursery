@@ -1,9 +1,12 @@
 package com.kareem.mynursery.model.FirebaseParser;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.Exclude;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by kareem on 9/15/17.
@@ -13,7 +16,7 @@ public class ObjectParser {
 
     public <T> T getValue(Class<T> cls, DataSnapshot dataSnapshot) {
         try {
-            return  getValue(cls, cls.newInstance() , dataSnapshot );
+            return  getValue(cls.newInstance() , dataSnapshot );
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -22,7 +25,8 @@ public class ObjectParser {
         return null;
     }
 
-    public <T> T getValue(Class<T> cls, T object, DataSnapshot dataSnapshot) {
+    public <T> T getValue( T object, DataSnapshot dataSnapshot) {
+        Class<?> cls = object.getClass();
         boolean accessibility;
         for (DataSnapshot snapshot: dataSnapshot.getChildren()
              ) {
@@ -31,7 +35,7 @@ public class ObjectParser {
                 accessibility = field.isAccessible();
                 field.setAccessible(true);
                 if (isKeyList(field)) setListValues(snapshot, field, object);
-                else if (!isExcluded(field)) field.set(object, snapshot.getValue() );
+                else field.set(object, snapshot.getValue() );
                 field.setAccessible(accessibility);
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
@@ -63,6 +67,27 @@ public class ObjectParser {
 
     }
     private boolean isExcluded(Field field){
-        return (field.getAnnotation(KeyList.class) != null);
+        return (field.getAnnotation(Exclude.class) != null);
     }
+
+    public <T> Map<String, Object > mapObject(T object)
+    {
+        Map<String, Object> stringObjectMap = new HashMap<>();
+        Class<?> cls = object.getClass();
+        boolean accessibility;
+        for (Field field :
+                cls.getDeclaredFields()) {
+            accessibility = field.isAccessible();
+             if (!isExcluded(field) && !isKeyList(field)) try {
+                 field.setAccessible(true);
+                stringObjectMap.put(field.getName(), field.get(object));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            field.setAccessible(accessibility);
+        }
+        return stringObjectMap;
+    }
+
+//
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"DefaultFileTemplate", "WeakerAccess"})
 public class User implements DatabaseReference.CompletionListener, RealTimeObject<User>{
+    @Exclude
     private static final String REFERENCE_NAME = "users";
     //database objects
     @Exclude
@@ -81,7 +82,7 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
             @SuppressWarnings("TryWithIdenticalCatches")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                new ObjectParser().getValue(User.class, User.this, dataSnapshot);
+                new ObjectParser().getValue(User.this, dataSnapshot);
                 onChange(User.this);
             }
 

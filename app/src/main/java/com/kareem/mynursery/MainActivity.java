@@ -14,7 +14,10 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.User;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
@@ -123,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         user.addNursery("test3");
         user.startSync();
 
+        Map<String, Object> stringObjectMap = new ObjectParser().mapObject(user);
         User user1 = new User(){
             @Override
             public void onChange(User newObject) {
