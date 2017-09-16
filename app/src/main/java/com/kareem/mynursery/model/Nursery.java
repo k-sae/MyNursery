@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class Nursery implements RealTimeObject<Nursery> {
 
+    private static final long serialVersionUID = 42L;
+    @Exclude
     private static final String REFERENCE_NAME = "nurseries";
     private String id;
     @KeyList
@@ -87,7 +89,7 @@ public class Nursery implements RealTimeObject<Nursery> {
     }
 
 
-    private void save()
+    public void save()
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (id != null)
@@ -98,10 +100,11 @@ public class Nursery implements RealTimeObject<Nursery> {
         {
             DatabaseReference reference = databaseReference.child(REFERENCE_NAME).push();
             id = reference.getKey();
-            reference.setValue(new ObjectParser().mapObject(this), this);
+            reference.setValue(new ObjectParser().mapObject(this));
         }
     }
 
+    @Exclude
     public String getId() {
         return id;
     }
