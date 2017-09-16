@@ -14,8 +14,11 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
+import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.model.ObjectChangedListener;
+import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
 
 import java.util.Map;
@@ -116,21 +119,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void test()
     {
-        User user  = new User();
-        user.setName("test");
-        user.setId(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        user.update("name", "updated");
-
-        Nursery nursery = new Nursery();
-        nursery.setName("test nursery");
-        nursery.save();
-        user.addNursery(nursery.getId());
-        user.addNursery("test2");
-        user.addNursery("test1");
-        user.addNursery("test3");
-        user.startSync();
-        nursery.startSync();
-        Auth
     }
 }
