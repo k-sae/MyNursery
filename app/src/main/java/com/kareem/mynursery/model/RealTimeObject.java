@@ -1,10 +1,68 @@
 package com.kareem.mynursery.model;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
+
 /**
  * Created by kareem on 9/14/17.
  */
 
-public interface RealTimeObject<T> {
-    void startSync();
-    void onChange(T newObject);
+public abstract class RealTimeObject implements DatabaseReference.CompletionListener{
+    private String id;
+    @Exclude
+    public void startSync()
+    {
+        FirebaseDatabase.getInstance().getReference().child(getReferenceName()).child(id).addValueEventListener(new ValueEventListener() {
+            @SuppressWarnings("TryWithIdenticalCatches")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                new ObjectParser().getValue(RealTimeObject.this, dataSnapshot);
+                onChange(RealTimeObject.this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public  void onChange(RealTimeObject newObject){
+
+    }
+
+    public void save()
+    {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        if (getId() != null)
+        {
+            databaseReference.child(getReferenceName()).child(getId()).setValue(new ObjectParser().mapObject(this), this);
+        }
+        else
+        {
+            DatabaseReference reference = databaseReference.child(getReferenceName()).push();
+            setId(reference.getKey());
+            reference.setValue(new ObjectParser().mapObject(this), this);
+        }
+    }
+
+    protected abstract String getReferenceName();
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+    }
 }

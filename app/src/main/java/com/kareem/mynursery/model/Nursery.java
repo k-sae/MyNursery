@@ -15,12 +15,11 @@ import java.util.ArrayList;
  * Created by kareem on 9/14/17.
  */
 
-public class Nursery implements RealTimeObject<Nursery> {
+public class Nursery extends RealTimeObject{
 
-    private static final long serialVersionUID = 42L;
     @Exclude
     private static final String REFERENCE_NAME = "nurseries";
-    private String id;
+
     @KeyList
     private ArrayList<String> likes = new ArrayList<>();
     @KeyList
@@ -49,8 +48,8 @@ public class Nursery implements RealTimeObject<Nursery> {
     private String name = "";
     private String description = "";
     private double expenses = 0;
-    private int minAge = 0;
-    private int maxAge = 0;
+    private long minAge = 0;
+    private long maxAge = 0;
     private String startTime = "";
     private String endTime = "";
     private boolean isSupportingDisablilites;
@@ -63,55 +62,6 @@ public class Nursery implements RealTimeObject<Nursery> {
 
 
 
-    @Exclude
-    public void startSync()
-    {
-        FirebaseDatabase.getInstance().getReference().child(REFERENCE_NAME).child(id).addValueEventListener(new ValueEventListener() {
-            @SuppressWarnings("TryWithIdenticalCatches")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                new ObjectParser().getValue(Nursery.this, dataSnapshot);
-                onChange(Nursery.this);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-    //override this in order to be notified upon user updates
-    @Exclude
-    @Override
-    public void onChange(Nursery newObject) {
-    }
-
-
-    public void save()
-    {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (id != null)
-        {
-            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
-        }
-        else
-        {
-            DatabaseReference reference = databaseReference.child(REFERENCE_NAME).push();
-            id = reference.getKey();
-            reference.setValue(new ObjectParser().mapObject(this));
-        }
-    }
-
-    @Exclude
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public double getLongitude() {
         return longitude;
@@ -249,7 +199,7 @@ public class Nursery implements RealTimeObject<Nursery> {
         this.expenses = expenses;
     }
 
-    public int getMinAge() {
+    public long getMinAge() {
         return minAge;
     }
 
@@ -257,7 +207,7 @@ public class Nursery implements RealTimeObject<Nursery> {
         this.minAge = minAge;
     }
 
-    public int getMaxAge() {
+    public long getMaxAge() {
         return maxAge;
     }
 
@@ -321,4 +271,8 @@ public class Nursery implements RealTimeObject<Nursery> {
         this.sponsershipEndDate = sponsershipEndDate;
     }
 
+    @Override
+    protected String getReferenceName() {
+        return REFERENCE_NAME;
+    }
 }

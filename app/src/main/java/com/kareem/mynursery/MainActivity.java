@@ -130,5 +130,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         user.addNursery("test1");
         user.addNursery("test3");
         user.startSync();
+        nursery.startSync();
     }
 }

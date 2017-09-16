@@ -21,12 +21,10 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings({"DefaultFileTemplate", "WeakerAccess"})
-public class User implements DatabaseReference.CompletionListener, RealTimeObject<User>{
+public class User extends  RealTimeObject{
     @Exclude
     private static final String REFERENCE_NAME = "users";
     //database objects
-    @Exclude
-    private String id;
     private String name = "";
     private long type = 1;
     @KeyList
@@ -41,64 +39,36 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
      *   using this method will cause the nurseries to be overwrited
      *   use update instead
       */
-    @Exclude
-    public void save()
-    {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (id != null)
-        {
-            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
-        }
-    }
+//    @Exclude
+//    public void save()
+//    {
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+//        if (id != null)
+//        {
+//            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
+//        }
+//    }
 
     @Exclude
     public void update(String key, Object value)
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (id != null)
+        if (getId() != null)
         {
-            databaseReference.child(REFERENCE_NAME).child(id).child(key).setValue(value, this);
+            databaseReference.child(REFERENCE_NAME).child(getId()).child(key).setValue(value, this);
         }
     }
     //override this in order to listen to update event
     //most of cases just ignore it
     @Exclude
-    @Override
-    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-    }
-    @Exclude
     public void addNursery(String nurseryId)
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(REFERENCE_NAME).child(id).child("nurseries").child(nurseryId).setValue(true, this);
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("nurseries").child(nurseryId).setValue(true, this);
     }
 
-    @Exclude
-    public void startSync()
-    {
-        FirebaseDatabase.getInstance().getReference().child(REFERENCE_NAME).child(id).addValueEventListener(new ValueEventListener() {
-            @SuppressWarnings("TryWithIdenticalCatches")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                new ObjectParser().getValue(User.this, dataSnapshot);
-                onChange(User.this);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
     //override this in order to be notified upon user updates
-    @Exclude
-    @Override
-    public void onChange(User newObject) {
-    }
-
 
     public String getName() {
         return name;
@@ -125,15 +95,9 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
         this.nurseries = nurseries;
     }
 
-    @Exclude
-    public String getId() {
-        return id;
+    @Override
+    protected String getReferenceName() {
+        return REFERENCE_NAME;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-
 
 }
