@@ -32,23 +32,23 @@ public class User extends  RealTimeObject{
     //end of database Objects
     //TODO
     public static User get(String id){
-        return new User();
+        User user = new User();
+        user.setId(id);
+        user.updateData();
+        return user;
     }
-
-    /**
-     *   using this method will cause the nurseries to be overwrited
-     *   use update instead
-      */
-//    @Exclude
-//    public void save()
-//    {
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-//        if (id != null)
-//        {
-//            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
-//        }
-//    }
-
+    public static User get(String id, final ObjectChangedListener objectChangedListener){
+        User user = new User(){
+            @Override
+            public void onChange(RealTimeObject newObject) {
+                super.onChange(newObject);
+                objectChangedListener.onChange(newObject);
+            }
+        };
+        user.setId(id);
+        user.updateData();
+        return user;
+    }
     @Exclude
     public void update(String key, Object value)
     {

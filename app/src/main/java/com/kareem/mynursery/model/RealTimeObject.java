@@ -1,5 +1,7 @@
 package com.kareem.mynursery.model;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,8 +35,25 @@ public abstract class RealTimeObject implements DatabaseReference.CompletionList
 
     }
 
-    public  void onChange(RealTimeObject newObject){
+    public void updateData()
+    {
+        FirebaseDatabase.getInstance().getReference().child(getReferenceName()).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressWarnings("TryWithIdenticalCatches")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                new ObjectParser().getValue(RealTimeObject.this, dataSnapshot);
+                onChange(RealTimeObject.this);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public  void onChange(RealTimeObject newObject){
+        Log.e("onChange: ", newObject.getId() );
     }
 
     public void save()
@@ -65,4 +84,7 @@ public abstract class RealTimeObject implements DatabaseReference.CompletionList
     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
     }
+
+
+
 }
