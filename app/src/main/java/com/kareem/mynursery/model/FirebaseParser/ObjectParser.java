@@ -43,7 +43,7 @@ public class ObjectParser {
                 e.printStackTrace();
             }
         }
-        return null;
+        return object;
     }
 
 
