@@ -10,15 +10,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.User;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
@@ -125,7 +124,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         user.addNursery("test2");
         user.addNursery("test1");
         user.addNursery("test3");
-        user.startUserSync();
+        user.startSync();
 
+        Map<String, Object> stringObjectMap = new ObjectParser().mapObject(user);
+        User user1 = new User(){
+            @Override
+            public void onChange(User newObject) {
+                super.onChange(newObject);
+            }
+        };
     }
 }

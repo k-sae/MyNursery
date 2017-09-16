@@ -8,6 +8,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kareem.mynursery.model.FirebaseParser.KeyList;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -20,11 +22,14 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"DefaultFileTemplate", "WeakerAccess"})
 public class User implements DatabaseReference.CompletionListener, RealTimeObject<User>{
+    @Exclude
     private static final String REFERENCE_NAME = "users";
     //database objects
+    @Exclude
     private String id;
     private String name = "";
     private long type = 1;
+    @KeyList
     private ArrayList<String> nurseries = new ArrayList<>();
     //end of database Objects
     //TODO
@@ -37,13 +42,12 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
      *   use update instead
       */
     @Exclude
-    @Deprecated
     public void save()
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (id != null)
         {
-            databaseReference.child(REFERENCE_NAME).child(id).setValue(this, this);
+            databaseReference.child(REFERENCE_NAME).child(id).setValue(new ObjectParser().mapObject(this), this);
         }
     }
 
@@ -71,35 +75,13 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
     }
 
     @Exclude
-    public void startUserSync()
+    public void startSync()
     {
         FirebaseDatabase.getInstance().getReference().child(REFERENCE_NAME).child(id).addValueEventListener(new ValueEventListener() {
             @SuppressWarnings("TryWithIdenticalCatches")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()
-                     ) {
-                    try {
-
-                        if (!snapshot.getKey().equals("nurseries")) {
-                            Field field = User.class.getDeclaredField(snapshot.getKey());
-                            field.setAccessible(true);
-                            field.set(User.this, snapshot.getValue());
-                            field.setAccessible(false);
-                        }
-                        else {
-                            for (DataSnapshot subSnap :
-                                    snapshot.getChildren()) {
-                                nurseries.add(subSnap.getKey());
-                            }
-                        }
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+                new ObjectParser().getValue(User.this, dataSnapshot);
                 onChange(User.this);
             }
 
@@ -115,10 +97,6 @@ public class User implements DatabaseReference.CompletionListener, RealTimeObjec
     @Exclude
     @Override
     public void onChange(User newObject) {
-        for (String s :
-                newObject.getNurseries()) {
-            Log.e("tag", "test: " + s );
-        }
     }
 
 

@@ -5,5 +5,6 @@ package com.kareem.mynursery.model;
  */
 
 public interface RealTimeObject<T> {
+    void startSync();
     void onChange(T newObject);
 }
