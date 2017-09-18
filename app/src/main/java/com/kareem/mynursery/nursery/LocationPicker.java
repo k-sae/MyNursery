@@ -2,6 +2,7 @@ package com.kareem.mynursery.nursery;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -34,6 +36,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.kareem.mynursery.R;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = LocationPicker.class.getSimpleName();
@@ -302,5 +308,24 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
                 .setTitle(R.string.pick_place)
                 .setItems(mLikelyPlaceNames, listener)
                 .show();
+    }
+
+    private void getLocationDetails(LatLng latLng)
+    {
+        Geocoder geocoder;
+        List<android.location.Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
