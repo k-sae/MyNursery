@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     private static final String TAG = LocationPicker.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
+    private Marker marker;
 
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
@@ -87,10 +89,8 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
 
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
-        // Construct a PlaceDetectionClient.
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
 
-        // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -99,13 +99,17 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
 
         mMap = googleMap;
 
-        // Do other setup activities here too, as described elsewhere in this tutorial.
-
-        // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
-        // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if(marker != null) marker.remove();
+               marker = mMap.addMarker(new MarkerOptions().position(latLng).title("location"));
+            }
+        });
     }
 
     @Override
@@ -294,16 +298,9 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
         };
 
         // Display the dialog.
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.pick_place)
                 .setItems(mLikelyPlaceNames, listener)
                 .show();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.option_get_place) {
-            showCurrentPlace();
-        }
-        return true;
     }
 }
