@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kareem.mynursery.nursery.LocationPicker">
+    <item
+        android:id="@+id/option_get_place"
+        android:title="@string/option_get_place"
+        app:showAsAction="always"/>
+</menu>

@@ -43,7 +43,7 @@ public class ObjectParser {
                 e.printStackTrace();
             }
         }
-        return null;
+        return object;
     }
 
 
@@ -78,7 +78,7 @@ public class ObjectParser {
         for (Field field :
                 cls.getDeclaredFields()) {
             accessibility = field.isAccessible();
-             if (!isExcluded(field) && !isKeyList(field)) try {
+             if (!isExcluded(field) && !isKeyList(field) && !field.isSynthetic() && !field.getName().equalsIgnoreCase("serialVersionUID")) try {
                  field.setAccessible(true);
                 stringObjectMap.put(field.getName(), field.get(object));
             } catch (IllegalAccessException e) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.icu.text.DateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -45,7 +46,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
             , notesData;
     double  priceData;
-    int minAgeData , maxAgeData;
+    long minAgeData , maxAgeData;
     boolean disabilitesData = false;
     TimePickerDialog timePickerDialog;
     private View lastClickedView;
@@ -71,6 +72,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
                 if (intent.getAction().equals(EDIT_NURSERY)) {
 
                 }else {
+                    Log.e("Entered","here");
                     parseToNursery();
                     nurseryObj.save();
                 }
@@ -154,8 +156,8 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
         instagramData = instagram.getText().toString();
         snapchatData = snapchat.getText().toString();
         priceData = Double.parseDouble(price.getText().toString());
-        minAgeData = Integer.parseInt(minAge.getText().toString());
-        maxAgeData = Integer.parseInt(maxAge.getText().toString());
+        minAgeData = Long.parseLong(minAge.getText().toString());
+        maxAgeData = Long.parseLong(maxAge.getText().toString());
         additionalActivitiesData = additionalActivities.getText().toString();
         cityData = city.getText().toString();
         districtData =district.getText().toString();
