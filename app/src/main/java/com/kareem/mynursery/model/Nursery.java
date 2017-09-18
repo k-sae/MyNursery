@@ -87,7 +87,7 @@ public class Nursery implements RealTimeObject<Nursery> {
     }
 
 
-    private void save()
+    public void save()
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (id != null)

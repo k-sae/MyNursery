@@ -63,14 +63,6 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
         }
 
 
-//pick start time
-        addLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-               pickTime(addNursery);
-            }
-        });
         //save Nursery action
         addNursery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +70,12 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
                 fetchData();
                 if (intent.getAction().equals(EDIT_NURSERY)) {
 
+                }else {
+                    parseToNursery();
+                    nurseryObj.save();
                 }
 
-                parseToNursery();
+
 
             }
         });
@@ -235,17 +230,45 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
     }
 public void pickTime(View v){
 lastClickedView=v;
+ TextView textView = (TextView) v;
+    String currentPickedTime =textView.getText().toString();
+
+
     Calendar calendar = Calendar.getInstance();
 
         timePickerDialog = new TimePickerDialog(AddNursery.this,AddNursery.this,calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(this));
+   
+    if (currentPickedTime.contains(":")) {
+        String state = currentPickedTime.split(" ")[1];
+        currentPickedTime = currentPickedTime.split(" ")[0];
+        int hour = Integer.parseInt(currentPickedTime.split(":")[0]);
+        int minute = Integer.parseInt(currentPickedTime.split(":")[1]);
+        if (state.contains("PM"))
+            hour += 12;
+        timePickerDialog.updateTime(hour,minute);
+    }
+
+
     timePickerDialog.show();
 
 }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-Toast toast = Toast.makeText(this,String.valueOf(lastClickedView.getId()==R.id.addNurseryStartTime),Toast.LENGTH_LONG);
-        toast.show();
+
+        int hour=0;
+        if (i==0 || i==12)
+            hour=12;
+
+        else if (i>12)
+            hour=i-12;
+        else
+            hour=i;
+        String time = hour+":"+i1+" "+((i<12)?"AM":"PM");
+        if (lastClickedView.getId()==R.id.addNurseryStartTime)
+            startTime.setText(time);
+        else if (lastClickedView.getId()==R.id.addNurseryEndTime)
+            endTime.setText(time);
     }
 }
