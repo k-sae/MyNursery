@@ -20,6 +20,7 @@ import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
+import com.kareem.mynursery.nursery.LocationPicker;
 
 import java.util.Map;
 
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
                     navigate(homeFragment);
                     return true;
                 case R.id.favourites:
-                    return redirectIfNotAuth(favouritesFragment);
+//                    return redirectIfNotAuth(favouritesFragment);
+                    navigate(LocationPicker.class);
+                    return true;
                 case R.id.navigation_notifications:
                     return redirectIfNotAuth(profileFragment);
             }
