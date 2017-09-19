@@ -94,27 +94,24 @@
         android:id="@+id/addNurseryAddLocation_btn"
         android:text="Add Location"
         />
-     <android.support.design.widget.TextInputLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText
+
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/addNurseryStartTime"
+            android:onClick="pickTime"
         android:hint="Start Time"
         />
-     </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
+
+
+           <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/addNurseryEndTime"
-        android:hint="End Time"
+               android:onClick="pickTime"
+               android:hint="End Time"
         />
-        </android.support.design.widget.TextInputLayout>
 
         <View
         android:layout_width="fill_parent"

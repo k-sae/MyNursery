@@ -203,7 +203,7 @@ public class Nursery extends RealTimeObject{
         return minAge;
     }
 
-    public void setMinAge(int minAge) {
+    public void setMinAge(long minAge) {
         this.minAge = minAge;
     }
 
@@ -211,7 +211,7 @@ public class Nursery extends RealTimeObject{
         return maxAge;
     }
 
-    public void setMaxAge(int maxAge) {
+    public void setMaxAge(long maxAge) {
         this.maxAge = maxAge;
     }
 
