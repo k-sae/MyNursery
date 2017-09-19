@@ -23,4 +23,5 @@
     <string name="pick_place">pick place</string>
     <string name="option_get_place">get place</string>
     <string name="confirm">Confirm</string>
+    <string name="marker_error_message">please choose location first</string>
 </resources>
