@@ -22,4 +22,5 @@
     <string name="nursery_location_snippit">nursery location</string>
     <string name="pick_place">pick place</string>
     <string name="option_get_place">get place</string>
+    <string name="confirm">Confirm</string>
 </resources>
