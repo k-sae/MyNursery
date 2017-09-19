@@ -21,6 +21,7 @@ import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
 import com.kareem.mynursery.nursery.LocationPicker;
+import com.kareem.mynursery.profile.ProfileFragment;
 
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
     //leave it as it is i will need it later
     private Fragment activeFragment;
     private HomeFragment homeFragment;
-    private HomeFragment profileFragment;
+    private ProfileFragment profileFragment;
     private HomeFragment favouritesFragment;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void initFragments() {
         homeFragment = new HomeFragment();
-        profileFragment = new HomeFragment();
+        profileFragment = new ProfileFragment();
         favouritesFragment = new HomeFragment();
     }
 
