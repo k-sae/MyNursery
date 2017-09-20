@@ -24,4 +24,6 @@
     <string name="option_get_place">get place</string>
     <string name="confirm">Confirm</string>
     <string name="marker_error_message">please choose location first</string>
+    <string name="search_for_nursery">search for nursery</string>
+    <string name="title_activity_nursery_search_results">NurserySearchResults</string>
 </resources>
