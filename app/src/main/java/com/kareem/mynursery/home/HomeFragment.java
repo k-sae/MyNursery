@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.kareem.mynursery.NavigationContext;
 import com.kareem.mynursery.R;
-import com.kareem.mynursery.nursery.NurserySearchResults;
+import com.kareem.mynursery.nursery.NurseryListActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.search_for_nursery:
-                ((NavigationContext)parentActivity).navigate(NurserySearchResults.class);
+                ((NavigationContext)parentActivity).navigate(NurseryListActivity.class);
         }
     }
 }

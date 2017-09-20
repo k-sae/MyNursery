@@ -37,8 +37,8 @@
             android:label="@string/title_activity_location_picker"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".nursery.NurserySearchResults"
-            android:label="@string/title_activity_nursery_search_results"
+            android:name=".nursery.NurseryListActivity"
+            android:label="@string/title_activity_nursery_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

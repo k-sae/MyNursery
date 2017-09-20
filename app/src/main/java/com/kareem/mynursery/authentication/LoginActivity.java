@@ -66,12 +66,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 Log.w(TAG, "onVerificationFailed", e);
-                // [START_EXCLUDE silent]
-                // [END_EXCLUDE]
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                    // [START_EXCLUDE]
+
                     mPhoneNumberField.setError("Invalid phone number.");
                     // [END_EXCLUDE]
                 } else if (e instanceof FirebaseTooManyRequestsException) {

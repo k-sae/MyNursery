@@ -9,12 +9,12 @@ import android.view.View;
 
 import com.kareem.mynursery.R;
 
-public class NurserySearchResults extends AppCompatActivity {
+public class NurseryListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nursery_search_results);
+        setContentView(R.layout.activity_nursery_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
