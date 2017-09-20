@@ -82,16 +82,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCodeSent(String verificationId,
                                    PhoneAuthProvider.ForceResendingToken token) {
-                // The SMS verification code has been sent to the provided phone number, we
-                // now need to ask the user to enter the code and then construct a credential
-                // by combining the code with a verification ID.
-
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
 
-                // [START_EXCLUDE]
-                // Update UI
-                // [END_EXCLUDE]
+
             }
         };
     }
@@ -104,7 +98,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,                // Activity (for callback binding)
                 mCallbacks);        // OnVerificationStateChangedCallbacks
-        // [END start_phone_auth]
 
     }
 
@@ -165,13 +158,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in failed, display a message and update the UI
                             Log.w("", "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                                // [START_EXCLUDE silent]
+
                                 mVerificationField.setError("Invalid code.");
-                                // [END_EXCLUDE]
                             }
-                            // [START_EXCLUDE silent]
-                            // Update UI
                             Utils.showToast(getString(R.string.undefined_error_message), LoginActivity.this);
                             // [END_EXCLUDE]
                         }

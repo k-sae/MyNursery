@@ -274,7 +274,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/addNurseryAdd_btn"
-        android:background="@color/fui_bgEmail"
+        android:background="@color/colorPrimary"
         android:text="Add"
         />
     </LinearLayout>
