@@ -10,4 +10,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.kareem.mynursery.profile.ProfileFragment"
-    tools:listitem="@layout/fragment_profile" />
+    tools:listitem="@layout/fragment_profile"
+
+    />

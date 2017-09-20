@@ -14,6 +14,8 @@ import com.kareem.mynursery.R;
 import com.kareem.mynursery.profile.dummy.DummyContent;
 import com.kareem.mynursery.profile.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,6 +61,10 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        HashMap<String,String> strings = new HashMap<>();
+        strings.put("test 1","https://i.ytimg.com/vi/DvoVpb4Hu4E/hqdefault.jpg");
+        strings.put("test 2","https://rainbowwhiskers.files.wordpress.com/2012/02/cutest_kitten_ever.jpg");
+        strings.put("test 3","http://i0.kym-cdn.com/photos/images/newsfeed/000/456/269/cce.jpg");
         View view = inflater.inflate(R.layout.fragment_profile_list, container, false);
 
         // Set the adapter
@@ -70,7 +76,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(5));
+            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(strings));
         }
         return view;
     }

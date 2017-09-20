@@ -6,11 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kareem.mynursery.AddNursery;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.profile.ProfileFragment.OnListFragmentInteractionListener;
 import com.kareem.mynursery.profile.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -19,13 +29,14 @@ import java.util.List;
  */
 public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder> {
 
-//    private final List<DummyItem> mValues;
+   private final HashMap<String,String> mValues;
 //    private final OnListFragmentInteractionListener mListener;
     private int itemNumber;
 
 
-    public MyProfileRecyclerViewAdapter(int itemNumber) {
-     this.itemNumber=itemNumber;
+    public MyProfileRecyclerViewAdapter(HashMap<String,String> mValues) {
+        this.mValues=mValues;
+     this.itemNumber=mValues.size();
     }
 
     @Override
@@ -38,7 +49,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        holder.bind(position,"test");
+        holder.bind(position);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,17 +69,23 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public final TextView mIdView;
         public final TextView mContentView;
         public DummyItem mItem;
+        public final SliderLayout slider;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
-        }
-        public void bind(int index , String text){
-            mContentView.setText(text);
-        }
+            slider = (SliderLayout)view.findViewById(R.id.slider);
+            for (String name : mValues.keySet()){
+              //  TextSliderView textSliderView = new TextSliderView();
 
+            }
+        }
+        public void bind(int index ) {
+            mContentView.setText(mValues.get(index));
+
+        }
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
