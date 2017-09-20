@@ -8,7 +8,7 @@
 
     >
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="wrap_content" android:focusable="true" android:focusableInTouchMode="true"
         android:layout_height="wrap_content" android:background="@color/colorPrimary" android:padding="@dimen/default_spacing" android:id="@+id/search_bar_container">
         <TextView
             android:layout_width="wrap_content"
