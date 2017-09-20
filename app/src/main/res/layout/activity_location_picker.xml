@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.kareem.mynursery.nursery.LocationPicker">
 
     <include layout="@layout/content_location_picker" />
 
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:id="@+id/confirm_button" android:background="@color/colorPrimary" android:text="@string/confirm" />
-</LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm_button"
+        android:background="@color/colorPrimary"
+        android:text="@string/confirm" android:layout_alignParentBottom="true" android:textColor="@color/textSecondary" />
+</RelativeLayout>

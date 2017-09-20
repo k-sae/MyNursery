@@ -1,6 +1,8 @@
 package com.kareem.mynursery.nursery;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,21 +44,29 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback {
+public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+
+
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
+    public static final String ADDRESS = "address";
+    public static final String CITY = "city";
+    public static final String COUNTRY = "country";
+    public static final String STATE = "state";
+
+
     private static final String TAG = LocationPicker.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
     private Marker marker;
 
-    // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
 
-    // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
+    //TODO
+    //  modify this to egypt location
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -64,16 +75,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
-
-    private static final int M_MAX_ENTRIES = 15;
-    private String[] mLikelyPlaceNames;
-    private String[] mLikelyPlaceAddresses;
-    private String[] mLikelyPlaceAttributions;
-    private LatLng[] mLikelyPlaceLatLngs;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,9 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        findViewById(R.id.confirm_button).setOnClickListener(this);
+
     }
 
     @Override
@@ -167,10 +172,6 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void getDeviceLocation() {
-    /*
-     * Get the best and most recent location of the device, which may be null in rare
-     * cases when a location is not available.
-     */
         try {
             if (mLocationPermissionGranted) {
                 Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
@@ -197,22 +198,30 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-    private void getLocationDetails(LatLng latLng)
-    {
-        Geocoder geocoder;
-        List<android.location.Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
 
-        try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+    @Override
+    public void onClick(View view) {
+        if (marker == null) Toast.makeText(this,R.string.marker_error_message, Toast.LENGTH_SHORT).show();
+        else{
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(LNG, marker.getPosition().longitude);
+            returnIntent.putExtra(LAT, marker.getPosition().latitude);
+            Geocoder geocoder;
+            List<android.location.Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
 
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+                returnIntent.putExtra(CITY, addresses.get(0).getLocality());
+                returnIntent.putExtra(COUNTRY, addresses.get(0).getCountryName());
+                returnIntent.putExtra(ADDRESS, addresses.get(0).getAddressLine(0)); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                returnIntent.putExtra(STATE, addresses.get(0).getAdminArea() );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
-
     }
 }
