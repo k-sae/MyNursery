@@ -27,4 +27,5 @@
     <string name="search_for_nursery">search for nursery</string>
     <string name="title_activity_nursery_search_results">NurserySearchResults</string>
     <string name="title_activity_nursery_list">NurseryListActivity</string>
+    <string name="filter">Filter</string>
 </resources>

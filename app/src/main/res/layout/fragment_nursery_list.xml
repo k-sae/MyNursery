@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
     android:name="com.kareem.mynursery.nursery.NurseryListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:background="@color/colorPrimary" android:padding="@dimen/default_spacing" android:id="@+id/search_bar_container">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" android:id="@+id/filter_textView" android:text="@string/filter"  android:layout_centerVertical="true"
+            android:textColor="@color/textSecondary" android:paddingLeft="@dimen/space_extra" android:paddingRight="@dimen/space_extra" />
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="35dp" android:layout_toStartOf="@id/filter_textView"
+            android:layout_toLeftOf="@id/filter_textView"
+            android:background="#fff"
+            android:id="@+id/search_view"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/search_for_nursery"
+            />
+    </RelativeLayout>
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.kareem.mynursery.nursery.NurseryListFragment"
-    tools:listitem="@layout/fragment_nursery" />
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    tools:listitem="@layout/fragment_nursery" android:layout_below="@id/search_bar_container" />
+</RelativeLayout>

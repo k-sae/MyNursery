@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="default_spacing">5dp</dimen>
+    <dimen name="space_extra">10dp</dimen>
 </resources>
