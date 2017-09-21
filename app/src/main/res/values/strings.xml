@@ -28,4 +28,5 @@
     <string name="title_activity_nursery_search_results">NurserySearchResults</string>
     <string name="title_activity_nursery_list">NurseryListActivity</string>
     <string name="filter">Filter</string>
+    <string name="description">Description</string>
 </resources>

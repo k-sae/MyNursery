@@ -1,4 +1,4 @@
-package com.kareem.mynursery.profile;
+package com.kareem.mynursery.nurseryProfile;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import com.kareem.mynursery.R;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,7 +21,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ProfileFragment extends Fragment {
+public class NurseryProfileFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -35,13 +33,13 @@ public class ProfileFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ProfileFragment() {
+    public NurseryProfileFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ProfileFragment newInstance(int columnCount) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static NurseryProfileFragment newInstance(int columnCount) {
+        NurseryProfileFragment fragment = new NurseryProfileFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -60,11 +58,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        HashMap<String,String> strings = new HashMap<>();
-        strings.put("test 1","https://i.ytimg.com/vi/DvoVpb4Hu4E/hqdefault.jpg");
-        strings.put("test 2","https://rainbowwhiskers.files.wordpress.com/2012/02/cutest_kitten_ever.jpg");
-        strings.put("test 3","http://i0.kym-cdn.com/photos/images/newsfeed/000/456/269/cce.jpg");
-        View view = inflater.inflate(R.layout.fragment_profile_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_nurseryprofile_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -75,7 +69,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(strings));
+            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),"test"));
         }
         return view;
     }

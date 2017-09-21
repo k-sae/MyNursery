@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 
 import java.util.ArrayList;
@@ -72,9 +73,9 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
                 if (intent.getAction().equals(EDIT_NURSERY)) {
 
                 }else {
-                    Log.e("Entered","here");
                     parseToNursery();
                     nurseryObj.save();
+                    Auth.getLoggedUser().addNursery(nurseryObj.getId());
                 }
 
 
