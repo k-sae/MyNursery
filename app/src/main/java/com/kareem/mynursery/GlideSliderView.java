@@ -22,7 +22,7 @@ public class GlideSliderView extends DefaultSliderView {
         }
 
         Glide.with(getContext())
-                .load(getUrl())
+                .load(getUrl()).centerCrop()
                 .into(targetImageView);
     }
 }

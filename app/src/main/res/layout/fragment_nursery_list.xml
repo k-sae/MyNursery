@@ -31,7 +31,5 @@
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.kareem.mynursery.nursery.NurseryListFragment"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    tools:listitem="@layout/fragment_nursery" android:layout_below="@id/search_bar_container" />
+    tools:listitem="@layout/nursery_list_item" android:layout_below="@id/search_bar_container" />
 </RelativeLayout>

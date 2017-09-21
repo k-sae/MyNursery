@@ -1,5 +1,6 @@
 package com.kareem.mynursery.nursery;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.model.Nursery;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class NurseryListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private Activity parent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,20 +61,22 @@ public class NurseryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nursery_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyNurseryRecyclerViewAdapter());
-        }
+        MyNurseryRecyclerViewAdapter myNurseryRecyclerViewAdapter = new MyNurseryRecyclerViewAdapter(parent);
+
+        for (int i = 0; i < 10; i++)
+        myNurseryRecyclerViewAdapter.getmValues().add(new Nursery());
+        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+            recyclerView.setAdapter(myNurseryRecyclerViewAdapter);
         return view;
     }
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        parent = activity;
+    }
 
     @Override
     public void onDetach() {
