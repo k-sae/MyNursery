@@ -1,32 +1,33 @@
 package com.kareem.mynursery.nursery;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,7 +45,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener, LocationListener {
 
 
     public static final String LAT = "lat";
@@ -76,14 +77,57 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     private static final String KEY_LOCATION = "location";
 
     private Location mLastKnownLocation;
+    private LocationManager locationManager;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isGpsEnabled() && mMap != null) {
+            updateLocationUI();
+            getDeviceLocation();
+        } else if (!isGpsEnabled()) showSettingsAlert();
+    }
+    private boolean isGpsEnabled()
+    {
+        return  ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+
+    public void showSettingsAlert(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS is settings");
+
+        // Setting Dialog Message
+        alertDialog.setMessage(R.string.gps_prompt);
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_picker);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getLocationPermission();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -95,7 +139,24 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         findViewById(R.id.confirm_button).setOnClickListener(this);
+        attachLocationListener();
+    }
 
+    private void attachLocationListener() {
+        if (locationManager != null) return;
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, this);
     }
 
     @Override
@@ -157,7 +218,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
             return;
         }
         try {
-            if (mLocationPermissionGranted) {
+            if (mLocationPermissionGranted && isGpsEnabled()) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
             } else {
@@ -173,7 +234,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
 
     private void getDeviceLocation() {
         try {
-            if (mLocationPermissionGranted) {
+            if (mLocationPermissionGranted && isGpsEnabled()) {
                 Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
@@ -181,6 +242,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = (Location) task.getResult();
+                            if (mLastKnownLocation == null) return;
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
@@ -223,5 +285,37 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateLocationUI();
+                getDeviceLocation();
+            }
+        }, 5000);
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationManager.removeUpdates(this);
     }
 }
