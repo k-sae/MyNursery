@@ -8,22 +8,24 @@ import android.os.Bundle;
 
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.home.HomeFragment;
-import com.kareem.mynursery.profile.dummy.DummyContent;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment;
 
-public class Test extends AppCompatActivity implements ProfileFragment.OnListFragmentInteractionListener {
+public class Test extends AppCompatActivity implements NurseryProfileFragment.OnListFragmentInteractionListener {
 
 
 
     private ProfileFragment profileFragment;
     private Fragment activeFragment;
+    private NurseryProfileFragment nurseryProfileFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         initFragments();
-        navigate(profileFragment);
+        navigate(nurseryProfileFragment);
     }
 
 
@@ -45,10 +47,11 @@ public class Test extends AppCompatActivity implements ProfileFragment.OnListFra
 
     private void initFragments() {
         profileFragment = new ProfileFragment();
+        nurseryProfileFragment = new NurseryProfileFragment();
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction() {
 
     }
 }

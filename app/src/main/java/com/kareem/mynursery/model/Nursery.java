@@ -239,6 +239,22 @@ public class Nursery extends RealTimeObject{
         isSupportingDisablilites = supportingDisablilites;
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public ArrayList<String> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(ArrayList<String> likes) {
+        this.likes = likes;
+    }
+
     public ArrayList<String> getImagesId() {
         return imagesId;
     }
@@ -274,5 +290,25 @@ public class Nursery extends RealTimeObject{
     @Override
     protected String getReferenceName() {
         return REFERENCE_NAME;
+    }
+
+    public void addComment(Comment comment){
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("comments").setValue(comment);
+
+    }
+    public void like(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").setValue(Auth.getLoggedUser().getId());
+    }
+    public void disLike(){
+
+    }
+    public void deleteComment(){
+
+    }
+    public void editComment(){
+
     }
 }
