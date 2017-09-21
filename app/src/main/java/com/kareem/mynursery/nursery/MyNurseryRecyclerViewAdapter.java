@@ -49,6 +49,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         holder.mContentView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
         holder.sliderLayout.addSlider(new GlideSliderView(context).image("https://wallpaperbrowse.com/media/images/518079-background-hd.jpg"));
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +80,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
             mIdView = (TextView) view.findViewById(R.id.title);
             mContentView = (TextView) view.findViewById(R.id.location);
             sliderLayout = view.findViewById(R.id.slider);
+            sliderLayout.stopAutoCycle();
         }
 
         @Override

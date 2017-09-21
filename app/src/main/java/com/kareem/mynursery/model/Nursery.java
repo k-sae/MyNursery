@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Nursery extends RealTimeObject{
 
     @Exclude
-    private static final String REFERENCE_NAME = "nurseries";
+    public static final String REFERENCE_NAME = "nurseries";
 
     @KeyList
     private ArrayList<String> likes = new ArrayList<>();

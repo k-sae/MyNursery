@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.model.RealTimeObject;
 
 import java.util.List;
 
@@ -22,14 +28,14 @@ import java.util.List;
 
  * interface.
  */
-public class NurseryListFragment extends Fragment {
+public class NurseryListFragment extends Fragment implements ValueEventListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private Activity parent;
-
+    private MyNurseryRecyclerViewAdapter myNurseryRecyclerViewAdapter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -61,16 +67,23 @@ public class NurseryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nursery_list, container, false);
 
-        MyNurseryRecyclerViewAdapter myNurseryRecyclerViewAdapter = new MyNurseryRecyclerViewAdapter(parent);
-
-        for (int i = 0; i < 10; i++)
-        myNurseryRecyclerViewAdapter.getmValues().add(new Nursery());
+        myNurseryRecyclerViewAdapter = new MyNurseryRecyclerViewAdapter(parent);
         myNurseryRecyclerViewAdapter.notifyDataSetChanged();
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
             recyclerView.setAdapter(myNurseryRecyclerViewAdapter);
+        startSync();
         return view;
     }
 
+    private void startSync() {
+            FirebaseDatabase.getInstance().getReference().child(Nursery.REFERENCE_NAME).addValueEventListener(this);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -83,14 +96,20 @@ public class NurseryListFragment extends Fragment {
         super.onDetach();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    //TODO check if it will make any difference when removing listener
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        myNurseryRecyclerViewAdapter.getmValues().clear();
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()
+                ) {
+            myNurseryRecyclerViewAdapter.getmValues().add(new ObjectParser().getValue(Nursery.class, snapshot));
+        }
+        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
+
 }
