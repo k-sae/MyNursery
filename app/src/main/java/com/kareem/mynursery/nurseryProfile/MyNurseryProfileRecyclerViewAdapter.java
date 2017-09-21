@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,12 +59,14 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
        if (position==0) setNurseryData(holder);
+       else if(position==getItemCount()-1);
         else setCommentsData(holder ,position-1);
+        setListeners(holder);
     }
 
     @Override
     public int getItemCount() {
-        return nursery.getComments().size()+1;
+        return nursery.getComments().size()+2;
     }
 
 
@@ -101,7 +105,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.slider.setVisibility(View.VISIBLE);
         loginAuth();
         checkLike();
-        setListeners();
+
 
     }
     private void setCommentsData(final ViewHolder holder , int position){
@@ -128,28 +132,40 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
             ArrayList<String> likes = nursery.getLikes();
             if (likes.contains(Auth.getLoggedUser().getId()))
-                likes.remove(Auth.getLoggedUser().getId());
-            nursery.setLikes(likes);
+              nursery.disLike();
 
         }
         else {
 
             ArrayList<String> likes = nursery.getLikes();
             if (!likes.contains(Auth.getLoggedUser().getId()))
-            likes.add(Auth.getLoggedUser().getId());
-            nursery.setLikes(likes);
+            nursery.like();
         }
         //TODO make sure to use sync or save
-        nursery.updateData();
         checkLike();
     }
-private void setListeners(){
+private void setListeners(final ViewHolder holder){
 
     likeButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             likeToggle();
-            checkLike();
+             checkLike();
+        }
+    });
+    holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String comment_content =holder.commentContent.getText().toString();
+            Comment comment = new Comment();
+            if (!comment_content.equals("")){
+            comment.setContent(comment_content);
+                //TODO set date
+            comment.setDate("");
+                comment.setName(Auth.getLoggedUser().getName());
+                nursery.addComment(comment);
+            }
+
         }
     });
 }
@@ -163,7 +179,9 @@ private void loginAuth(){
 }
 
 
+    public void addCommentLayout(final ViewHolder holder){
 
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final SliderLayout slider;
@@ -192,6 +210,8 @@ private void loginAuth(){
         public final TextView likesCount;
         public final ImageView like_btn;
         public final TextView commentContent;
+        public final EditText commentField;
+        public final Button addCommentBtn;
 
         public ViewHolder(View view) {
             super(view);
@@ -222,6 +242,8 @@ private void loginAuth(){
             likesCount=(TextView) view.findViewById(R.id.np_likesNum);
             like_btn = (ImageView) view.findViewById(R.id.np_likeBtn);
             commentContent = (TextView) view.findViewById(R.id.np_comment);
+            commentField =(EditText) view.findViewById(R.id.np_commentField);
+            addCommentBtn = (Button) view.findViewById(R.id.np_addCommentBtn);
 
 
         }
