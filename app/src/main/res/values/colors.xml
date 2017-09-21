@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textPrimary">#000</color>
     <color name="textSecondary">#fff</color>
+    <color name="overlay">#4000</color>
 </resources>
