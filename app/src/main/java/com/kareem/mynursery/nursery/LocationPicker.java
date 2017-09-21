@@ -24,7 +24,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
@@ -45,7 +47,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener, LocationListener {
+public class LocationPicker extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
 
     public static final String LAT = "lat";
@@ -77,8 +79,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     private static final String KEY_LOCATION = "location";
 
     private Location mLastKnownLocation;
-    private LocationManager locationManager;
-
+    private LocationCallback mLocationCallback;
     @Override
     protected void onStart() {
         super.onStart();
@@ -139,25 +140,8 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         findViewById(R.id.confirm_button).setOnClickListener(this);
-        attachLocationListener();
     }
 
-    private void attachLocationListener() {
-        if (locationManager != null) return;
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, this);
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -218,13 +202,10 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
             return;
         }
         try {
-            if (mLocationPermissionGranted && isGpsEnabled()) {
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-            } else {
-                mMap.setMyLocationEnabled(false);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                mLastKnownLocation = null;
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            if (!mLocationPermissionGranted) {
+
                 getLocationPermission();
             }
         } catch (SecurityException e)  {
@@ -233,31 +214,24 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void getDeviceLocation() {
-        try {
-            if (mLocationPermissionGranted && isGpsEnabled()) {
-                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = (Location) task.getResult();
-                            if (mLastKnownLocation == null) return;
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                        }
-                    }
-                });
+
+        if (mLocationCallback == null) {
+            mLocationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    mLastKnownLocation = locationResult.getLastLocation();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            new LatLng(mLastKnownLocation.getLatitude(),
+                                    mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                }
+            };
+            try {
+                mFusedLocationProviderClient.requestLocationUpdates(new LocationRequest(), mLocationCallback,  null);
+            } catch(SecurityException e)  {
+                Log.e("Exception: %s", e.getMessage());
             }
-        } catch(SecurityException e)  {
-            Log.e("Exception: %s", e.getMessage());
         }
+
     }
 
 
@@ -288,34 +262,8 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                updateLocationUI();
-                getDeviceLocation();
-            }
-        }, 5000);
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationManager.removeUpdates(this);
+        mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
     }
 }
