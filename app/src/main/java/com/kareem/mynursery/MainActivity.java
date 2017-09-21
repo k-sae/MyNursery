@@ -127,6 +127,5 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void test()
     {
-
     }
 }

@@ -1,6 +1,7 @@
 package com.kareem.mynursery.nursery;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,8 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
     private final List<Nursery> mValues;
     private final Context context;
-
+    private Location nurseryLocation;
+    private Location userLocation;
     public MyNurseryRecyclerViewAdapter(List<Nursery> items , Context context) {
         mValues = items;
         this.context = context;
@@ -32,6 +34,8 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
     public MyNurseryRecyclerViewAdapter(Context context) {
         mValues = new ArrayList<>();
         this.context = context;
+        nurseryLocation = new Location("nursery Location");
+        userLocation = new Location("user Location");
     }
 
 
@@ -48,7 +52,13 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         holder.mIdView.setText(mValues.get(position).getId());
         holder.mContentView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
-        holder.sliderLayout.addSlider(new GlideSliderView(context).image("https://wallpaperbrowse.com/media/images/518079-background-hd.jpg"));
+        nurseryLocation.setLatitude(holder.mItem.getLatitude());
+        nurseryLocation.setLongitude(holder.mItem.getLongitude());
+        for (String s: holder.mItem.getImagesId()
+             ) {
+            holder.sliderLayout.addSlider(new GlideSliderView(context).image(s));
+
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +70,10 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
     public List<Nursery> getmValues() {
         return mValues;
+    }
+
+    public Location getUserLocation() {
+        return userLocation;
     }
 
     @Override
