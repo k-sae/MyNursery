@@ -119,6 +119,8 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
 
     @Override
     public void onLocationChange(Location location) {
-        Log.e(TAG, "onLocationChange: " + location.getLatitude());
+        myNurseryRecyclerViewAdapter.getUserLocation().setLatitude(location.getLatitude());
+        myNurseryRecyclerViewAdapter.getUserLocation().setLongitude(location.getLongitude());
+        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

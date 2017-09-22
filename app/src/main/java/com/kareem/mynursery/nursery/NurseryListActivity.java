@@ -23,6 +23,7 @@ public class NurseryListActivity extends LocationTrackerActivity {
         setContentView(R.layout.activity_nursery_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
     }
 
     @Override
