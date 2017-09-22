@@ -12,8 +12,10 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,26 +29,22 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by kareem on 9/22/17.
  */
 
-public abstract class LocationTrackerActivity extends Activity {
+public abstract class LocationTrackerActivity extends AppCompatActivity {
 
     private LocationCallback mLocationCallback;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private boolean mLocationPermissionGranted;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                onLocationChange(locationResult.getLastLocation());
-            }
-        };
-        mFusedLocationProviderClient = new FusedLocationProviderClient(this);
-        try {
-            mFusedLocationProviderClient.requestLocationUpdates(new LocationRequest(), mLocationCallback,  null);
-        } catch(SecurityException e)  {
-            Log.e("Exception: %s", e.getMessage());
+    }
+
+
+    private void triggerFragments(Location lastLocation) {
+        for (Fragment fragment: getSupportFragmentManager().getFragments()
+                ) {
+            if  (fragment instanceof LocationTrackerFragment) ((LocationTrackerFragment)fragment).onLocationChange(lastLocation);
         }
     }
 
@@ -55,6 +53,32 @@ public abstract class LocationTrackerActivity extends Activity {
         super.onStart();
         getLocationPermission();
         if (!isGpsEnabled()) showSettingsAlert();
+
+        if (mLocationCallback == null) {
+            mLocationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    onLocationChange(locationResult.getLastLocation());
+                    triggerFragments(locationResult.getLastLocation());
+                }
+            };
+        }
+        if (mFusedLocationProviderClient == null) {
+            mFusedLocationProviderClient = new FusedLocationProviderClient(this);
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            mFusedLocationProviderClient.requestLocationUpdates(new LocationRequest(), mLocationCallback, null);
+
+        }
+
     }
     private boolean isGpsEnabled()
     {
@@ -128,4 +152,5 @@ public abstract class LocationTrackerActivity extends Activity {
         super.onDestroy();
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
     }
+
 }
