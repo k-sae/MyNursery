@@ -1,6 +1,7 @@
 package com.kareem.mynursery.nurseryProfile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,6 +29,7 @@ public class NurseryProfileFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private Intent intent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,6 +60,8 @@ public class NurseryProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        intent=getActivity().getIntent();
+
         View view = inflater.inflate(R.layout.fragment_nurseryprofile_list, container, false);
 
         // Set the adapter
@@ -69,7 +73,7 @@ public class NurseryProfileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),"test"));
+            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),intent.getStringExtra("nurseryId")));
         }
         return view;
     }
