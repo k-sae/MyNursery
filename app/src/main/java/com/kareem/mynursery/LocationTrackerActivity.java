@@ -149,7 +149,7 @@ public abstract class LocationTrackerActivity extends AppCompatActivity implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+        stopLocationSync();
     }
 
     @Override
