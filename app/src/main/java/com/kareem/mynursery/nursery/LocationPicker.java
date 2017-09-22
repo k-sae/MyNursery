@@ -99,7 +99,7 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings");
+        alertDialog.setTitle(R.string.location_title_prompt);
 
         // Setting Dialog Message
         alertDialog.setMessage(R.string.gps_prompt);
