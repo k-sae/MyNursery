@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Auth {
     private static User loggedUser ;
-    @Deprecated
     public static User getLoggedUser()
     {
         if (loggedUser == null ){
@@ -20,14 +19,15 @@ public class Auth {
 
        return loggedUser;
     }
+
     public static User getLoggedUser(ObjectChangedListener objectChangedListener)
     {
         if (loggedUser == null && FirebaseAuth.getInstance().getCurrentUser() != null){
             if (!FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
 
-                loggedUser = User.get(FirebaseAuth.getInstance().getCurrentUser().getUid(), objectChangedListener);
+                loggedUser = User.get(FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
-
+        loggedUser.setOnChangeListener(objectChangedListener);
         return loggedUser;
     }
 }
