@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.daimajia.slider.library.SliderLayout;
 import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Nursery;
 
 
@@ -27,6 +28,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
     private final Context context;
     private Location nurseryLocation;
     private Location userLocation;
+    private String distance;
     public MyNurseryRecyclerViewAdapter(List<Nursery> items , Context context) {
         mValues = items;
         this.context = context;
@@ -35,7 +37,6 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         mValues = new ArrayList<>();
         this.context = context;
         nurseryLocation = new Location("nursery Location");
-        userLocation = new Location("user Location");
     }
 
 
@@ -49,11 +50,13 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
+
         holder.mContentView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
         nurseryLocation.setLatitude(holder.mItem.getLatitude());
         nurseryLocation.setLongitude(holder.mItem.getLongitude());
+        distance = userLocation == null ? "~ KM" : Utils.calculateDistance(userLocation, nurseryLocation) + " KM";
+        holder.mIdView.setText(distance);
         for (String s: holder.mItem.getImagesId()
              ) {
             holder.sliderLayout.addSlider(new GlideSliderView(context).image(s));
@@ -73,6 +76,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
     }
 
     public Location getUserLocation() {
+        if (userLocation == null) userLocation = new Location("user Location");
         return userLocation;
     }
 
