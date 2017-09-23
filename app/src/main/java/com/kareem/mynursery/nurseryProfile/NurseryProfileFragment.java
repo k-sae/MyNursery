@@ -73,7 +73,7 @@ public class NurseryProfileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),intent.getStringExtra("nurseryId")));
+            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),"-Kuj6ypRkc9FTx0e_igl"));
         }
         return view;
     }

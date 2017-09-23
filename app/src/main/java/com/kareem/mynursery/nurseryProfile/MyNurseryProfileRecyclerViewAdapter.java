@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -45,7 +46,11 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
        this.context=context;
        this.nurseryId=nurseryId;
         nursery =new Nursery();
-        nursery.startSync();
+        nursery.setId(nurseryId);
+       nursery.startSync();
+        Toast toast = Toast.makeText(context,nursery.getComments().size()+"",Toast.LENGTH_LONG);
+        toast.show();
+
     }
 
     @Override
@@ -59,9 +64,10 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
        if (position==0) setNurseryData(holder);
-       else if(position==getItemCount()-1);
-        else setCommentsData(holder ,position-1);
+        else if (position == getItemCount()-1)addCommentLayout(holder);
+       else setCommentsData(holder ,position-1);
         setListeners(holder);
+
     }
 
     @Override
@@ -109,6 +115,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     }
     private void setCommentsData(final ViewHolder holder , int position){
+        //TODO find nursery
         holder.commentContent.setText(nursery.getComments().get(position).getContent());
     }
 
@@ -156,9 +163,12 @@ private void setListeners(final ViewHolder holder){
     holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String comment_content =holder.commentContent.getText().toString();
+            String comment_content =holder.commentField.getText().toString();
+            Toast toast = Toast.makeText(context,comment_content,Toast.LENGTH_LONG);
+            toast.show();
             Comment comment = new Comment();
             if (!comment_content.equals("")){
+
             comment.setContent(comment_content);
                 //TODO set date
             comment.setDate("");
@@ -180,7 +190,7 @@ private void loginAuth(){
 
 
     public void addCommentLayout(final ViewHolder holder){
-
+        holder.addCommentSection.setVisibility(View.VISIBLE);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -212,6 +222,7 @@ private void loginAuth(){
         public final TextView commentContent;
         public final EditText commentField;
         public final Button addCommentBtn;
+        public final LinearLayout addCommentSection;
 
         public ViewHolder(View view) {
             super(view);
@@ -244,6 +255,7 @@ private void loginAuth(){
             commentContent = (TextView) view.findViewById(R.id.np_comment);
             commentField =(EditText) view.findViewById(R.id.np_commentField);
             addCommentBtn = (Button) view.findViewById(R.id.np_addCommentBtn);
+            addCommentSection = (LinearLayout) view.findViewById(R.id.np_addCommentSection);
 
 
         }
