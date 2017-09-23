@@ -45,6 +45,7 @@ public abstract class RealTimeObject implements DatabaseReference.CompletionList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 new ObjectParser().getValue(RealTimeObject.this, dataSnapshot);
                 onChange(RealTimeObject.this);
+                if (objectChangedListener != null) objectChangedListener.onChange(RealTimeObject.this);
             }
 
             @Override
