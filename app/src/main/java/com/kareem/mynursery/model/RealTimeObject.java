@@ -16,6 +16,7 @@ import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 
 public abstract class RealTimeObject implements DatabaseReference.CompletionListener{
     private String id;
+    private ObjectChangedListener objectChangedListener;
     @Exclude
     public void startSync()
     {
@@ -25,6 +26,7 @@ public abstract class RealTimeObject implements DatabaseReference.CompletionList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 new ObjectParser().getValue(RealTimeObject.this, dataSnapshot);
                 onChange(RealTimeObject.this);
+                if (objectChangedListener != null) objectChangedListener.onChange(RealTimeObject.this);
             }
 
             @Override
@@ -85,6 +87,7 @@ public abstract class RealTimeObject implements DatabaseReference.CompletionList
 
     }
 
-
-
+    public void setOnChangeListener(ObjectChangedListener objectChangedListener) {
+        this.objectChangedListener = objectChangedListener;
+    }
 }
