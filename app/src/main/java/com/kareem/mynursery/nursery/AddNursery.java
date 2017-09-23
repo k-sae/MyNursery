@@ -1,11 +1,9 @@
-package com.kareem.mynursery;
+package com.kareem.mynursery.nursery;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.icu.text.DateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 
@@ -30,6 +29,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
     private ArrayList<String>  activities;
     private Nursery nurseryObj;
     private String NurseryId;
+    private int LOCATION_CODE =1;
 
     //Form Buttons
     Button addPic , addLocation , addNursery;
@@ -55,11 +55,12 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+nurseryObj=new Nursery();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_nursery);
         this.intent=getIntent();
         this.setComponents();
-        if (this.intent.getAction().equals(this.EDIT_NURSERY)) {
+        if (this.intent.hasExtra("action")&&this.intent.getStringExtra("action").equals(this.EDIT_NURSERY)) {
             NurseryId = intent.getStringExtra("NurseryId");
             editRender();//TODO fill the form with the nursery data
         }
@@ -70,7 +71,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
             @Override
             public void onClick(View view) {
                 fetchData();
-                if (intent.getAction().equals(EDIT_NURSERY)) {
+                if (intent.hasExtra("action")&&intent.getStringExtra("action").equals(EDIT_NURSERY)) {
 
                 }else {
                     parseToNursery();
@@ -80,6 +81,13 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
 
 
 
+            }
+        });
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pickLocationIntent= new Intent(AddNursery.this , LocationPicker.class);
+                startActivityForResult(pickLocationIntent,LOCATION_CODE);
             }
         });
     }
@@ -182,7 +190,6 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
     }
 
     private void parseToNursery(){
-        nurseryObj = new Nursery();
         nurseryObj.setName(nurseryNameData);
         nurseryObj.setDescription(nurseryDescriptionData);
         nurseryObj.setStartTime(startTimeData);
@@ -206,7 +213,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
 
     private void parseFromNursery(){
         //TODO feach nursery obj by id
-        nurseryObj = new Nursery();
+
         activities = nurseryObj.getActivities();
 
 
@@ -273,5 +280,30 @@ lastClickedView=v;
             startTime.setText(time);
         else if (lastClickedView.getId()==R.id.addNurseryEndTime)
             endTime.setText(time);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==LOCATION_CODE){
+            if (resultCode==RESULT_OK){
+
+                double lat = data.getDoubleExtra(LocationPicker.LAT,0);
+                double lng = data.getDoubleExtra(LocationPicker.LNG,0);
+                String city = data.getStringExtra(LocationPicker.CITY);
+                String address = data.getStringExtra(LocationPicker.ADDRESS);
+                String state = data.getStringExtra(LocationPicker.STATE);
+                String country = data.getStringExtra(LocationPicker.COUNTRY);
+                nurseryObj.setLatitude(lat);
+                nurseryObj.setLongitude(lng);
+
+                Toast toast = Toast.makeText(this,
+             "lat : "+lat+"\n lng : "+lng+  "\n country : "+country+"\n address: "+address+"\n city : "+city +"\n state : "+state
+                        ,Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
     }
 }

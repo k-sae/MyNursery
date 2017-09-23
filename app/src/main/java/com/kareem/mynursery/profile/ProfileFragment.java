@@ -1,5 +1,6 @@
 package com.kareem.mynursery.profile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment;
 
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class ProfileFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private Activity parent;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,10 +64,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        HashMap<String,String> strings = new HashMap<>();
-        strings.put("test 1","https://i.ytimg.com/vi/DvoVpb4Hu4E/hqdefault.jpg");
-        strings.put("test 2","https://rainbowwhiskers.files.wordpress.com/2012/02/cutest_kitten_ever.jpg");
-        strings.put("test 3","http://i0.kym-cdn.com/photos/images/newsfeed/000/456/269/cce.jpg");
+
         View view = inflater.inflate(R.layout.fragment_profile_list, container, false);
 
         // Set the adapter
@@ -75,21 +76,16 @@ public class ProfileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(strings));
+            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(parent));
         }
         return view;
     }
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+         parent= activity;
     }
 
     @Override
@@ -97,6 +93,9 @@ public class ProfileFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this

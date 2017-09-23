@@ -22,7 +22,8 @@ import com.kareem.mynursery.model.User;
 import com.kareem.mynursery.nursery.LocationPicker;
 import com.kareem.mynursery.profile.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity implements  NavigationContext  {
+
+public class MainActivity extends AppCompatActivity implements  NavigationContext ,ProfileFragment.OnListFragmentInteractionListener {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     private static final String TAG =  MainActivity.class.getName();
@@ -150,5 +151,10 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         user.addNursery(nursery.getId());
         user.setName("update 2");
         user.save();
+    }
+
+    @Override
+    public void onListFragmentInteraction() {
+
     }
 }
