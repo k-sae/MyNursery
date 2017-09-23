@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "146520708075-7irepa6ol1mm6qj548q4u6b5vjnlserb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kareem.mynursery",
+            "certificate_hash": "1a484fd684cc2d057373cef44171f278d742068f"
+          }
+        },
+        {
           "client_id": "146520708075-odfnddeub9oa1gnu13ogritee0kgmd0d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -30,6 +38,9 @@
       "api_key": [
         {
           "current_key": "AIzaSyB34mUTBh503HQ7uboiUr6s8ra6fNnKJDs"
+        },
+        {
+          "current_key": "AIzaSyAXEay86cavp0T2k59Xlz81PfZ6S7vfCZU"
         }
       ],
       "services": {

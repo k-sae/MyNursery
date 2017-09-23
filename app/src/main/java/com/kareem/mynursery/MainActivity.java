@@ -25,7 +25,7 @@ import com.kareem.mynursery.profile.ProfileFragment;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements  NavigationContext  {
+public class MainActivity extends AppCompatActivity implements  NavigationContext ,ProfileFragment.OnListFragmentInteractionListener {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     //leave it as it is i will need it later
@@ -127,5 +127,10 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void test()
     {
+    }
+
+    @Override
+    public void onListFragmentInteraction() {
+
     }
 }

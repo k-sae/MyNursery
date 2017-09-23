@@ -36,7 +36,7 @@
             android:name=".authentication.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddNursery" />
+        <activity android:name=".nursery.AddNursery" />
         <activity
             android:name=".nursery.LocationPicker"
             android:label="@string/title_activity_location_picker"

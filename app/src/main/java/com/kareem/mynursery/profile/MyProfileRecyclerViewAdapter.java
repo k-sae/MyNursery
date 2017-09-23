@@ -1,26 +1,32 @@
 package com.kareem.mynursery.profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.kareem.mynursery.AddNursery;
+import com.kareem.mynursery.model.ObjectChangedListener;
+import com.kareem.mynursery.model.RealTimeObject;
+import com.kareem.mynursery.model.User;
+import com.kareem.mynursery.nursery.AddNursery;
+import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.model.Auth;
+import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.profile.ProfileFragment.OnListFragmentInteractionListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+
+import java.util.ArrayList;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
@@ -29,80 +35,106 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
  */
 public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder> {
 
-   private final HashMap<String,String> mValues;
 //    private final OnListFragmentInteractionListener mListener;
     private int itemNumber;
-    private View parentView;
+    private Activity parent;
 
 
-    public MyProfileRecyclerViewAdapter(HashMap<String,String> mValues) {
-        this.mValues=mValues;
-     this.itemNumber=mValues.size();
+    public MyProfileRecyclerViewAdapter(Activity parent) {
+        this.parent=parent;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_profile, parent, false);
-        parentView = parent;
-        return new ViewHolder(view);
+
+        ViewHolder viewHolder =new ViewHolder(view);
+        addListners(viewHolder);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        holder.bind(position);
+        if (position==0)renderUser(holder);
+        else if (position==getItemCount())renderUserNurseries(holder,position-1);
+        else renderaddNursery(holder);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+
+
+    }
+    private void renderUser(final ViewHolder holder ){
+
+        holder.userName.setVisibility(View.VISIBLE);
+        holder.userName.setText(Auth.getLoggedUser().getName());
+        holder.save.setVisibility(View.VISIBLE);
+    }
+    private  void renderUserNurseries(final ViewHolder holder,int position){
+        holder.nurserySection.setVisibility(View.VISIBLE);
+        Nursery nursery =new Nursery();
+        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
+        nursery.startSync();
+        holder.location.setText(nursery.getCity());
+        holder.title.setText(nursery.getName());
+        for (String image: nursery.getImagesId()) {
+            GlideSliderView glideSliderView = new GlideSliderView(parent);
+            glideSliderView.image(image)
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+            glideSliderView.bundle(new Bundle());
+            glideSliderView.getBundle()
+                    .putString("imageUrl",image);
+            holder.sliderLayout.addSlider(glideSliderView);
+        }
+        holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
+        holder.sliderLayout.setDuration(4000);
+
+
+    }
+    private void renderaddNursery(final ViewHolder holder){holder.addNursery.setVisibility(View.VISIBLE);}
+    private void addListners(final ViewHolder holder){
+        holder.addNursery.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent(parent , AddNursery.class);
+                parent.startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return itemNumber;
+        return Auth.getLoggedUser().getNurseries().size()+2;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public final SliderLayout slider;
+        public final View nurserySection;
+        public final EditText userName;
+        public final Button save;
+        public final Button addNursery;
+        public final SliderLayout sliderLayout;
+        public final TextView title;
+        public final TextView location;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-            slider = (SliderLayout)view.findViewById(R.id.slider);
-
+           nurserySection=(View)view.findViewById(R.id.profileNurseriesItems);
+            userName = (EditText)view.findViewById(R.id.userName);
+           save = (Button)view.findViewById(R.id.saveUsername);
+            addNursery=(Button)view.findViewById(R.id.profileAddNursery);
+            title=(TextView) nurserySection.findViewById(R.id.title);
+            location=(TextView) nurserySection.findViewById(R.id.location);
+            sliderLayout=(SliderLayout)nurserySection.findViewById(R.id.slider);
         }
         public void bind(int index ) {
-            for (String name : mValues.keySet()){
-                TextSliderView textSliderView = new TextSliderView(parentView.getContext());
-                textSliderView
-                        .description(name)
-                        .image(mValues.get(name))
-                        .setScaleType(BaseSliderView.ScaleType.Fit);
 
-                //add your extra information
-                textSliderView.bundle(new Bundle());
-                textSliderView.getBundle()
-                        .putString("extra",name);
-                slider.addSlider(textSliderView);
 
-            }
-            slider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-            slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            slider.setCustomAnimation(new DescriptionAnimation());
-            slider.setDuration(4000);
         }
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" +  "'";
         }
     }
 }
