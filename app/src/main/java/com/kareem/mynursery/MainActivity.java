@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.HomeFragment;
 import com.kareem.mynursery.model.Auth;
-import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
@@ -23,16 +22,21 @@ import com.kareem.mynursery.model.User;
 import com.kareem.mynursery.nursery.LocationPicker;
 import com.kareem.mynursery.profile.ProfileFragment;
 
-import java.util.Map;
-
 public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
+    private static final String TAG =  MainActivity.class.getName();
     //leave it as it is i will need it later
     private Fragment activeFragment;
     private HomeFragment homeFragment;
     private ProfileFragment profileFragment;
     private HomeFragment favouritesFragment;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragments();
+        Utils.initDatabase();
         navigate(homeFragment);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -127,5 +132,23 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void test()
     {
+        User user = Auth.getLoggedUser(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                Log.e(TAG, "onChange: " );
+            }
+        });
+        Nursery nursery = new Nursery(){
+            @Override
+            public void onChange(RealTimeObject newObject) {
+                super.onChange(newObject);
+            }
+        };
+        nursery.setName("some test");
+        nursery.setId("-KukTdq2lkVt-lchcy9A");
+        nursery.startSync();
+        user.addNursery(nursery.getId());
+        user.setName("update 2");
+        user.save();
     }
 }

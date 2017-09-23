@@ -12,6 +12,7 @@ import java.util.Map;
  * Created by kareem on 9/15/17.
  */
 
+@SuppressWarnings("TryWithIdenticalCatches")
 public class ObjectParser {
 
     public <T> T getValue(Class<T> cls, DataSnapshot dataSnapshot) {

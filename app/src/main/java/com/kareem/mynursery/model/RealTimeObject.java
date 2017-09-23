@@ -61,7 +61,7 @@ public abstract class RealTimeObject implements DatabaseReference.CompletionList
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (getId() != null)
         {
-            databaseReference.child(getReferenceName()).child(getId()).setValue(new ObjectParser().mapObject(this), this);
+            databaseReference.child(getReferenceName()).child(getId()).updateChildren(new ObjectParser().mapObject(this), this);
         }
         else
         {
