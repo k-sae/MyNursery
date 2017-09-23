@@ -58,7 +58,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         if (position==0)renderUser(holder);
-        else if (position==getItemCount())renderUserNurseries(holder,position-1);
+        else if (position!=getItemCount())renderUserNurseries(holder,position-1);
         else renderaddNursery(holder);
 
 
@@ -71,35 +71,49 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         holder.save.setVisibility(View.VISIBLE);
     }
     private  void renderUserNurseries(final ViewHolder holder,int position){
-        holder.nurserySection.setVisibility(View.VISIBLE);
-        Nursery nursery =new Nursery();
-        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
-        nursery.startSync();
-        holder.location.setText(nursery.getCity());
-        holder.title.setText(nursery.getName());
-        for (String image: nursery.getImagesId()) {
-            GlideSliderView glideSliderView = new GlideSliderView(parent);
-            glideSliderView.image(image)
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
-            glideSliderView.bundle(new Bundle());
-            glideSliderView.getBundle()
-                    .putString("imageUrl",image);
-            holder.sliderLayout.addSlider(glideSliderView);
-        }
-        holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        holder.sliderLayout.setDuration(4000);
+        //TODO fix get user nurseries
+//        holder.nurserySection.setVisibility(View.VISIBLE);
+//        Nursery nursery =new Nursery();
+//        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
+//        nursery.startSync();
+//        holder.location.setText(nursery.getCity());
+//        holder.title.setText(nursery.getName());
+//        for (String image: nursery.getImagesId()) {
+//            GlideSliderView glideSliderView = new GlideSliderView(parent);
+//            glideSliderView.image(image)
+//                    .setScaleType(BaseSliderView.ScaleType.Fit);
+//            glideSliderView.bundle(new Bundle());
+//            glideSliderView.getBundle()
+//                    .putString("imageUrl",image);
+//            holder.sliderLayout.addSlider(glideSliderView);
+//        }
+//        holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+//        holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+//        holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
+//        holder.sliderLayout.setDuration(4000);
 
 
     }
     private void renderaddNursery(final ViewHolder holder){holder.addNursery.setVisibility(View.VISIBLE);}
+
+
     private void addListners(final ViewHolder holder){
         holder.addNursery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(parent , AddNursery.class);
                 parent.startActivity(intent);
+            }
+        });
+        holder.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = holder.userName.getText().toString();
+                if (!name.equals("")&&!name.equals(" "))
+                {
+                    Auth.getLoggedUser().setName(name);
+                    Auth.getLoggedUser().save();
+                }
             }
         });
     }

@@ -293,9 +293,10 @@ public class Nursery extends RealTimeObject{
     }
 
     public void addComment(Comment comment){
-
+        ArrayList<Comment> comments = getComments();
+        comments.add(comment);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(REFERENCE_NAME).child(getId()).child("comments").setValue(comment);
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("comments").setValue(comments);
 
     }
     public void like(){
