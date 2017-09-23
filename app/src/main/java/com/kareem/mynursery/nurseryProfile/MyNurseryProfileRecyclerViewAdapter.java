@@ -48,7 +48,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         nursery =new Nursery();
         nursery.setId(nurseryId);
        nursery.startSync();
-        Toast toast = Toast.makeText(context,nursery.getComments().size()+"",Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context,nursery.getName(),Toast.LENGTH_LONG);
         toast.show();
 
     }

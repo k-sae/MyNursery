@@ -58,8 +58,8 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         if (position==0)renderUser(holder);
-        else if (position!=getItemCount())renderUserNurseries(holder,position-1);
-        else renderaddNursery(holder);
+        else if (position==getItemCount()-1)renderaddNursery(holder);
+        else renderUserNurseries(holder,position-1);
 
 
 
@@ -72,25 +72,25 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     }
     private  void renderUserNurseries(final ViewHolder holder,int position){
         //TODO fix get user nurseries
-//        holder.nurserySection.setVisibility(View.VISIBLE);
-//        Nursery nursery =new Nursery();
-//        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
-//        nursery.startSync();
-//        holder.location.setText(nursery.getCity());
-//        holder.title.setText(nursery.getName());
-//        for (String image: nursery.getImagesId()) {
-//            GlideSliderView glideSliderView = new GlideSliderView(parent);
-//            glideSliderView.image(image)
-//                    .setScaleType(BaseSliderView.ScaleType.Fit);
-//            glideSliderView.bundle(new Bundle());
-//            glideSliderView.getBundle()
-//                    .putString("imageUrl",image);
-//            holder.sliderLayout.addSlider(glideSliderView);
-//        }
-//        holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-//        holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-//        holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
-//        holder.sliderLayout.setDuration(4000);
+        holder.nurserySection.setVisibility(View.VISIBLE);
+        Nursery nursery =new Nursery();
+        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
+        nursery.startSync();
+        holder.location.setText(nursery.getCity());
+        holder.title.setText(nursery.getName());
+        for (String image: nursery.getImagesId()) {
+            GlideSliderView glideSliderView = new GlideSliderView(parent);
+            glideSliderView.image(image)
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+            glideSliderView.bundle(new Bundle());
+            glideSliderView.getBundle()
+                    .putString("imageUrl",image);
+            holder.sliderLayout.addSlider(glideSliderView);
+        }
+        holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
+        holder.sliderLayout.setDuration(4000);
 
 
     }
