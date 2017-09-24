@@ -4,6 +4,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,9 @@ public class ObjectParser {
                 accessibility = field.isAccessible();
                 field.setAccessible(true);
                 if (isKeyList(field)) setListValues(snapshot, field, object);
+                else if(isUnPushableList(field)) {
+                    setObjectListValues(snapshot, field, object);
+                }
                 else field.set(object, snapshot.getValue() );
                 field.setAccessible(accessibility);
             } catch (NoSuchFieldException e) {
@@ -47,6 +51,23 @@ public class ObjectParser {
         return object;
     }
 
+    @SuppressWarnings("unchecked")
+    private <T,Y> void setObjectListValues(DataSnapshot dataSnapshot, Field field, T object)
+    {
+        ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+        Class<Y> classType = (Class<Y>) parameterizedType.getActualTypeArguments()[0];
+        try {
+            ArrayList<Y> objects  = new ArrayList<>();
+            for (DataSnapshot snapshot: dataSnapshot.getChildren()
+                 ) {
+                  objects.add(getValue(classType, snapshot));
+            }
+            field.set(object, objects);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private <T>  void setListValues(DataSnapshot dataSnapshot, Field field, T object)
     {
@@ -66,6 +87,10 @@ public class ObjectParser {
     {
         return  (field.getAnnotation(KeyList.class) != null);
 
+    }
+    private boolean isUnPushableList(Field field)
+    {
+        return  (field.getAnnotation(UnPushableList.class) != null);
     }
     private boolean isExcluded(Field field){
         return (field.getAnnotation(Exclude.class) != null);
