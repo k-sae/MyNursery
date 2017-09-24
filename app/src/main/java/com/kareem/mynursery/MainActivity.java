@@ -133,24 +133,30 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void test()
     {
-        User user = Auth.getLoggedUser(new ObjectChangedListener() {
+//        User user = Auth.getLoggedUser(new ObjectChangedListener() {
+//            @Override
+//            public void onChange(RealTimeObject realTimeObject) {
+//                Log.e(TAG, "onChange: " );
+//            }
+//        });
+        Nursery nursery = new Nursery();
+        nursery.setOnChangeListener(new ObjectChangedListener() {
             @Override
             public void onChange(RealTimeObject realTimeObject) {
-                Log.e(TAG, "onChange: " );
+                Log.e(TAG, "test: " + realTimeObject );
             }
         });
-        Nursery nursery = new Nursery(){
-            @Override
-            public void onChange(RealTimeObject newObject) {
-                super.onChange(newObject);
-            }
-        };
         nursery.setName("some test");
-        nursery.setId("-KukTdq2lkVt-lchcy9A");
+        nursery.setId("-Kuj6ypRkc9FTx0e_igl");
         nursery.startSync();
-        user.addNursery(nursery.getId());
-        user.setName("update 2");
-        user.save();
+//        user.addNursery(nursery.getId());
+//        user.setName("update 2");
+//        user.save();
+        try {
+            Log.e(TAG, "test: " + Nursery.class.getDeclaredField("building").getName() );
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

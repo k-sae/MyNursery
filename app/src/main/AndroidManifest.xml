@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
-    <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS"   />
+    <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS" />
 
     <application
         android:allowBackup="true"
@@ -29,8 +29,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".authentication.LoginActivity"
@@ -41,13 +39,15 @@
             android:name=".nursery.LocationPicker"
             android:label="@string/title_activity_location_picker"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".profile.Test">
-
-        </activity>
+        <activity android:name=".profile.Test"></activity>
         <activity
             android:name=".nursery.NurseryListActivity"
             android:label="@string/title_activity_nursery_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".nursery.FilterActivity"
+            android:label="@string/title_activity_filter"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

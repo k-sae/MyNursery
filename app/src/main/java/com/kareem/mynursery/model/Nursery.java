@@ -8,6 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.model.FirebaseParser.KeyList;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
+import com.kareem.mynursery.model.FirebaseParser.UnPushableList;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class Nursery extends RealTimeObject{
 
     @KeyList
     private ArrayList<String> likes = new ArrayList<>();
-    @KeyList
+    @UnPushableList
     private ArrayList<Comment> comments = new ArrayList<>();
 
     // area info
