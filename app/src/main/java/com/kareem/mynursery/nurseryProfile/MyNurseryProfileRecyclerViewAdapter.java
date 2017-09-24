@@ -22,6 +22,8 @@ import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.model.ObjectChangedListener;
+import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
@@ -42,14 +44,23 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private int likeNum=0;
 
 
-    public MyNurseryProfileRecyclerViewAdapter(Context context,String nurseryId) {
+    public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
        this.context=context;
        this.nurseryId=nurseryId;
         nursery =new Nursery();
         nursery.setId(nurseryId);
        nursery.startSync();
-        Toast toast = Toast.makeText(context,nursery.getName(),Toast.LENGTH_LONG);
-        toast.show();
+        nursery.setOnChangeListener(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                nursery = (Nursery) realTimeObject;
+
+                Toast toast = Toast.makeText(context,nursery.getComments().toString()+"",Toast.LENGTH_LONG);
+                toast.show();
+                notifyDataSetChanged();
+            }
+        });
+
 
     }
 
@@ -110,7 +121,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.body.setVisibility(View.VISIBLE);
         holder.slider.setVisibility(View.VISIBLE);
         loginAuth();
-        checkLike();
+      //  checkLike();
 
 
     }
@@ -120,6 +131,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     }
 
     private void isLiked(){
+
         if (nursery.getLikes().contains(Auth.getLoggedUser().getId()))
             liked=true;
         else
