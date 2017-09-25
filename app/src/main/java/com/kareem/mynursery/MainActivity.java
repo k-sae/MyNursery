@@ -23,7 +23,7 @@ import com.kareem.mynursery.nursery.LocationPicker;
 import com.kareem.mynursery.profile.ProfileFragment;
 
 
-public class MainActivity extends AppCompatActivity implements  NavigationContext ,ProfileFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements  NavigationContext  {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     private static final String TAG =  MainActivity.class.getName();
@@ -159,8 +159,5 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         }
     }
 
-    @Override
-    public void onListFragmentInteraction() {
 
-    }
 }

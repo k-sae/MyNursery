@@ -39,7 +39,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private  Nursery nursery;
     private String nurseryId;
     private Context context;
-    private boolean liked=false;
+    private boolean liked;
     private ImageView likeButton;
     private int likeNum=0;
 
@@ -54,10 +54,8 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             @Override
             public void onChange(RealTimeObject realTimeObject) {
                 nursery = (Nursery) realTimeObject;
-
-                Toast toast = Toast.makeText(context,nursery.getComments().toString()+"",Toast.LENGTH_LONG);
-                toast.show();
                 notifyDataSetChanged();
+                checkLike();
             }
         });
 
@@ -74,10 +72,12 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
        if (position==0) setNurseryData(holder);
         else if (position == getItemCount()-1)addCommentLayout(holder);
        else setCommentsData(holder ,position-1);
         setListeners(holder);
+        checkLike();
 
     }
 
@@ -120,19 +120,28 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.navBar.setVisibility(View.VISIBLE);
         holder.body.setVisibility(View.VISIBLE);
         holder.slider.setVisibility(View.VISIBLE);
+        holder.commentContent.setVisibility(View.GONE);
+        holder.addCommentSection.setVisibility(View.GONE);
+
         loginAuth();
-      //  checkLike();
+       checkLike();
 
 
     }
     private void setCommentsData(final ViewHolder holder , int position){
         //TODO find nursery
         holder.commentContent.setText(nursery.getComments().get(position).getContent());
+        holder.commentContent.setVisibility(View.VISIBLE);
+        holder.navBar.setVisibility(View.GONE);
+        holder.body.setVisibility(View.GONE);
+        holder.slider.setVisibility(View.GONE);
+        holder.addCommentSection.setVisibility(View.GONE);
     }
 
     private void isLiked(){
 
-        if (nursery.getLikes().contains(Auth.getLoggedUser().getId()))
+
+        if (nursery.getLikes().size()>0&&nursery.getLikes().contains(Auth.getLoggedUser().getId()))
             liked=true;
         else
             liked=false;
@@ -147,6 +156,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     }
 
     private void likeToggle(){
+
         if (liked){
 
             ArrayList<String> likes = nursery.getLikes();
@@ -160,7 +170,6 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             if (!likes.contains(Auth.getLoggedUser().getId()))
             nursery.like();
         }
-        //TODO make sure to use sync or save
         checkLike();
     }
 private void setListeners(final ViewHolder holder){
@@ -168,16 +177,15 @@ private void setListeners(final ViewHolder holder){
     likeButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             likeToggle();
-             checkLike();
+
         }
     });
     holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             String comment_content =holder.commentField.getText().toString();
-            Toast toast = Toast.makeText(context,comment_content,Toast.LENGTH_LONG);
-            toast.show();
             Comment comment = new Comment();
             if (!comment_content.equals("")){
 
@@ -202,6 +210,7 @@ private void loginAuth(){
 
 
     public void addCommentLayout(final ViewHolder holder){
+
         holder.addCommentSection.setVisibility(View.VISIBLE);
     }
 

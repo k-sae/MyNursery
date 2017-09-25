@@ -302,9 +302,11 @@ public class Nursery extends RealTimeObject{
     }
     public void like(){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").setValue(Auth.getLoggedUser().getId());
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").child(Auth.getLoggedUser().getId()).setValue(true);
     }
     public void disLike(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").child(Auth.getLoggedUser().getId()).setValue(null);
 
     }
     public void deleteComment(){

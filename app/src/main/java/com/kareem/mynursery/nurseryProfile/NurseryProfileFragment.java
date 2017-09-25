@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,12 +69,12 @@ public class NurseryProfileFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),"-Kuj6ypRkc9FTx0e_igl"));
+
+            LinearLayoutManager linearLayoutManager =new LinearLayoutManager(context, OrientationHelper.VERTICAL, false);
+
+            recyclerView.setLayoutManager(linearLayoutManager);
+
+            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),"-Kuu7bJB9ZyITY6v7EUI"));
         }
         return view;
     }
