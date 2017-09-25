@@ -24,14 +24,13 @@ import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
-import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder> {
