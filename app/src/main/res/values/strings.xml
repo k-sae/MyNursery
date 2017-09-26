@@ -38,4 +38,7 @@
     <string name="government">government</string>
     <string name="city">city</string>
     <string name="block">Block</string>
+<string name="add_comment_field">Write Comment ...</string>
+    <string name="add_comment_btn">Add Comment</string>
+
 </resources>

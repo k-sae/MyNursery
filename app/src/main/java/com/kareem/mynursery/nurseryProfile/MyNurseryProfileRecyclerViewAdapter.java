@@ -112,8 +112,8 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
         holder.swimming.setText("Swimming");
-        holder.time.setText(nursery.getStartTime()+"To"+nursery.getEndTime());
-        holder.age.setText("age:"+nursery.getMinAge()+"To"+nursery.getMaxAge());
+        holder.time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
+        holder.age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
         likeButton=holder.like_btn;
         holder.likesCount.setText("1");
         holder.navBar.setVisibility(View.VISIBLE);
@@ -139,19 +139,21 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     private void isLiked(){
 
-
         if (nursery.getLikes().size()>0&&nursery.getLikes().contains(Auth.getLoggedUser().getId()))
             liked=true;
         else
             liked=false;
+
     }
     private void checkLike(){
-        isLiked();
-        if (liked)
-            likeButton.setImageResource(R.drawable.favorite_main);
-        else
-            likeButton.setImageResource(R.drawable.favorite);
+        if (Auth.getLoggedUser()!=null) {
 
+            isLiked();
+            if (liked)
+                likeButton.setImageResource(R.drawable.favorite_main);
+            else
+                likeButton.setImageResource(R.drawable.favorite);
+        }
     }
 
     private void likeToggle(){
