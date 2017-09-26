@@ -20,7 +20,7 @@ import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
-import com.kareem.mynursery.profile.ProfileFragment.OnListFragmentInteractionListener;
+
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder> {
@@ -76,22 +76,29 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         Nursery nursery =new Nursery();
         nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
         nursery.startSync();
-        holder.location.setText(nursery.getCity());
-        holder.title.setText(nursery.getName());
-        for (String image: nursery.getImagesId()) {
-            GlideSliderView glideSliderView = new GlideSliderView(parent);
-            glideSliderView.image(image)
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
-            glideSliderView.bundle(new Bundle());
-            glideSliderView.getBundle()
-                    .putString("imageUrl",image);
-            holder.sliderLayout.addSlider(glideSliderView);
-        }
-        holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        holder.sliderLayout.setDuration(4000);
+        nursery.setOnChangeListener(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                Nursery nursery1=(Nursery) realTimeObject;
+                holder.location.setText(nursery1.getCity());
+                holder.title.setText(nursery1.getName());
+                for (String image: nursery1.getImagesId()) {
+                    GlideSliderView glideSliderView = new GlideSliderView(parent);
+                    glideSliderView.image(image)
+                            .setScaleType(BaseSliderView.ScaleType.Fit);
+                    glideSliderView.bundle(new Bundle());
+                    glideSliderView.getBundle()
+                            .putString("imageUrl",image);
+                    holder.sliderLayout.addSlider(glideSliderView);
+                }
+                holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
+                holder.sliderLayout.setDuration(4000);
 
+            }
+        });
+      
 
     }
     private void renderaddNursery(final ViewHolder holder){holder.addNursery.setVisibility(View.VISIBLE);}

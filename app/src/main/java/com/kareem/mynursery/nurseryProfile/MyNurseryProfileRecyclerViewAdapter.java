@@ -22,14 +22,15 @@ import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
-import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment.OnListFragmentInteractionListener;
+import com.kareem.mynursery.model.ObjectChangedListener;
+import com.kareem.mynursery.model.RealTimeObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder> {
@@ -37,19 +38,26 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private  Nursery nursery;
     private String nurseryId;
     private Context context;
-    private boolean liked=false;
+    private boolean liked;
     private ImageView likeButton;
     private int likeNum=0;
 
 
-    public MyNurseryProfileRecyclerViewAdapter(Context context,String nurseryId) {
+    public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
        this.context=context;
        this.nurseryId=nurseryId;
         nursery =new Nursery();
         nursery.setId(nurseryId);
        nursery.startSync();
-        Toast toast = Toast.makeText(context,nursery.getName(),Toast.LENGTH_LONG);
-        toast.show();
+        nursery.setOnChangeListener(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                nursery = (Nursery) realTimeObject;
+                notifyDataSetChanged();
+                checkLike();
+            }
+        });
+
 
     }
 
@@ -63,10 +71,12 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
        if (position==0) setNurseryData(holder);
         else if (position == getItemCount()-1)addCommentLayout(holder);
        else setCommentsData(holder ,position-1);
         setListeners(holder);
+        checkLike();
 
     }
 
@@ -102,39 +112,52 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
         holder.swimming.setText("Swimming");
-        holder.time.setText(nursery.getStartTime()+"To"+nursery.getEndTime());
-        holder.age.setText("age:"+nursery.getMinAge()+"To"+nursery.getMaxAge());
+        holder.time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
+        holder.age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
         likeButton=holder.like_btn;
         holder.likesCount.setText("1");
         holder.navBar.setVisibility(View.VISIBLE);
         holder.body.setVisibility(View.VISIBLE);
         holder.slider.setVisibility(View.VISIBLE);
+        holder.commentContent.setVisibility(View.GONE);
+        holder.addCommentSection.setVisibility(View.GONE);
+
         loginAuth();
-        checkLike();
+       checkLike();
 
 
     }
     private void setCommentsData(final ViewHolder holder , int position){
         //TODO find nursery
         holder.commentContent.setText(nursery.getComments().get(position).getContent());
+        holder.commentContent.setVisibility(View.VISIBLE);
+        holder.navBar.setVisibility(View.GONE);
+        holder.body.setVisibility(View.GONE);
+        holder.slider.setVisibility(View.GONE);
+        holder.addCommentSection.setVisibility(View.GONE);
     }
 
     private void isLiked(){
-        if (nursery.getLikes().contains(Auth.getLoggedUser().getId()))
+
+        if (nursery.getLikes().size()>0&&nursery.getLikes().contains(Auth.getLoggedUser().getId()))
             liked=true;
         else
             liked=false;
+
     }
     private void checkLike(){
-        isLiked();
-        if (liked)
-            likeButton.setImageResource(R.drawable.favorite_main);
-        else
-            likeButton.setImageResource(R.drawable.favorite);
+        if (Auth.getLoggedUser()!=null) {
 
+            isLiked();
+            if (liked)
+                likeButton.setImageResource(R.drawable.favorite_main);
+            else
+                likeButton.setImageResource(R.drawable.favorite);
+        }
     }
 
     private void likeToggle(){
+
         if (liked){
 
             ArrayList<String> likes = nursery.getLikes();
@@ -148,7 +171,6 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             if (!likes.contains(Auth.getLoggedUser().getId()))
             nursery.like();
         }
-        //TODO make sure to use sync or save
         checkLike();
     }
 private void setListeners(final ViewHolder holder){
@@ -156,16 +178,15 @@ private void setListeners(final ViewHolder holder){
     likeButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             likeToggle();
-             checkLike();
+
         }
     });
     holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             String comment_content =holder.commentField.getText().toString();
-            Toast toast = Toast.makeText(context,comment_content,Toast.LENGTH_LONG);
-            toast.show();
             Comment comment = new Comment();
             if (!comment_content.equals("")){
 
@@ -190,6 +211,7 @@ private void loginAuth(){
 
 
     public void addCommentLayout(final ViewHolder holder){
+
         holder.addCommentSection.setVisibility(View.VISIBLE);
     }
 

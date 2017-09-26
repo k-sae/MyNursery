@@ -10,7 +10,7 @@ import com.kareem.mynursery.R;
 import com.kareem.mynursery.home.HomeFragment;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment;
 
-public class Test extends AppCompatActivity implements NurseryProfileFragment.OnListFragmentInteractionListener {
+public class Test extends AppCompatActivity  {
 
 
 
@@ -50,8 +50,5 @@ public class Test extends AppCompatActivity implements NurseryProfileFragment.On
         nurseryProfileFragment = new NurseryProfileFragment();
     }
 
-    @Override
-    public void onListFragmentInteraction() {
 
-    }
 }

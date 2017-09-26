@@ -28,7 +28,7 @@
             android:id="@+id/np_instagram"
             android:src="@drawable/instagram2"
            
-            android:layout_margin="4dp"
+            android:layout_margin="14dp"
            
             />
         <ImageView
@@ -37,7 +37,7 @@
             android:id="@+id/np_snapchat"
             android:src="@drawable/snapchat2"
            
-            android:layout_margin="4dp"
+            android:layout_margin="14dp"
 
             />
         <ImageView
@@ -46,7 +46,7 @@
             android:id="@+id/np_whats"
             android:src="@drawable/whatsapp2"
            
-            android:layout_margin="4dp"
+            android:layout_margin="14dp"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
             android:id="@+id/np_facebook"
             android:src="@drawable/fb"
            
-            android:layout_margin="4dp"
+            android:layout_margin="14dp"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
             android:id="@+id/np_phone1"
             android:src="@drawable/call1"
            
-            android:layout_margin="4dp"
+            android:layout_margin="14dp"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -70,14 +70,14 @@
             android:id="@+id/np_phone2"
             android:src="@drawable/call2"
            
-            android:layout_margin="4dp"
+            android:layout_margin="14dp"
             />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/np_location"
             android:src="@drawable/location3"
-           
+            android:layout_margin="14dp"
            
             />
     </LinearLayout>
@@ -90,96 +90,182 @@
     android:orientation="vertical"
     android:visibility="gone"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_nurseryName"/>
+        android:id="@+id/np_nurseryName"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_city"/>
+        android:id="@+id/np_city"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"/>
+        </LinearLayout>
     //Description word
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/np_description"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/np_description"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/np_likeBtn"
         android:src="@drawable/favorite"
+        android:layout_marginLeft="120dp"
         />
+    </LinearLayout>
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.2dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
         android:visibility="invisible"
         android:id="@+id/np_descriptionSp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:background="@android:color/darker_gray"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/np_nurseryDescription"
+        android:textSize="14sp"
+        android:layout_margin="25dp"
+        />
+    // start from here goes the grid layout
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/np_grid"
+        android:columnCount="3"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/np_specialNeeds"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_specialNeeds"/>
+        android:id="@+id/np_bus"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_bus"/>
+        android:id="@+id/np_swimming"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_swimming"/>
+        android:id="@+id/np_arabic"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_arabic"/>
+        android:id="@+id/np_english"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_english"/>
+        android:id="@+id/np_Meal"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_Meal"/>
+        android:id="@+id/np_time"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_time"/>
+        android:id="@+id/np_age"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        />
+
+    </GridLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_age"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/np_likesNum"/>
+        android:id="@+id/np_likesNum"
+        android:textSize="14sp"/>
 
 
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/np_commentSection"
+        android:layout_margin="14dp"
+        >
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/np_comment"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
         android:id="@+id/np_addCommentSection">
-    <TextView
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/np_comment"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/add_comment_field"
         android:id="@+id/np_commentField"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_addCommentBtn"
-        android:text="add comment"
+        android:text="@string/add_comment_btn"
+        android:drawableLeft="@drawable/add"
+        android:background="@drawable/button_border"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:textColor="@color/textSecondary"
+
         />
     </LinearLayout>
 </LinearLayout>
