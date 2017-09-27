@@ -62,7 +62,7 @@ public class Nursery extends RealTimeObject{
     private String sponsershipEndDate;
 
     @Exclude
-    private double DistanceFromUser;
+    private Double DistanceFromUser;
 
 
 
@@ -318,11 +318,11 @@ public class Nursery extends RealTimeObject{
 
     }
 
-    public double getDistanceFromUser() {
+    public Double getDistanceFromUser() {
         return DistanceFromUser;
     }
 
-    public void setDistanceFromUser(double distanceFromUser) {
+    public void setDistanceFromUser(Double distanceFromUser) {
         DistanceFromUser = distanceFromUser;
     }
 }
