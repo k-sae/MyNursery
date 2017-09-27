@@ -24,6 +24,9 @@ import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.RealTimeObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,7 +47,10 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     private Activity parent;
     private MyNurseryRecyclerViewAdapter myNurseryRecyclerViewAdapter;
     private final static int FILTER_CODE = 122;
-
+    private  HashMap<String,String> filters;
+    private ArrayList<Nursery> nurseries;
+    private Location location;
+    private ArrayList<Nursery> sortedList;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -65,7 +71,7 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        nurseries = new ArrayList<>();
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -116,9 +122,12 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         myNurseryRecyclerViewAdapter.getmValues().clear();
+        nurseries.clear();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
-            myNurseryRecyclerViewAdapter.getmValues().add(new ObjectParser().getValue(Nursery.class, snapshot));
+            Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
+            nurseries.add(nursery);
+            myNurseryRecyclerViewAdapter.getmValues().add(nursery);
         }
         myNurseryRecyclerViewAdapter.notifyDataSetChanged();
     }
@@ -130,9 +139,11 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
 
     @Override
     public void onLocationChange(Location location) {
-        myNurseryRecyclerViewAdapter.getUserLocation().setLatitude(location.getLatitude());
-        myNurseryRecyclerViewAdapter.getUserLocation().setLongitude(location.getLongitude());
-        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+//        myNurseryRecyclerViewAdapter.getUserLocation().setLatitude(location.getLatitude());
+//        myNurseryRecyclerViewAdapter.getUserLocation().setLongitude(location.getLongitude());
+//        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+        this.location = location;
+        update();
     }
 
     @SuppressWarnings("unchecked")
@@ -142,11 +153,66 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         if (resultCode !=  Activity.RESULT_OK) return;
         if (requestCode == FILTER_CODE)
         {
-            HashMap<String,String> filters = (HashMap<String, String>) data.getSerializableExtra("filter");
-            for (String key : filters.keySet()
-                 ) {
-                Log.e("test", "onActivityResult:" + filters.get(key));
-            }
+            filters = (HashMap<String, String>) data.getSerializableExtra("filter");
+            update();
         }
+    }
+
+    private void update()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sort();
+                myNurseryRecyclerViewAdapter.getmValues().clear();
+                for (Nursery nursery: sortedList
+                        ) {
+                    if (isBelongs(nursery)) myNurseryRecyclerViewAdapter.getmValues().add(nursery);
+                }
+                parent.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
+
+    }
+
+    private void sort() {
+        sortedList = new ArrayList<>();
+        sortedList.addAll(nurseries);
+        Comparator<Nursery> nurseryComparator = new Comparator<Nursery>() {
+            @Override
+            public int compare(Nursery nursery, Nursery t1) {
+                double distance1 = nursery.getDistanceFromUser();
+                double distance2  = t1.getDistanceFromUser();
+                if (distance1 < distance2) return -1;
+                else if (distance1 == distance2) return 0;
+                else return 1;
+            }
+        };
+        if (location != null) Collections.sort(sortedList, nurseryComparator);
+    }
+
+
+
+    public boolean isBelongs(Nursery nursery) {
+        Log.e(TAG, filters.get("city").equals("") ? nursery.getCity().toLowerCase() : filters.get("city").toLowerCase() );
+        return filters == null
+                || compareTo(nursery.getCity(), "city")
+                && compareTo(nursery.getCity(), "government")
+                && compareTo(nursery.getBuilding(), "block")
+                && compareTo(nursery.getMinAge() + "", "age_from")
+                && compareTo(nursery.getMaxAge() + "", "age_to")
+                && compareTo(nursery.getStartTime()+ "", "time_from")
+                && compareTo(nursery.getEndTime()+ "", "time_to");
+
+    }
+
+    private boolean compareTo(String s1, String key) {
+        return filters.get(key).equals("")
+                || s1.toLowerCase().contains(filters.get(key).toLowerCase());
     }
 }

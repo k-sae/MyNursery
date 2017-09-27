@@ -61,6 +61,8 @@ public class Nursery extends RealTimeObject{
     private boolean isSponsored;
     private String sponsershipEndDate;
 
+    @Exclude
+    private double DistanceFromUser;
 
 
 
@@ -314,5 +316,13 @@ public class Nursery extends RealTimeObject{
     }
     public void editComment(){
 
+    }
+
+    public double getDistanceFromUser() {
+        return DistanceFromUser;
+    }
+
+    public void setDistanceFromUser(double distanceFromUser) {
+        DistanceFromUser = distanceFromUser;
     }
 }
