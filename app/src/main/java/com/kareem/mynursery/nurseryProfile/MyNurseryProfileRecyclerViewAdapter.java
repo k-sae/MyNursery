@@ -54,7 +54,6 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             public void onChange(RealTimeObject realTimeObject) {
                 nursery = (Nursery) realTimeObject;
                 notifyDataSetChanged();
-                checkLike();
             }
         });
 

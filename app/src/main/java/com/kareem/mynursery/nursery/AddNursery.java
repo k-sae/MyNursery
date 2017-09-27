@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -32,23 +33,24 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
     private int LOCATION_CODE =1;
 
     //Form Buttons
-    Button addPic , addLocation , addNursery;
+    Button  addLocation , addNursery;
 
     EditText nurseryName , nurseryDescription  ,
              phone1 , phone2 , facebook , instagram , snapchat , price,
              minAge , maxAge , additionalActivities ,city ,district ,
-            street  , building , notes;
+            street  , building ;
     TextView startTime , endTime;
 
-    CheckBox swimming , drawing, football , disabilites;
+    CheckBox swimming  , disabilites , english , arabic , bus;
 
     String nurseryNameData ,nurseryDescriptionData , startTimeData , endTimeData,
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
             , notesData;
+    ImageView img1 ,img2,img3,img4,img5,img6;
     double  priceData;
     long minAgeData , maxAgeData;
-    boolean disabilitesData = false;
+    boolean disabilitesData = false,arabicVal=false,englishVal=false,busVal=false;
     TimePickerDialog timePickerDialog;
     private View lastClickedView;
 
@@ -112,7 +114,6 @@ nurseryObj=new Nursery();
         district .setText(districtData) ;
         street .setText(streetData) ;
         building .setText(buildingData) ;
-        notes .setText(notesData) ;
 
     }
 
@@ -120,7 +121,6 @@ nurseryObj=new Nursery();
 
     private void setComponents(){
 
-        addPic = (Button) findViewById(R.id.addNurseryAddPic_btn);
         addLocation = (Button) findViewById(R.id.addNurseryAddLocation_btn);
         addNursery = (Button) findViewById(R.id.addNurseryAdd_btn);
         nurseryName = (EditText) findViewById(R.id.addNurseryName);
@@ -139,15 +139,15 @@ nurseryObj=new Nursery();
         district = (EditText) findViewById(R.id.addNurseryDistrict);
         street = (EditText) findViewById(R.id.addNurseryStreet);
         building = (EditText) findViewById(R.id.addNurseryBuilding);
-        notes = (EditText) findViewById(R.id.addNurseryNotes);
 
         startTime = (TextView) findViewById(R.id.addNurseryStartTime);
         endTime= (TextView) findViewById(R.id.addNurseryEndTime);
 
         swimming = (CheckBox) findViewById(R.id.addNursery_activity_swim);
-        football =(CheckBox) findViewById(R.id.addNursery_activity_football);
-        drawing = (CheckBox) findViewById(R.id.addNursery_activity_draw);
         disabilites=(CheckBox) findViewById(R.id.addNurseryDisability);
+        arabic= (CheckBox) findViewById(R.id.addNursery_arabic);
+        english= (CheckBox) findViewById(R.id.addNursery_english);
+        bus= (CheckBox) findViewById(R.id.addNursery_bus);
     }
 
     private void fetchData(){
@@ -172,19 +172,20 @@ nurseryObj=new Nursery();
         districtData =district.getText().toString();
         buildingData = building.getText().toString();
         streetData = street.getText().toString();
-        notesData = notes.getText().toString();
 
 
         if (swimming.isChecked())
             activities.add("SWIMMING");
-        if (football.isChecked())
-            activities.add("FOOTBALL");
-        if (drawing.isChecked())
-            activities.add("DRAWING");
         if (additionalActivitiesData!=null && !additionalActivitiesData.equals(""))
             activities.add(additionalActivitiesData);
         if (disabilites.isChecked())
             disabilitesData=true;
+        if (arabic.isChecked())
+            arabicVal=true;
+        if (english.isChecked())
+            englishVal=true;
+        if (bus.isChecked())
+            busVal=true;
 
 
     }
@@ -209,6 +210,9 @@ nurseryObj=new Nursery();
         nurseryObj.setStreet(streetData);
         nurseryObj.setBuilding(buildingData);
         nurseryObj.setMoreDetails(notesData);
+        nurseryObj.setArabic(arabicVal);
+        nurseryObj.setEnglish(englishVal);
+        nurseryObj.setBus(busVal);
     }
 
     private void parseFromNursery(){
@@ -235,6 +239,9 @@ nurseryObj=new Nursery();
         buildingData = nurseryObj.getBuilding();
         streetData = nurseryObj.getStreet();
         notesData = nurseryObj.getMoreDetails();
+        arabicVal=nurseryObj.isArabic();
+        englishVal=nurseryObj.isEnglish();
+        busVal=nurseryObj.isBus();
 
 
     }

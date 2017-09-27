@@ -13,118 +13,281 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/np_grid"
+            android:columnCount="3"
+            android:rowCount="2"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            >
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
+                android:src="@drawable/add"
+                android:background="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:id="@+id/addNurseryImg1"
 
-    <Button
-        android:id="@+id/addNurseryAddPic_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_photo" />
+                />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
+                android:src="@drawable/add"
+                android:background="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:id="@+id/addNurseryImg2"
+                />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
+                android:src="@drawable/add"
+                android:background="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:id="@+id/addNurseryImg3"
+                />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
+                android:src="@drawable/add"
+                android:background="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:id="@+id/addNurseryImg4"
+                />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
+                android:src="@drawable/add"
+                android:background="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:id="@+id/addNurseryImg5"
+                />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
+                android:src="@drawable/add"
+                android:background="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:id="@+id/addNurseryImg6"
+                />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/addNurseryCity"
-                android:hint="Nursery City"/>
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/addNurseryDistrict"
-                android:hint="Nursery District"/>
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/addNurseryStreet"
-                android:hint="Nursery Street"/>
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/addNurseryBuilding"
-                android:hint="Nursery Building"/>
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/addNurseryNotes"
-                android:hint="Nursery Notes"/>
-        </android.support.design.widget.TextInputLayout>
+            </GridLayout>
 
-
-     <android.support.design.widget.TextInputLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-         <android.support.design.widget.TextInputEditText
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryName"
-        android:hint="Nursery Name"/>
-     </android.support.design.widget.TextInputLayout>
-
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryName"
+            android:hint="Nursery Name"/>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryDescription"
-        android:hint="Nursery Description"
-        />
-     </android.support.design.widget.TextInputLayout>
-
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addNurseryDescription"
+                android:hint="Nursery Description"
+                android:minHeight="120dp"
+                android:scrollbars="vertical"
+                />
+        </android.support.design.widget.TextInputLayout>
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryAddLocation_btn"
-        android:text="Add Location"
-        />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryAddLocation_btn"
+            android:text="Add Location"
+            />
 
-        <TextView
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryCity"
+            android:hint="Nursery City"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryDistrict"
+            android:hint="Nursery District"
+
+            />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryStreet"
+            android:hint="Nursery Street"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryBuilding"
+            android:hint="Nursery Building"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryPhone1"
+            android:hint="Phone 1"
+            android:inputType="phone"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryPhone2"
+            android:hint="Phone 2"
+            android:inputType="phone"
+            />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryFacebook"
+            android:hint="Facebook"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryInstagram"
+            android:hint="Instagram"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurserySnapchat"
+            android:hint="Snapchat"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="25dp">
+        <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addNurseryStartTime"
             android:onClick="pickTime"
         android:hint="Start Time"
+            android:textSize="18sp"
         />
 
 
-
            <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addNurseryEndTime"
                android:onClick="pickTime"
                android:hint="End Time"
+               android:textSize="18sp"
+               android:layout_marginLeft="40dp"
+               android:layout_marginRight="40dp"
         />
-
-        <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.2dp"
-        android:visibility="visible"
-        android:background="@android:color/darker_gray"/>
-    <TextView
+</LinearLayout>
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryMinAge"
+            android:hint="Min Age"
+            android:inputType="number"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryMaxAge" android:hint="Max Age"
+            android:inputType="number"
+            />
+    </android.support.design.widget.TextInputLayout>
+<GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2">
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Activites"/>
-
-
+        android:id="@+id/addNurseryDisability"
+        android:text="Special needs"/>
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -133,13 +296,21 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/addNursery_activity_draw"
-        android:text="Drawing"/>
+        android:id="@+id/addNursery_english"
+        android:text="English"/>
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/addNursery_activity_football"
-        android:text="Football"/>
+        android:id="@+id/addNursery_arabic"
+        android:text="Arabic"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addNursery_bus"
+        android:text="Bus"/>
+
+</GridLayout>
+
      <android.support.design.widget.TextInputLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
@@ -152,123 +323,26 @@
      </android.support.design.widget.TextInputLayout>
 
 
-        <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.2dp"
-        android:visibility="visible"
-        android:background="@android:color/darker_gray"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Social"/>
-     <android.support.design.widget.TextInputLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryPhone1"
-        android:hint="Phone 1"
-        android:inputType="phone"
-        />
-     </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryPhone2"
-        android:hint="Phone 2"
-        android:inputType="phone"
-        />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryFacebook"
-        android:hint="Facebook"
-        />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryInstagram"
-        android:hint="Instagram"
-        />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurserySnapchat"
-        android:hint="Snapchat"
-        />
-        </android.support.design.widget.TextInputLayout>
 
-        <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.2dp"
-        android:visibility="visible"
-        android:background="@android:color/darker_gray"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="General"/>
  <android.support.design.widget.TextInputLayout
      android:layout_width="match_parent"
      android:layout_height="wrap_content">
      <android.support.design.widget.TextInputEditText
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/addNurseryExpenses"
-    android:hint="Price"
-    android:inputType="numberDecimal"
+    android:hint="Fees"
+    android:inputType="number"
     />
  </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryMinAge"
-        android:hint="Min Age"
-        android:inputType="number"
-        />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <android.support.design.widget.TextInputEditText
-        android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        android:id="@+id/addNurseryMaxAge" android:hint="Max Age"
-        android:inputType="number"
-        />
-        </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNurseryDisability"
-        android:text="Disabilities"/>
+
 
     <Button
         android:layout_width="match_parent"
@@ -277,6 +351,7 @@
         android:background="@color/colorPrimary"
         android:text="Add"
         />
+    </LinearLayout>
     </LinearLayout>
 </ScrollView>
 </LinearLayout>

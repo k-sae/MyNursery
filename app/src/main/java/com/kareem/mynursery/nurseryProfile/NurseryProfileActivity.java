@@ -1,4 +1,4 @@
-package com.kareem.mynursery.profile;
+package com.kareem.mynursery.nurseryProfile;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.kareem.mynursery.R;
-import com.kareem.mynursery.home.HomeFragment;
-import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment;
+import com.kareem.mynursery.profile.ProfileFragment;
 
-public class Test extends AppCompatActivity  {
+public class NurseryProfileActivity extends AppCompatActivity  {
 
 
 
@@ -23,7 +22,7 @@ public class Test extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_nursery_profile);
         initFragments();
         navigate(nurseryProfileFragment);
     }

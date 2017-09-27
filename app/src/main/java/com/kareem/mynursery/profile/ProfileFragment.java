@@ -2,24 +2,18 @@ package com.kareem.mynursery.profile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.kareem.mynursery.R;
-import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment;
-
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 /**
  * A fragment representing a list of Items.
@@ -109,7 +103,9 @@ public class ProfileFragment extends Fragment implements MyProfileRecyclerViewAd
      */
     @Override
     public void onClick(String nurseryId) {
-        Toast.makeText(this.getContext(),nurseryId,Toast.LENGTH_LONG).show();
-        Log.println(Log.ERROR,"KLP",nurseryId);
+        Intent intent = new Intent(getActivity(),NurseryProfileActivity.class);
+        intent.putExtra("NurseryId",nurseryId);
+       startActivity(intent);
+
     }
 }

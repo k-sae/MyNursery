@@ -55,11 +55,13 @@ public class Nursery extends RealTimeObject{
     private String endTime = "";
     private boolean isSupportingDisablilites;
     private ArrayList<String> imagesId = new ArrayList<>();
-    @KeyList
     private ArrayList<String> activities = new ArrayList<>();
     //custom access info
     private boolean isSponsored;
     private String sponsershipEndDate;
+    private boolean arabic;
+    private boolean english;
+    private boolean bus;
 
 
 
@@ -286,6 +288,30 @@ public class Nursery extends RealTimeObject{
 
     public void setSponsershipEndDate(String sponsershipEndDate) {
         this.sponsershipEndDate = sponsershipEndDate;
+    }
+
+    public boolean isArabic() {
+        return arabic;
+    }
+
+    public void setArabic(boolean arabic) {
+        this.arabic = arabic;
+    }
+
+    public boolean isEnglish() {
+        return english;
+    }
+
+    public void setEnglish(boolean english) {
+        this.english = english;
+    }
+
+    public boolean isBus() {
+        return bus;
+    }
+
+    public void setBus(boolean bus) {
+        this.bus = bus;
     }
 
     @Override

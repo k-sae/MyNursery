@@ -73,7 +73,7 @@ public class NurseryProfileFragment extends Fragment {
 
             recyclerView.setLayoutManager(linearLayoutManager);
 
-            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),"-Kuu7bJB9ZyITY6v7EUI"));
+            recyclerView.setAdapter(new MyNurseryProfileRecyclerViewAdapter(this.getContext(),intent.getStringExtra("NurseryId")));
         }
         return view;
     }
