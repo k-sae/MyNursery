@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_margin="@dimen/default_spacing"
+    android:padding="@dimen/default_spacing"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.kareem.mynursery.nursery.FilterActivity"
     tools:showIn="@layout/activity_filter">
 
-    <Switch
-        android:id="@+id/special_needs_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/special_needs" />
+    <LinearLayout
+        style="@style/filterItems" android:orientation="horizontal">
+        <EditText
+            style="@style/filterItems"
+            android:inputType=""
+            android:editable="false"
+            android:focusable="false"
+            android:clickable="false"
+            android:hint="@string/special_needs" />
+
+        <Switch
+            android:id="@+id/special_needs_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/space_extra"
+            android:paddingRight="@dimen/space_extra"
+            />
+
+    </LinearLayout>
+
+
 
     <EditText
         android:id="@+id/government"
@@ -31,24 +49,42 @@
         style="@style/filterItems"
         android:hint="@string/block" />
 
-    <EditText
-        style="@style/filterItems"
-        android:hint="@string/government" />
 
     <EditText
         style="@style/filterItems"
         android:hint="@string/government" />
 
-    <EditText
-        style="@style/filterItems"
-        android:hint="@string/government" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="@string/age" android:textColor="@color/colorPrimary" android:padding="@dimen/default_spacing" />
+    <LinearLayout
+        style="@style/filterItems" android:orientation="horizontal">
+        <EditText
+            style="@style/filterItems"
+            android:hint="@string/government" />
 
-    <EditText
-        style="@style/filterItems"
-        android:hint="@string/government" />
+        <EditText
+            style="@style/filterItems"
+            android:hint="@string/government" />
 
-    <EditText
-        style="@style/filterItems"
-        android:hint="@string/government" />
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        style="@style/filterItems" android:orientation="horizontal">
+        <EditText
+            style="@style/filterItems"
+            android:hint="@string/government" />
+
+        <EditText
+            style="@style/filterItems"
+            android:hint="@string/government" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"/>
+
+
+</LinearLayout>

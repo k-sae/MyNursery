@@ -2,6 +2,7 @@ package com.kareem.mynursery.nursery;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +77,13 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         myNurseryRecyclerViewAdapter.notifyDataSetChanged();
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
             recyclerView.setAdapter(myNurseryRecyclerViewAdapter);
+        view.findViewById(R.id.filter_textView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent intent = new Intent(parent, FilterActivity.class);
+                    startActivity(intent);
+            }
+        });
         startSync();
         return view;
     }
