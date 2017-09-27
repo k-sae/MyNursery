@@ -24,6 +24,7 @@ import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.RealTimeObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -42,6 +43,8 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     private int mColumnCount = 1;
     private Activity parent;
     private MyNurseryRecyclerViewAdapter myNurseryRecyclerViewAdapter;
+    private final static int FILTER_CODE = 122;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -81,7 +84,7 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
             @Override
             public void onClick(View view) {
                     Intent intent = new Intent(parent, FilterActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, FILTER_CODE);
             }
         });
         startSync();
@@ -130,5 +133,20 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         myNurseryRecyclerViewAdapter.getUserLocation().setLatitude(location.getLatitude());
         myNurseryRecyclerViewAdapter.getUserLocation().setLongitude(location.getLongitude());
         myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode !=  Activity.RESULT_OK) return;
+        if (requestCode == FILTER_CODE)
+        {
+            HashMap<String,String> filters = (HashMap<String, String>) data.getSerializableExtra("filter");
+            for (String key : filters.keySet()
+                 ) {
+                Log.e("test", "onActivityResult:" + filters.get(key));
+            }
+        }
     }
 }
