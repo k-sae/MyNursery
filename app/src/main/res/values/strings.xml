@@ -38,8 +38,13 @@
     <string name="government">government</string>
     <string name="city">city</string>
     <string name="block">Block</string>
-    <string name="age">age</string>
+    <string name="age">Age</string>
 <string name="add_comment_field">Write Comment …</string>
     <string name="add_comment_btn">Add Comment</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="working_time">Working time</string>
+    <string name="neighborhood">Neighborhood</string>
+    <string name="apply">Apply</string>
 
 </resources>
