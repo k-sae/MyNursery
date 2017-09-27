@@ -151,6 +151,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             title=(TextView) nurserySection.findViewById(R.id.title);
             location=(TextView) nurserySection.findViewById(R.id.location);
             sliderLayout=(SliderLayout)nurserySection.findViewById(R.id.slider);
+            view.setOnClickListener(this);
         }
         public void bind(int index ) {
 
@@ -164,6 +165,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         @Override
         public void onClick(View view) {
             onClickListener.onClick("clicked");
+
         }
     }
 
