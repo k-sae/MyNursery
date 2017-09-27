@@ -38,10 +38,13 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 //    private final OnListFragmentInteractionListener mListener;
     private int itemNumber;
     private Activity parent;
+    private final ProfileAdapterOnClickHandler onClickListener;
 
 
-    public MyProfileRecyclerViewAdapter(Activity parent) {
+    public MyProfileRecyclerViewAdapter(Activity parent,ProfileAdapterOnClickHandler onClickListener) {
         this.parent=parent;
+        this.onClickListener=onClickListener;
+
     }
 
     @Override
@@ -130,7 +133,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         return Auth.getLoggedUser().getNurseries().size()+2;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View nurserySection;
         public final EditText userName;
         public final Button save;
@@ -148,6 +151,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             title=(TextView) nurserySection.findViewById(R.id.title);
             location=(TextView) nurserySection.findViewById(R.id.location);
             sliderLayout=(SliderLayout)nurserySection.findViewById(R.id.slider);
+            view.setOnClickListener(this);
         }
         public void bind(int index ) {
 
@@ -157,5 +161,15 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public String toString() {
             return super.toString() + " '" +  "'";
         }
+
+        @Override
+        public void onClick(View view) {
+            onClickListener.onClick("clicked");
+
+        }
+    }
+
+    public interface ProfileAdapterOnClickHandler{
+        void onClick(String nurseryId);
     }
 }

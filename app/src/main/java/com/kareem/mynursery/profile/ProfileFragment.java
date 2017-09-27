@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileFragment;
@@ -25,7 +27,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link }
  * interface.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements MyProfileRecyclerViewAdapter.ProfileAdapterOnClickHandler{
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -75,7 +77,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(parent));
+            recyclerView.setAdapter(new MyProfileRecyclerViewAdapter(parent,this));
         }
         return view;
     }
@@ -105,5 +107,9 @@ public class ProfileFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-
+    @Override
+    public void onClick(String nurseryId) {
+        Toast.makeText(this.getContext(),nurseryId,Toast.LENGTH_LONG).show();
+        Log.println(Log.ERROR,"KLP",nurseryId);
+    }
 }
