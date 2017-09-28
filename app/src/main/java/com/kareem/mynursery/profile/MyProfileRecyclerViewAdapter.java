@@ -2,6 +2,7 @@ package com.kareem.mynursery.profile;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,12 +71,18 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     private void renderUser(final ViewHolder holder ){
 
         holder.userName.setVisibility(View.VISIBLE);
+        holder.usernameHint.setVisibility(View.VISIBLE);
         holder.userName.setText(Auth.getLoggedUser().getName());
         holder.save.setVisibility(View.VISIBLE);
+        holder.addNursery.setVisibility(View.GONE);
     }
     private  void renderUserNurseries(final ViewHolder holder,int position){
         //TODO fix get user nurseries
         holder.nurserySection.setVisibility(View.VISIBLE);
+        holder.userName.setVisibility(View.GONE);
+        holder.save.setVisibility(View.GONE);
+        holder.addNursery.setVisibility(View.GONE);
+        holder.usernameHint.setVisibility(View.GONE);
         Nursery nursery =new Nursery();
         nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
         nursery.startSync();
@@ -104,7 +111,13 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
       
 
     }
-    private void renderaddNursery(final ViewHolder holder){holder.addNursery.setVisibility(View.VISIBLE);}
+    private void renderaddNursery(final ViewHolder holder){
+        holder.nurserySection.setVisibility(View.GONE);
+        holder.userName.setVisibility(View.GONE);
+        holder.usernameHint.setVisibility(View.GONE);
+        holder.save.setVisibility(View.GONE);
+        holder.addNursery.setVisibility(View.VISIBLE);
+    }
 
 
     private void addListners(final ViewHolder holder){
@@ -141,6 +154,8 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public final SliderLayout sliderLayout;
         public final TextView title;
         public final TextView location;
+        public final View usernameHint;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -151,7 +166,9 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             title=(TextView) nurserySection.findViewById(R.id.title);
             location=(TextView) nurserySection.findViewById(R.id.location);
             sliderLayout=(SliderLayout)nurserySection.findViewById(R.id.slider);
-            view.setOnClickListener(this);
+            usernameHint=(View) view.findViewById(R.id.username_hint);
+            sliderLayout.setBackgroundColor(Color.BLUE);
+            sliderLayout.setOnClickListener(this);
 
         }
         public void bind(int index ) {

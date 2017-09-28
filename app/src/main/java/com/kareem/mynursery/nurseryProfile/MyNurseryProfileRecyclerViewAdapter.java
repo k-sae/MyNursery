@@ -1,7 +1,11 @@
 package com.kareem.mynursery.nurseryProfile;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -111,10 +115,18 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
         holder.swimming.setText("Swimming");
+        if (nursery.isArabic())
+            holder.arabic.setText("Arabic");
+        if (nursery.isEnglish())
+            holder.english.setText("English");
+        if (nursery.isBus())
+            holder.bus.setText("Bus");
+        if (nursery.isSupportingDisablilites())
+            holder.specialNeeds.setText("Special Needs");
         holder.time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
         holder.age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
         likeButton=holder.like_btn;
-        holder.likesCount.setText("1");
+        holder.likesCount.setText(String.valueOf(nursery.getLikes().size()));
         holder.navBar.setVisibility(View.VISIBLE);
         holder.body.setVisibility(View.VISIBLE);
         holder.slider.setVisibility(View.VISIBLE);
@@ -124,6 +136,103 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         loginAuth();
        checkLike();
 
+        holder.whats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("smsto:" + nursery.getWhatsapp());
+                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                i.putExtra("sms_body", "");
+                i.setPackage("com.whatsapp");
+                try {
+
+                    context.startActivity(i);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(context, "Whatsapp not installed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        holder.instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String instaUrl;
+                if (nursery.getInstagram().contains("http://instagram.com"))
+                     instaUrl=nursery.getInstagram();
+                else  instaUrl="http://instagram.com/"+nursery.getInstagram();
+                Uri uri = Uri.parse(instaUrl);
+                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+                likeIng.setPackage("com.instagram.android");
+
+                try {
+                    context.startActivity(likeIng);
+                } catch (ActivityNotFoundException e) {
+                    context.startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(instaUrl)));
+                }
+            }
+        });
+        holder.facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String faceUrl;
+                if (nursery.getFacebook().contains("https://www.facebook.com/"))
+                    faceUrl=nursery.getFacebook();
+                else
+                    faceUrl="https://www.facebook.com/"+nursery.getFacebook();
+
+                    Intent intent= new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(faceUrl)); //catches and opens a url to the desired page
+                    context.startActivity(intent);
+
+
+            }
+        });
+        holder.phone1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", nursery.getPhone1(), null));
+                context.startActivity(intent);
+            }
+        });
+        holder.phone2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", nursery.getPhone2(), null));
+                context.startActivity(intent);
+            }
+        });
+        holder.location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("geo:" + nursery.getLatitude()
+                                    + "," + nursery.getLongitude()
+                                    + "?q=" + nursery.getLatitude()
+                                    + "," + nursery.getLongitude()));
+
+                    intent.setComponent(new ComponentName(
+                            "com.google.android.apps.maps",
+                            "com.google.android.maps.MapsActivity"));
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+
+                    try {
+                        context.startActivity(new Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=com.google.android.apps.maps")));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        context.startActivity(new Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.apps.maps")));
+                    }
+
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
     private void setCommentsData(final ViewHolder holder , int position){

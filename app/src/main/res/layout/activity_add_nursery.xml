@@ -212,7 +212,16 @@
             android:hint="Snapchat"
             />
     </android.support.design.widget.TextInputLayout>
-
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNurseryWhats"
+            android:hint="Whatsapp"
+            />
+    </android.support.design.widget.TextInputLayout>
 
 
 

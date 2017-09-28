@@ -28,7 +28,7 @@
             android:id="@+id/np_instagram"
             android:src="@drawable/instagram2"
            
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
            
             />
         <ImageView
@@ -37,7 +37,7 @@
             android:id="@+id/np_snapchat"
             android:src="@drawable/snapchat2"
            
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
 
             />
         <ImageView
@@ -46,7 +46,7 @@
             android:id="@+id/np_whats"
             android:src="@drawable/whatsapp2"
            
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
             android:id="@+id/np_facebook"
             android:src="@drawable/fb"
            
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
             android:id="@+id/np_phone1"
             android:src="@drawable/call1"
            
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -70,14 +70,14 @@
             android:id="@+id/np_phone2"
             android:src="@drawable/call2"
            
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
             />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/np_location"
             android:src="@drawable/location3"
-            android:layout_margin="14dp"
+            android:layout_margin="10dp"
            
             />
     </LinearLayout>
@@ -166,56 +166,57 @@
         android:layout_height="wrap_content"
         android:id="@+id/np_specialNeeds"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_bus"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
+
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_swimming"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_arabic"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_english"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_Meal"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_time"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_age"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
         />
 
     </GridLayout>
@@ -223,7 +224,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_likesNum"
-        android:textSize="14sp"/>
+        android:drawableLeft="@drawable/favorite_main"
+        android:textSize="20sp"
+        android:layout_margin="20dp"/>
 
 
 </LinearLayout>

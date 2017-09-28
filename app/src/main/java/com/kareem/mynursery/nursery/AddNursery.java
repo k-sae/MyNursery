@@ -38,7 +38,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
     EditText nurseryName , nurseryDescription  ,
              phone1 , phone2 , facebook , instagram , snapchat , price,
              minAge , maxAge , additionalActivities ,city ,district ,
-            street  , building ;
+            street  , building ,whats;
     TextView startTime , endTime;
 
     CheckBox swimming  , disabilites , english , arabic , bus;
@@ -46,7 +46,7 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
     String nurseryNameData ,nurseryDescriptionData , startTimeData , endTimeData,
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
-            , notesData;
+            , notesData,whatsData;
     ImageView img1 ,img2,img3,img4,img5,img6;
     double  priceData;
     long minAgeData , maxAgeData;
@@ -131,6 +131,7 @@ nurseryObj=new Nursery();
         facebook = (EditText) findViewById(R.id.addNurseryFacebook);
         instagram = (EditText) findViewById(R.id.addNurseryInstagram);
         snapchat= (EditText) findViewById(R.id.addNurserySnapchat);
+        whats=(EditText) findViewById(R.id.addNurseryWhats);
         price= (EditText) findViewById(R.id.addNurseryExpenses);
         minAge = (EditText) findViewById(R.id.addNurseryMinAge);
         maxAge = (EditText) findViewById(R.id.addNurseryMaxAge);
@@ -172,6 +173,7 @@ nurseryObj=new Nursery();
         districtData =district.getText().toString();
         buildingData = building.getText().toString();
         streetData = street.getText().toString();
+        whatsData=whats.getText().toString();
 
 
         if (swimming.isChecked())
@@ -213,6 +215,7 @@ nurseryObj=new Nursery();
         nurseryObj.setArabic(arabicVal);
         nurseryObj.setEnglish(englishVal);
         nurseryObj.setBus(busVal);
+        nurseryObj.setWhatsapp(whatsData);
     }
 
     private void parseFromNursery(){
@@ -242,7 +245,7 @@ nurseryObj=new Nursery();
         arabicVal=nurseryObj.isArabic();
         englishVal=nurseryObj.isEnglish();
         busVal=nurseryObj.isBus();
-
+        whatsData=nurseryObj.getWhatsapp();
 
     }
 public void pickTime(View v){
@@ -305,11 +308,12 @@ lastClickedView=v;
                 String country = data.getStringExtra(LocationPicker.COUNTRY);
                 nurseryObj.setLatitude(lat);
                 nurseryObj.setLongitude(lng);
+                this.city.setText(city);
+                nurseryObj.setMoreDetails(address);
 
                 Toast toast = Toast.makeText(this,
              "lat : "+lat+"\n lng : "+lng+  "\n country : "+country+"\n address: "+address+"\n city : "+city +"\n state : "+state
                         ,Toast.LENGTH_LONG);
-                toast.show();
             }
         }
     }
