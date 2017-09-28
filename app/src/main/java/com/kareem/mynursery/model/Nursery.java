@@ -63,6 +63,8 @@ public class Nursery extends RealTimeObject{
     private boolean english;
     private boolean bus;
 
+    @Exclude
+    private Double DistanceFromUser;
 
 
 
@@ -340,5 +342,13 @@ public class Nursery extends RealTimeObject{
     }
     public void editComment(){
 
+    }
+
+    public Double getDistanceFromUser() {
+        return DistanceFromUser;
+    }
+
+    public void setDistanceFromUser(Double distanceFromUser) {
+        DistanceFromUser = distanceFromUser;
     }
 }

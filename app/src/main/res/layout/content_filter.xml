@@ -51,40 +51,66 @@
 
 
     <EditText
+        android:id="@+id/neighborhood"
         style="@style/filterItems"
-        android:hint="@string/government" />
+        android:hint="@string/neighborhood" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="@string/age" android:textColor="@color/colorPrimary" android:padding="@dimen/default_spacing" />
+        android:layout_height="wrap_content"
+        android:text="@string/age"
+        android:textColor="@color/colorPrimary"
+        android:padding="@dimen/default_spacing" android:textSize="@dimen/text_title_size" />
     <LinearLayout
         style="@style/filterItems" android:orientation="horizontal">
         <EditText
+            android:id="@+id/age_from"
             style="@style/filterItems"
-            android:hint="@string/government" />
+            android:hint="@string/from"
+            android:textColorHint="@color/textPrimary"
+            />
 
         <EditText
             style="@style/filterItems"
-            android:hint="@string/government" />
+            android:id="@+id/age_to"
+            android:hint="@string/to"
+            android:textColorHint="@color/textPrimary"/>
 
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/working_time"
+        android:textColor="@color/colorPrimary"
+        android:padding="@dimen/default_spacing" android:textSize="@dimen/text_title_size" />
     <LinearLayout
         style="@style/filterItems" android:orientation="horizontal">
         <EditText
             style="@style/filterItems"
-            android:hint="@string/government" />
+            android:hint="@string/from"
+            android:textColorHint="@color/textPrimary"
+            android:id="@+id/time_from"
+            />
 
         <EditText
             style="@style/filterItems"
-            android:hint="@string/government" />
+            android:hint="@string/to"
+            android:textColorHint="@color/textPrimary"
+            android:id="@+id/time_to"
+            />
 
     </LinearLayout>
 
     <View
         android:layout_width="wrap_content"
-        android:layout_height="150dp"/>
+        android:layout_height="100dp"/>
 
-
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:text="@string/apply"
+    android:textColor="@color/textSecondary"
+    android:id="@+id/apply_button"/>
 </LinearLayout>

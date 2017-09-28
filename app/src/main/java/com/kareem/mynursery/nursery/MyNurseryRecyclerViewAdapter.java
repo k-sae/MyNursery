@@ -26,9 +26,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
     private final List<Nursery> mValues;
     private final Context context;
-    private Location nurseryLocation;
-    private Location userLocation;
-    private String distance;
+
     public MyNurseryRecyclerViewAdapter(List<Nursery> items , Context context) {
         mValues = items;
         this.context = context;
@@ -36,7 +34,6 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
     public MyNurseryRecyclerViewAdapter(Context context) {
         mValues = new ArrayList<>();
         this.context = context;
-        nurseryLocation = new Location("nursery Location");
     }
 
 
@@ -53,9 +50,8 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
         holder.mContentView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
-        nurseryLocation.setLatitude(holder.mItem.getLatitude());
-        nurseryLocation.setLongitude(holder.mItem.getLongitude());
-        distance = userLocation == null ? "~ KM" : Utils.calculateDistance(userLocation, nurseryLocation) + " KM";
+
+        String distance = mValues.get(position).getDistanceFromUser() == null ? "~ KM" : mValues.get(position).getDistanceFromUser() + " KM";
         holder.mIdView.setText(distance);
         for (String s: holder.mItem.getImagesId()
              ) {
@@ -73,11 +69,6 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
     public List<Nursery> getmValues() {
         return mValues;
-    }
-
-    public Location getUserLocation() {
-        if (userLocation == null) userLocation = new Location("user Location");
-        return userLocation;
     }
 
     @Override
