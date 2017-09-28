@@ -40,6 +40,32 @@
             android:layout_centerInParent="true" android:text="@string/search_for_nursery" />
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/multi_space_extra"
+        >
+        <ImageView
+            style="@style/homeButtons"
+            android:src="@drawable/instagram"
+            android:contentDescription="@string/instagram"
+            android:id="@+id/instagram"/>
 
+        <ImageView
+            android:src="@drawable/snapchat"
+            style="@style/homeButtons"
+            android:id="@+id/snapchat"
+            android:contentDescription="@string/snapchat"/>
+        <ImageView
+            style="@style/homeButtons"
+            android:src="@drawable/whatsapp"
+            android:id="@+id/whatsapp"
+            android:contentDescription="@string/whatsapp"
+            />
+
+
+    </LinearLayout>
 
 </RelativeLayout>

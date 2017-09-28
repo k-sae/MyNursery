@@ -46,5 +46,8 @@
     <string name="working_time">Working time</string>
     <string name="neighborhood">Neighborhood</string>
     <string name="apply">Apply</string>
+    <string name="snapchat">Snapchat</string>
+    <string name="instagram">Instagram</string>
+    <string name="whatsapp">Whatsapp</string>
 
 </resources>

@@ -1,13 +1,9 @@
 package com.kareem.mynursery.model;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.model.FirebaseParser.KeyList;
-import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.FirebaseParser.UnPushableList;
 
 import java.util.ArrayList;
@@ -58,7 +54,10 @@ public class Nursery extends RealTimeObject{
     private ArrayList<String> activities = new ArrayList<>();
     //custom access info
     private boolean isSponsored;
-    private String sponsershipEndDate;
+
+    //date format dd/mm/yy
+    private String sponsorshipEndDate = "";
+
     private boolean arabic;
     private boolean english;
     private boolean bus;
@@ -284,12 +283,12 @@ public class Nursery extends RealTimeObject{
         isSponsored = sponsored;
     }
 
-    public String getSponsershipEndDate() {
-        return sponsershipEndDate;
+    public String getSponsorshipEndDate() {
+        return sponsorshipEndDate;
     }
 
-    public void setSponsershipEndDate(String sponsershipEndDate) {
-        this.sponsershipEndDate = sponsershipEndDate;
+    public void setSponsorshipEndDate(String sponsorshipEndDate) {
+        this.sponsorshipEndDate = sponsorshipEndDate;
     }
 
     public boolean isArabic() {
