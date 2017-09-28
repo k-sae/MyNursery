@@ -37,7 +37,6 @@ import java.util.ArrayList;
 public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder> {
 
 //    private final OnListFragmentInteractionListener mListener;
-    private int itemNumber;
     private Activity parent;
     private final ProfileAdapterOnClickHandler onClickListener;
 
@@ -49,40 +48,52 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (position==0) return 0;
+        else  return 1;
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType==0){
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_profile, parent, false);
 
         ViewHolder viewHolder =new ViewHolder(view);
         addListners(viewHolder);
-        return viewHolder;
+        return viewHolder;}
+        else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.nursery_list_item, parent, false);
+
+            ViewHolder viewHolder =new ViewHolder(view);
+
+            return viewHolder;
+        }
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         if (position==0)renderUser(holder);
-        else if (position==getItemCount()-1)renderaddNursery(holder);
         else renderUserNurseries(holder,position-1);
 
 
 
     }
     private void renderUser(final ViewHolder holder ){
+          EditText userName=holder.holderView.findViewById(R.id.userName);
+        userName.setText(Auth.getLoggedUser().getName());
 
-        holder.userName.setVisibility(View.VISIBLE);
-        holder.usernameHint.setVisibility(View.VISIBLE);
-        holder.userName.setText(Auth.getLoggedUser().getName());
-        holder.save.setVisibility(View.VISIBLE);
-        holder.addNursery.setVisibility(View.GONE);
     }
     private  void renderUserNurseries(final ViewHolder holder,int position){
         //TODO fix get user nurseries
-        holder.nurserySection.setVisibility(View.VISIBLE);
-        holder.userName.setVisibility(View.GONE);
-        holder.save.setVisibility(View.GONE);
-        holder.addNursery.setVisibility(View.GONE);
-        holder.usernameHint.setVisibility(View.GONE);
+
+         final SliderLayout sliderLayout=holder.holderView.findViewById(R.id.slider);
+         final TextView title=holder.holderView.findViewById(R.id.title);
+         final TextView location=holder.holderView.findViewById(R.id.location);
+
+
         Nursery nursery =new Nursery();
         nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
         nursery.startSync();
@@ -90,8 +101,8 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             @Override
             public void onChange(RealTimeObject realTimeObject) {
                 Nursery nursery1=(Nursery) realTimeObject;
-                holder.location.setText(nursery1.getCity());
-                holder.title.setText(nursery1.getName());
+                location.setText(nursery1.getCity());
+                title.setText(nursery1.getName());
                 for (String image: nursery1.getImagesId()) {
                     GlideSliderView glideSliderView = new GlideSliderView(parent);
                     glideSliderView.image(image)
@@ -99,39 +110,34 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                     glideSliderView.bundle(new Bundle());
                     glideSliderView.getBundle()
                             .putString("imageUrl",image);
-                    holder.sliderLayout.addSlider(glideSliderView);
+                    sliderLayout.addSlider(glideSliderView);
                 }
-                holder.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-                holder.sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                holder.sliderLayout.setCustomAnimation(new DescriptionAnimation());
-                holder.sliderLayout.setDuration(4000);
+               sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+               sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                sliderLayout.setCustomAnimation(new DescriptionAnimation());
+                sliderLayout.setDuration(4000);
 
             }
         });
       
 
     }
-    private void renderaddNursery(final ViewHolder holder){
-        holder.nurserySection.setVisibility(View.GONE);
-        holder.userName.setVisibility(View.GONE);
-        holder.usernameHint.setVisibility(View.GONE);
-        holder.save.setVisibility(View.GONE);
-        holder.addNursery.setVisibility(View.VISIBLE);
-    }
+
 
 
     private void addListners(final ViewHolder holder){
-        holder.addNursery.setOnClickListener(new View.OnClickListener() {
+        final EditText userName=holder.holderView.findViewById(R.id.userName);;
+        holder.holderView.findViewById(R.id.profileAddNursery).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(parent , AddNursery.class);
                 parent.startActivity(intent);
             }
         });
-        holder.save.setOnClickListener(new View.OnClickListener() {
+        holder.holderView.findViewById(R.id.saveUsername).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = holder.userName.getText().toString();
+                String name = userName.getText().toString();
                 if (!name.equals("")&&!name.equals(" "))
                 {
                     Auth.getLoggedUser().setName(name);
@@ -143,38 +149,25 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
     @Override
     public int getItemCount() {
-        return Auth.getLoggedUser().getNurseries().size()+2;
+        return Auth.getLoggedUser().getNurseries().size()+1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final View nurserySection;
-        public final EditText userName;
-        public final Button save;
-        public final Button addNursery;
-        public final SliderLayout sliderLayout;
-        public final TextView title;
-        public final TextView location;
-        public final View usernameHint;
+        public final View holderView;
+
 
 
         public ViewHolder(View view) {
             super(view);
-           nurserySection=(View)view.findViewById(R.id.profileNurseriesItems);
-            userName = (EditText)view.findViewById(R.id.userName);
-           save = (Button)view.findViewById(R.id.saveUsername);
-            addNursery=(Button)view.findViewById(R.id.profileAddNursery);
-            title=(TextView) nurserySection.findViewById(R.id.title);
-            location=(TextView) nurserySection.findViewById(R.id.location);
-            sliderLayout=(SliderLayout)nurserySection.findViewById(R.id.slider);
-            usernameHint=(View) view.findViewById(R.id.username_hint);
-            sliderLayout.setBackgroundColor(Color.BLUE);
-            sliderLayout.setOnClickListener(this);
+            holderView =view;
+
+
+            int position = getAdapterPosition();
+            if (getItemViewType()!=0 )
+            view.setOnClickListener(this);
 
         }
-        public void bind(int index ) {
 
-
-        }
         @Override
         public String toString() {
             return super.toString() + " '" +  "'";

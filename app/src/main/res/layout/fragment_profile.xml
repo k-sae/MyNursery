@@ -13,7 +13,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/userName"
             android:hint="User Name"
-            android:visibility="gone"
 
             />
     </android.support.design.widget.TextInputLayout>
@@ -29,18 +28,11 @@
         android:padding="10dp"
         android:layout_margin="10dp"
         android:textColor="@color/textSecondary"
-        android:visibility="gone"
 
 
         />
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/profileNurseriesItems"
-        layout="@layout/nursery_list_item"
-        android:visibility="gone"
-        />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,5 +43,5 @@
         android:background="?android:attr/selectableItemBackground"
         android:padding="10dp"
         android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
+   />
 </LinearLayout>
