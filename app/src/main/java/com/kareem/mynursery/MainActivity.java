@@ -147,17 +147,20 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 //                Log.e(TAG, "onChange: " );
 //            }
 //        });
-//        Nursery nursery = new Nursery();
-//        nursery.setOnChangeListener(new ObjectChangedListener() {
-//            @Override
-//            public void onChange(RealTimeObject realTimeObject) {
-//                Log.e(TAG, "test: " + realTimeObject );
-//            }
-//        });
-//        nursery.setName("some test");
-//        nursery.setId("-Kuj6ypRkc9FTx0e_igl");
-      //  nursery.startSync();
-//        user.addNursery(nursery.getId());
+        final Nursery nursery = new Nursery();
+        nursery.setOnChangeListener(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                Log.e(TAG, "test: " + realTimeObject );
+                if (nursery.getImagesId().size() > 1) return;
+                nursery.getImagesId().add("http://www.birminghamdaynursery.co.uk/wp-content/uploads/UOB-nurseries-27-smaller.jpg");
+                nursery.getImagesId().add("https://www.activekidsnursery.com/wp-content/uploads/2016/02/First-day-nursery.jpg");
+                nursery.getImagesId().add("https://www.toadhall-nursery.co.uk/wp-content/gallery/gallery-ottershaw/Toad-Hall-Nursery-Ottershaw-photos-1.JPG");
+                nursery.save();
+            }
+        });
+        nursery.setId("-Kuj6ypRkc9FTx0e_igl");
+        nursery.startSync();
 
 
 

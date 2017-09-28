@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
 /**
@@ -20,6 +21,16 @@ public class GlideSliderView extends DefaultSliderView {
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
+        final BaseSliderView me = this;
+
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mOnSliderClickListener != null){
+                    mOnSliderClickListener.onSliderClick(me);
+                }
+            }
+        });
 
         Glide.with(getContext())
                 .load(getUrl()).centerCrop()

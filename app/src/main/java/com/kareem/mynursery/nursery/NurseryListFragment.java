@@ -125,6 +125,7 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
+            nursery.setId(snapshot.getKey());
             nurseries.add(nursery);
         }
         update();

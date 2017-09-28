@@ -1,6 +1,7 @@
 package com.kareem.mynursery.nursery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 
 import java.util.ArrayList;
@@ -50,25 +54,37 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
         holder.mContentView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
-
+        final int mPosition = position;
         String distance = mValues.get(position).getDistanceFromUser() == null ? "~ KM" : mValues.get(position).getDistanceFromUser() + " KM";
         holder.mIdView.setText(distance);
         for (String s: holder.mItem.getImagesId()
              ) {
-            holder.sliderLayout.addSlider(new GlideSliderView(context).image(s));
-
+            holder.sliderLayout.addSlider(new DefaultSliderView(context).image(s).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView slider) {
+                    startActivity(mPosition);
+                }
+            }));
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                    //TODo
+              startActivity(mPosition);
             }
         });
     }
 
     public List<Nursery> getmValues() {
         return mValues;
+    }
+
+    private void startActivity(int mPosition)
+    {
+        Intent intent = new Intent(context, NurseryProfileActivity.class);
+        intent.putExtra("NurseryId", mValues.get(mPosition).getId() );
+        context.startActivity(intent);
     }
 
     @Override
