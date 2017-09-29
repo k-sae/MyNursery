@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
@@ -20,7 +21,7 @@ import com.kareem.mynursery.model.Nursery;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddNursery extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
+public class AddNursery extends FileUploaderActivity implements TimePickerDialog.OnTimeSetListener{
 
 
     private  final String ADD_NURSERY="ADD_NURSERY";
@@ -57,11 +58,12 @@ public class AddNursery extends AppCompatActivity implements TimePickerDialog.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-nurseryObj=new Nursery();
+        nurseryObj=new Nursery();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_nursery);
         this.intent=getIntent();
         this.setComponents();
+
         if (this.intent.hasExtra("action")&&this.intent.getStringExtra("action").equals(this.EDIT_NURSERY)) {
             NurseryId = intent.getStringExtra("NurseryId");
             editRender();//TODO fill the form with the nursery data
@@ -317,4 +319,22 @@ lastClickedView=v;
             }
         }
     }
+
+    @Override
+    public void onUploadComplete(String imageName) {
+
+    }
+
+    @Override
+    public void uponImagePicked(String imageLocation) {
+
+    }
+
+    private void setImageViewFromFile(ImageView imageView, String fileLocation)
+    {
+        Glide.with(this)
+                .load(fileLocation).centerCrop()
+                .into(imageView);
+    }
+
 }

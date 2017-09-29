@@ -39,7 +39,7 @@
     <string name="city">city</string>
     <string name="block">Block</string>
     <string name="age">Age</string>
-<string name="add_comment_field">Write Comment …</string>
+    <string name="add_comment_field">Write Comment …</string>
     <string name="add_comment_btn">Add Comment</string>
     <string name="from">From</string>
     <string name="to">To</string>
@@ -49,5 +49,6 @@
     <string name="snapchat">Snapchat</string>
     <string name="instagram">Instagram</string>
     <string name="whatsapp">Whatsapp</string>
+    <string name="error_occurred_will_uploading">Error occurred will uploading</string>
 
 </resources>

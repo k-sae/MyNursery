@@ -107,7 +107,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Valu
         sliderLayout.stopAutoCycle();
         super.onStop();
     }
-
     @Override
     public void onStart() {
         super.onStart();
