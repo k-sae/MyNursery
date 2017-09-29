@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daimajia.slider.library.SliderLayout;
 import com.kareem.mynursery.R;
 
 
@@ -30,6 +31,7 @@ public class NurseryProfileFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private Intent intent;
+    private SliderLayout sliderLayout;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,6 +65,7 @@ public class NurseryProfileFragment extends Fragment {
         intent=getActivity().getIntent();
 
         View view = inflater.inflate(R.layout.fragment_nurseryprofile_list, container, false);
+        sliderLayout=inflater.inflate(R.layout.fragment_nurseryprofile, container, false).findViewById(R.id.nurseryProfileSlider);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -90,7 +93,12 @@ public class NurseryProfileFragment extends Fragment {
         super.onDetach();
     }
 
-    /**
+    @Override
+    public void onStop() {
+        sliderLayout.startAutoCycle();
+        super.onStop();
+    }
+/**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
