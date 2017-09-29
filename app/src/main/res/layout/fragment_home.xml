@@ -1,11 +1,71 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kareem.mynursery.home.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <Button
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="@string/search_for_nursery" android:id="@+id/search_for_nursery" />
-</LinearLayout>
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="22dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0000"
+        android:text="@string/search_for_nursery"
+        android:id="@+id/search_for_nursery"
+        android:layout_below="@id/slider"
+        android:layout_margin="@dimen/multi_space_extra"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_school"
+            android:contentDescription="@string/search_for_nursery"
+            android:layout_alignParentStart="true"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:src="@drawable/location2"
+            android:contentDescription="@string/search_for_nursery"
+            android:layout_alignParentEnd="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_title_size"
+            android:layout_centerInParent="true" android:text="@string/search_for_nursery" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/multi_space_extra"
+        >
+        <ImageView
+            style="@style/homeButtons"
+            android:src="@drawable/instagram"
+            android:contentDescription="@string/instagram"
+            android:id="@+id/instagram"/>
+
+        <ImageView
+            android:src="@drawable/snapchat"
+            style="@style/homeButtons"
+            android:id="@+id/snapchat"
+            android:contentDescription="@string/snapchat"/>
+        <ImageView
+            style="@style/homeButtons"
+            android:src="@drawable/whatsapp"
+            android:id="@+id/whatsapp"
+            android:contentDescription="@string/whatsapp"
+            />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
