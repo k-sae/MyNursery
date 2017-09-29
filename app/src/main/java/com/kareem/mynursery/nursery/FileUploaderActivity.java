@@ -28,11 +28,6 @@ public  abstract class FileUploaderActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filer_uploader);
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),RESULT_CODE);
-
     }
 
     @Override
@@ -85,7 +80,14 @@ public  abstract class FileUploaderActivity extends AppCompatActivity implements
     public void onCancelled(Context context, UploadInfo uploadInfo) {
 
     }
+    protected void startImageChooser()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),RESULT_CODE);
 
+    }
     public abstract void onUploadComplete(String imageName);
     public abstract void uponImagePicked(String imageLocation);
 
