@@ -20,6 +20,8 @@ import com.kareem.mynursery.model.Nursery;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddNursery extends FileUploaderActivity implements TimePickerDialog.OnTimeSetListener{
 
@@ -27,10 +29,11 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     private  final String ADD_NURSERY="ADD_NURSERY";
     private final String EDIT_NURSERY="EDIT_NURSERY";
     private Intent intent;
-    private ArrayList<String> pickedImagesPath;
+    private Map<Integer ,String> pickedImagesPath;
     private ArrayList<String>  activities;
     private Nursery nurseryObj;
     private String NurseryId;
+    private ArrayList<String> imagesUrl;
     private int LOCATION_CODE =1;
     Toast errorMessage;
 
@@ -49,7 +52,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
             , notesData,whatsData;
-    ImageView img1 ,img2,img3,img4,img5,img6;
+    ImageView img1 ,img2,img3,img4,img5,img6,lastClicked;
     double  priceData;
     long minAgeData , maxAgeData;
     boolean disabilitesData = false,arabicVal=false,englishVal=false,busVal=false;
@@ -60,6 +63,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         nurseryObj=new Nursery();
+        pickedImagesPath = new HashMap<>();
+        imagesUrl = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_nursery);
         this.intent=getIntent();
@@ -80,8 +85,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
 
                    } else {
                        parseToNursery();
-                       nurseryObj.save();
-                       Auth.getLoggedUser().addNursery(nurseryObj.getId());
+
                    }
                }
 
@@ -96,6 +100,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
                 startActivityForResult(pickLocationIntent,LOCATION_CODE);
             }
         });
+        setImagesListeners();
     }
 
     private void editRender(){
@@ -153,10 +158,15 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         arabic= (CheckBox) findViewById(R.id.addNursery_arabic);
         english= (CheckBox) findViewById(R.id.addNursery_english);
         bus= (CheckBox) findViewById(R.id.addNursery_bus);
+        img1 = (ImageView) findViewById(R.id.addNurseryImg1);
+        img2 = (ImageView) findViewById(R.id.addNurseryImg2);
+        img3 = (ImageView) findViewById(R.id.addNurseryImg3);
+        img4 = (ImageView) findViewById(R.id.addNurseryImg4);
+        img5 = (ImageView) findViewById(R.id.addNurseryImg5);
+        img6 = (ImageView) findViewById(R.id.addNurseryImg6);
     }
 
     private boolean fetchData(){
-        pickedImagesPath = new ArrayList<String>();
         activities = new ArrayList<String>();
         String str_price,str_min,str_max;
 
@@ -275,6 +285,9 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setEnglish(englishVal);
         nurseryObj.setBus(busVal);
         nurseryObj.setWhatsapp(whatsData);
+        String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
+        pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
+        uploadMultipart(url);
     }
 
     private void parseFromNursery(){
@@ -379,12 +392,25 @@ lastClickedView=v;
 
     @Override
     public void onUploadComplete(String imageName) {
+        imagesUrl.add(imageName);
 
+        if (pickedImagesPath.size()>0) {
+            String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
+            pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
+            uploadMultipart(url);
+        }
+        else if (pickedImagesPath.size()==0)
+        {
+            nurseryObj.setImagesId(imagesUrl);
+            nurseryObj.save();
+            Auth.getLoggedUser().addNursery(nurseryObj.getId());
+        }
     }
 
     @Override
     public void uponImagePicked(String imageLocation) {
-
+    setImageViewFromFile(lastClicked,imageLocation);
+        pickedImagesPath.put(lastClicked.getId(),imageLocation);
     }
 
     private void setImageViewFromFile(ImageView imageView, String fileLocation)
@@ -394,7 +420,50 @@ lastClickedView=v;
                 .into(imageView);
     }
 
-
+public void setImagesListeners(){
+    img1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastClicked=img1;
+            startImageChooser();
+        }
+    });
+    img2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastClicked=img2;
+            startImageChooser();
+        }
+    });
+    img3.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastClicked=img3;
+            startImageChooser();
+        }
+    });
+    img4.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastClicked=img4;
+            startImageChooser();
+        }
+    });
+    img5.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastClicked=img5;
+            startImageChooser();
+        }
+    });
+    img6.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastClicked=img6;
+            startImageChooser();
+        }
+    });
+}
 
 public void showRequiredError(String message){
     if (errorMessage!=null)
