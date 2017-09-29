@@ -101,4 +101,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Valu
                 ((NavigationContext)parentActivity).navigate(NurseryListActivity.class);
         }
     }
+
+    @Override
+    public void onStop() {
+        sliderLayout.stopAutoCycle();
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (sliderLayout != null) sliderLayout.startAutoCycle();
+    }
 }
