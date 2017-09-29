@@ -26,6 +26,7 @@ import com.kareem.mynursery.model.Nursery;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 import java.util.ArrayList;
 
@@ -86,7 +87,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         userName.setText(Auth.getLoggedUser().getName());
 
     }
-    private  void renderUserNurseries(final ViewHolder holder,int position){
+    private  void renderUserNurseries(final ViewHolder holder, final int position){
         //TODO fix get user nurseries
 
          final SliderLayout sliderLayout=holder.holderView.findViewById(R.id.slider);
@@ -110,13 +111,28 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                     glideSliderView.bundle(new Bundle());
                     glideSliderView.getBundle()
                             .putString("imageUrl",image);
-                    sliderLayout.addSlider(glideSliderView);
+                    sliderLayout.addSlider(glideSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                        @Override
+                        public void onSliderClick(BaseSliderView slider) {
+                            Intent intent = new Intent(parent, NurseryProfileActivity.class);
+                            intent.putExtra("NurseryId",Auth.getLoggedUser().getNurseries().get(position) );
+                            parent.startActivity(intent);
+                        }
+                    }));
                 }
                sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
                sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
                 sliderLayout.setCustomAnimation(new DescriptionAnimation());
                 sliderLayout.setDuration(4000);
 
+            }
+        });
+        holder.holderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(parent, NurseryProfileActivity.class);
+                intent.putExtra("NurseryId",Auth.getLoggedUser().getNurseries().get(position) );
+                parent.startActivity(intent);
             }
         });
       
@@ -162,9 +178,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             holderView =view;
 
 
-            int position = getAdapterPosition();
-            if (getItemViewType()!=0 )
-            view.setOnClickListener(this);
+
 
         }
 
