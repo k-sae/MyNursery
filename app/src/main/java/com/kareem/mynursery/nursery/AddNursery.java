@@ -32,6 +32,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     private Nursery nurseryObj;
     private String NurseryId;
     private int LOCATION_CODE =1;
+    Toast errorMessage;
 
     //Form Buttons
     Button  addLocation , addNursery;
@@ -74,14 +75,15 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         addNursery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fetchData();
-                if (intent.hasExtra("action")&&intent.getStringExtra("action").equals(EDIT_NURSERY)) {
+               if (fetchData()) {
+                   if (intent.hasExtra("action") && intent.getStringExtra("action").equals(EDIT_NURSERY)) {
 
-                }else {
-                    parseToNursery();
-                    nurseryObj.save();
-                    Auth.getLoggedUser().addNursery(nurseryObj.getId());
-                }
+                   } else {
+                       parseToNursery();
+                       nurseryObj.save();
+                       Auth.getLoggedUser().addNursery(nurseryObj.getId());
+                   }
+               }
 
 
 
@@ -153,9 +155,10 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         bus= (CheckBox) findViewById(R.id.addNursery_bus);
     }
 
-    private void fetchData(){
+    private boolean fetchData(){
         pickedImagesPath = new ArrayList<String>();
         activities = new ArrayList<String>();
+        String str_price,str_min,str_max;
 
 
         nurseryNameData = nurseryName.getText().toString();
@@ -167,15 +170,66 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         facebookData = facebook.getText().toString();
         instagramData = instagram.getText().toString();
         snapchatData = snapchat.getText().toString();
-        priceData = Double.parseDouble(price.getText().toString());
-        minAgeData = Long.parseLong(minAge.getText().toString());
-        maxAgeData = Long.parseLong(maxAge.getText().toString());
+        str_price = price.getText().toString();
+        str_min = minAge.getText().toString();
+        str_max = maxAge.getText().toString();
         additionalActivitiesData = additionalActivities.getText().toString();
         cityData = city.getText().toString();
         districtData =district.getText().toString();
         buildingData = building.getText().toString();
         streetData = street.getText().toString();
         whatsData=whats.getText().toString();
+
+
+
+        if (nurseryNameData.equals("") || nurseryNameData.length()==0){
+            showRequiredError(getString(R.string.name));
+            return false;
+        }
+        if (nurseryDescriptionData.equals("") || nurseryDescriptionData.length()==0){
+            showRequiredError(getString(R.string.description));
+            return false;
+        }
+        if (startTimeData.equals("") || startTimeData.length()==0){
+            showRequiredError(getString(R.string.start_time));
+            return false;
+        }
+        if (endTimeData.equals("") || endTimeData.length()==0){
+            showRequiredError(getString(R.string.end_time));
+            return false;
+        }
+        if (phone1Data.equals("") || phone1Data.length()==0){
+            showRequiredError(getString(R.string.phone1));
+            return false;
+        }
+        if (str_price.equals("") || str_price.length()==0){
+            showRequiredError(getString(R.string.fees));
+            return false;
+        }
+        if (str_min.equals("") || str_min.length()==0){
+            showRequiredError(getString(R.string.min_age));
+            return false;
+        }
+        if (str_max.equals("") || str_max.length()==0){
+            showRequiredError(getString(R.string.max_age));
+            return false;
+        }
+        if (cityData.equals("") || cityData.length()==0){
+            showRequiredError(getString(R.string.city));
+            return false;
+        }
+        if (districtData.equals("") || districtData.length()==0){
+            showRequiredError(getString(R.string.district));
+            return false;
+        }
+        if (buildingData.equals("") || buildingData.length()==0){
+            showRequiredError(getString(R.string.building));
+            return false;
+        }
+        if (streetData.equals("") || streetData.length()==0){
+            showRequiredError(getString(R.string.street));
+            return false;
+        }
 
 
         if (swimming.isChecked())
@@ -191,7 +245,10 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         if (bus.isChecked())
             busVal=true;
 
-
+        priceData = Double.parseDouble(str_price);
+        minAgeData = Long.parseLong(str_min);
+        maxAgeData = Long.parseLong(str_max);
+        return true;
     }
 
     private void parseToNursery(){
@@ -337,4 +394,12 @@ lastClickedView=v;
                 .into(imageView);
     }
 
+
+
+public void showRequiredError(String message){
+    if (errorMessage!=null)
+        errorMessage.cancel();
+    errorMessage=Toast.makeText(this.getBaseContext(),message+R.string.required,Toast.LENGTH_LONG);
+    errorMessage.show();
+}
 }

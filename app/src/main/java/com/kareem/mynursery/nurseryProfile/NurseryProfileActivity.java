@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.daimajia.slider.library.SliderLayout;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.profile.ProfileFragment;
 
@@ -16,6 +17,7 @@ public class NurseryProfileActivity extends AppCompatActivity  {
     private ProfileFragment profileFragment;
     private Fragment activeFragment;
     private NurseryProfileFragment nurseryProfileFragment;
+    private SliderLayout sliderLayout;
 
 
     @Override
@@ -39,7 +41,7 @@ public class NurseryProfileActivity extends AppCompatActivity  {
         if (fragmentTransaction == null) return;
         activeFragment = fragment;
         fragmentTransaction
-                .replace(R.id.klp,
+                .replace(R.id.nurseryprofile,
                         fragment)
                 .commit();
     }
