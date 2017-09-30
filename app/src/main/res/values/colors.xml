@@ -7,4 +7,5 @@
     <color name="textSecondary">#fff</color>
     <color name="secondaryColor">#fff</color>
     <color name="overlay">#4000</color>
+    <color name="colorSecondary">#111</color>
 </resources>

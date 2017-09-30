@@ -7,17 +7,22 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.kareem.mynursery.authentication.LoginActivity"
     tools:showIn="@layout/activity_login">
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
+        android:id="@+id/content"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        tools:ignore="UselessParent">
+        tools:ignore="UselessParent"
+
+        >
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/phone_number"
         android:inputType="phone"
         android:id="@+id/phone_number"
+        android:drawableEnd="@drawable/call"
         />
         <LinearLayout android:orientation="vertical" android:visibility="gone" android:id="@+id/verification_container"
             android:layout_width="match_parent"
@@ -27,13 +32,32 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/verification_key" android:inputType="number"
                 android:hint="@string/verification_code"
+                android:drawableEnd="@drawable/password"
                 />
             <Button
                 android:layout_width="match_parent" android:id="@+id/verify"
-                android:layout_height="wrap_content" android:text="@string/verify" />
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/textSecondary"
+                android:text="@string/verify" />
         </LinearLayout>
     <Button
         android:layout_width="match_parent" android:id="@+id/send_verification"
-        android:layout_height="wrap_content" android:text="@string/send_verification_code" />
+        android:layout_height="wrap_content"
+        android:text="@string/send_verification_code"
+        android:background="@color/colorSecondary"
+        android:textColor="@color/textSecondary"
+        />
     </LinearLayout>
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" android:layout_above="@id/content">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:id="@+id/informative_textView"
+          android:textColor="@color/colorPrimary"
+          />
+  </RelativeLayout>
 </RelativeLayout>
