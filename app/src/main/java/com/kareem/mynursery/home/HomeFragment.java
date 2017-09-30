@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,7 +31,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, ValueEventListener {
+public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeListener, View.OnClickListener, ValueEventListener {
     private Activity parentActivity;
     private SliderLayout sliderLayout;
     public HomeFragment() {
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Valu
         View view  = inflater.inflate(R.layout.fragment_home, container, false);
         view.findViewById(R.id.search_for_nursery).setOnClickListener(this);
         sliderLayout = view.findViewById(R.id.slider);
+        sliderLayout.addOnPageChangeListener(this);
         startSync();
         return view;
     }
@@ -111,5 +113,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Valu
     public void onStart() {
         super.onStart();
         if (sliderLayout != null) sliderLayout.startAutoCycle();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
