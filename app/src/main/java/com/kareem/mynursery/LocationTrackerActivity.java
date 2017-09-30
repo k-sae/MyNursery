@@ -189,7 +189,9 @@ public abstract class LocationTrackerActivity extends AppCompatActivity implemen
 
     }
     public void stopLocationSync(){
-        fusedLocationProviderApi.removeLocationUpdates(googleApiClient, this);
-        googleApiClient.disconnect();
+        if (googleApiClient.isConnected()) {
+            fusedLocationProviderApi.removeLocationUpdates(googleApiClient, this);
+            googleApiClient.disconnect();
+        }
     }
 }
