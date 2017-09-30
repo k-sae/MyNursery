@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
@@ -103,7 +104,8 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
          final SliderLayout sliderLayout=holder.holderView.findViewById(R.id.slider);
          final TextView title=holder.holderView.findViewById(R.id.title);
          final TextView location=holder.holderView.findViewById(R.id.location);
-
+        sliderLayout.removeAllSliders();
+        sliderLayout.stopAutoCycle();
 
         Nursery nursery =new Nursery();
         nursery.setId(current_user.getNurseries().get(position));
@@ -114,14 +116,10 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                 Nursery nursery1=(Nursery) realTimeObject;
                 location.setText(nursery1.getCity());
                 title.setText(nursery1.getName());
+                sliderLayout.removeAllSliders();
+                sliderLayout.stopAutoCycle();
                 for (String image: nursery1.getImagesId()) {
-                    GlideSliderView glideSliderView = new GlideSliderView(parent);
-                    glideSliderView.image(image)
-                            .setScaleType(BaseSliderView.ScaleType.Fit);
-                    glideSliderView.bundle(new Bundle());
-                    glideSliderView.getBundle()
-                            .putString("imageUrl",image);
-                    sliderLayout.addSlider(glideSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                    sliderLayout.addSlider(new DefaultSliderView(parent).image(Nursery.BASE_IMAGE_URL+image).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                         @Override
                         public void onSliderClick(BaseSliderView slider) {
                             Intent intent = new Intent(parent, NurseryProfileActivity.class);
@@ -129,11 +127,9 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                             parent.startActivity(intent);
                         }
                     }));
+
                 }
-               sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-               sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                sliderLayout.setCustomAnimation(new DescriptionAnimation());
-                sliderLayout.setDuration(4000);
+
 
             }
         });
@@ -186,6 +182,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public ViewHolder(View view) {
             super(view);
             holderView =view;
+
 
 
 

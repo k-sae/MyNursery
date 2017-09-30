@@ -50,7 +50,6 @@ public  abstract class FileUploaderActivity extends AppCompatActivity implements
                             .setNotificationConfig(new UploadNotificationConfig())
                             .setMaxRetries(2)
                             .addParameter("key", "CodeCamp:authKey")
-                            .addParameter("nursery_id", "test")
                             .setDelegate(this)
                             .startUpload();
         } catch (Exception exc) {

@@ -91,6 +91,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     private void setNurseryData(final ViewHolder holder){
         for (String image : nursery.getImagesId()){
+            image=Nursery.BASE_IMAGE_URL+image;
             TextSliderView textSliderView = new TextSliderView(context);
             textSliderView
                     .description(nursery.getName())
