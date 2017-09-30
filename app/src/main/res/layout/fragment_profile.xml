@@ -7,13 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/username_hint"
+        android:layout_margin="10dp"
         >
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/userName"
+            android:gravity="center_horizontal"
+            android:drawableLeft="@drawable/profile"
             android:hint="User Name"
-
+            android:padding="10dp"
             />
     </android.support.design.widget.TextInputLayout>
 
@@ -22,9 +25,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/saveUsername"
         android:text="Save"
-        android:drawableLeft="@drawable/profile"
-        android:background="@drawable/button_border"
+        android:background="@color/colorPrimary"
         android:layout_gravity="center"
+        android:drawableRight="@drawable/add2"
         android:padding="10dp"
         android:layout_margin="10dp"
         android:textColor="@color/textSecondary"

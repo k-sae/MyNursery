@@ -40,11 +40,21 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 //    private final OnListFragmentInteractionListener mListener;
     private Activity parent;
     private final ProfileAdapterOnClickHandler onClickListener;
+    User current_user;
 
 
     public MyProfileRecyclerViewAdapter(Activity parent,ProfileAdapterOnClickHandler onClickListener) {
         this.parent=parent;
         this.onClickListener=onClickListener;
+
+        current_user = Auth.getLoggedUser();
+        Auth.getLoggedUser(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                current_user = (User) realTimeObject;
+                notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -84,7 +94,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     }
     private void renderUser(final ViewHolder holder ){
           EditText userName=holder.holderView.findViewById(R.id.userName);
-        userName.setText(Auth.getLoggedUser().getName());
+        userName.setText(current_user.getName());
 
     }
     private  void renderUserNurseries(final ViewHolder holder, final int position){
@@ -96,7 +106,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
 
         Nursery nursery =new Nursery();
-        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
+        nursery.setId(current_user.getNurseries().get(position));
         nursery.startSync();
         nursery.setOnChangeListener(new ObjectChangedListener() {
             @Override
@@ -115,7 +125,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                         @Override
                         public void onSliderClick(BaseSliderView slider) {
                             Intent intent = new Intent(parent, NurseryProfileActivity.class);
-                            intent.putExtra("NurseryId",Auth.getLoggedUser().getNurseries().get(position) );
+                            intent.putExtra("NurseryId",current_user.getNurseries().get(position) );
                             parent.startActivity(intent);
                         }
                     }));
@@ -131,7 +141,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(parent, NurseryProfileActivity.class);
-                intent.putExtra("NurseryId",Auth.getLoggedUser().getNurseries().get(position) );
+                intent.putExtra("NurseryId",current_user.getNurseries().get(position) );
                 parent.startActivity(intent);
             }
         });
@@ -156,8 +166,8 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                 String name = userName.getText().toString();
                 if (!name.equals("")&&!name.equals(" "))
                 {
-                    Auth.getLoggedUser().setName(name);
-                    Auth.getLoggedUser().save();
+                    current_user.setName(name);
+                    current_user.save();
                 }
             }
         });
@@ -165,7 +175,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
     @Override
     public int getItemCount() {
-        return Auth.getLoggedUser().getNurseries().size()+1;
+        return current_user.getNurseries().size()+1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -191,7 +201,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position>0 && position<getItemCount()-1)
-                onClickListener.onClick(Auth.getLoggedUser().getNurseries().get(position-1));
+                onClickListener.onClick(current_user.getNurseries().get(position-1));
 
         }
     }
