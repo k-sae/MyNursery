@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //this may introduce a bug in app first run
         //if so just w8 for the async task to finish then continue as normal
+        FirebaseAuth.getInstance().signOut();
         if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
         Log.e("firebase", "onCreate: " + FirebaseAuth.getInstance().getCurrentUser());
         test();
@@ -162,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
         });
         nursery.setId("-Kuu7bJB9ZyITY6v7EUI");
         nursery.startSync();
-
 
 
 //        user.setName("update 2");

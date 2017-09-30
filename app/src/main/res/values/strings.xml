@@ -68,5 +68,8 @@
     <string name="additional_activities">Additional Activities</string>
     <string name="fees">Fees</string>
     <string name="save">Save</string>
+    <string name="invalid_phone_number">Invalid phone number</string>
+    <string name="code_sent">Code sent by sms</string>
+    <string name="invalid_phone_number_or_code">invalid phone number or code</string>
 
 </resources>
