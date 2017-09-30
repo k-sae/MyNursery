@@ -1,6 +1,7 @@
 package com.kareem.mynursery;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -32,7 +33,7 @@ import org.mini2Dx.beanutils.PropertyUtils;
 import java.lang.reflect.InvocationTargetException;
 
 
-public class MainActivity extends AppCompatActivity implements  NavigationContext  {
+public class MainActivity extends LocationTrackerActivity implements  NavigationContext  {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     private static final String TAG =  MainActivity.class.getName();
@@ -44,7 +45,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     @Override
     protected void onStart() {
+        setPromptTheUserForLocation(false);
         super.onStart();
+    }
+
+    @Override
+    protected void onLocationChange(Location location) {
+        Utils.location = location;
+        stopLocationSync();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

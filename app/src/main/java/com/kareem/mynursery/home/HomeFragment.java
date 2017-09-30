@@ -2,12 +2,15 @@ package com.kareem.mynursery.home;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -19,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.NavigationContext;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.nursery.NurseryListActivity;
@@ -26,6 +30,7 @@ import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -34,6 +39,10 @@ import java.util.Date;
 public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeListener, View.OnClickListener, ValueEventListener {
     private Activity parentActivity;
     private SliderLayout sliderLayout;
+    private ArrayList<Nursery> nurseries;
+    private Location mLocation = new Location("A");
+    private TextView titleTextView;
+    private TextView locationTextView;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -46,7 +55,10 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         View view  = inflater.inflate(R.layout.fragment_home, container, false);
         view.findViewById(R.id.search_for_nursery).setOnClickListener(this);
         sliderLayout = view.findViewById(R.id.slider);
+        titleTextView = view.findViewById(R.id.title);
+        locationTextView = view.findViewById(R.id.location);
         sliderLayout.addOnPageChangeListener(this);
+        nurseries = new ArrayList<>();
         startSync();
         return view;
     }
@@ -58,9 +70,11 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     public void onDataChange(DataSnapshot dataSnapshot) {
         sliderLayout.removeAllSliders();
+        nurseries.clear();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
+            nurseries.add(nursery);
             nursery.setId(snapshot.getKey());
             try {
                 addSlider(nursery);
@@ -122,11 +136,20 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     @Override
     public void onPageSelected(int position) {
-
+        titleTextView.setText(nurseries.get(position).getName());
+        String distance = nurseries.get(position).getCity() + " ";
+        if (Utils.location == null) distance += "~ ";
+        else {
+            mLocation.setLatitude(nurseries.get(position).getLatitude());
+            mLocation.setLongitude(nurseries.get(position).getLongitude());
+           distance +=  Utils.calculateDistance(mLocation, Utils.location);
+        }
+        locationTextView.setText(distance);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
     }
+
 }
