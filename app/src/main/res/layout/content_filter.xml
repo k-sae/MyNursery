@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     android:layout_margin="@dimen/default_spacing"
     android:padding="@dimen/default_spacing"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.kareem.mynursery.nursery.FilterActivity"
     tools:showIn="@layout/activity_filter">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"     android:orientation="vertical">
     <LinearLayout
         style="@style/filterItems" android:orientation="horizontal">
         <EditText
@@ -68,13 +70,17 @@
             style="@style/filterItems"
             android:hint="@string/from"
             android:textColorHint="@color/textPrimary"
+            android:layout_weight="1"
+            android:inputType="number"
             />
 
         <EditText
             style="@style/filterItems"
             android:id="@+id/age_to"
             android:hint="@string/to"
-            android:textColorHint="@color/textPrimary"/>
+            android:textColorHint="@color/textPrimary"
+            android:layout_weight="1"
+            android:inputType="number"/>
 
     </LinearLayout>
 
@@ -91,6 +97,7 @@
             android:hint="@string/from"
             android:textColorHint="@color/textPrimary"
             android:id="@+id/time_from"
+            android:layout_weight="1"
             />
 
         <EditText
@@ -98,13 +105,12 @@
             android:hint="@string/to"
             android:textColorHint="@color/textPrimary"
             android:id="@+id/time_to"
+            android:layout_weight="1"
             />
+
 
     </LinearLayout>
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"/>
 
 <Button
     android:layout_width="match_parent"
@@ -113,4 +119,5 @@
     android:text="@string/apply"
     android:textColor="@color/textSecondary"
     android:id="@+id/apply_button"/>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

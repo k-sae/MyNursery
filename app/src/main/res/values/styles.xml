@@ -24,7 +24,6 @@
     <style name="filterItems">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
 
@@ -35,5 +34,13 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_margin">@dimen/space_extra</item>
     </style>
+    <style name="slider_text_item">
+        <item name="android:textSize">@dimen/text_slider</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/default_spacing</item>
+        <item name="android:layout_marginTop">@dimen/default_spacing</item>
 
+        <item name="android:textColor">@color/textSecondary</item>
+    </style>
 </resources>

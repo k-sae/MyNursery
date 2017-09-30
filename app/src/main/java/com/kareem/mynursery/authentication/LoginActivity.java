@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String mVerificationId;
     private static final String TAG = "PhoneAuthActivity";
     private FirebaseAuth mAuth;
+    private TextView informativeTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +55,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.send_verification).setOnClickListener(this);
         findViewById(R.id.verify).setOnClickListener(this);
         verificationContainer = findViewById(R.id.verification_container);
+        informativeTextView = findViewById(R.id.informative_textView);
     }
     private void initVerificationCallBack() {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
                 Log.d(TAG, "onVerificationCompleted:" + phoneAuthCredential);
+                informativeTextView.setText(R.string.code_sent);
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
@@ -68,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.w(TAG, "onVerificationFailed", e);
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-
+                    informativeTextView.setText(R.string.invalid_phone_number);
                     mPhoneNumberField.setError("Invalid phone number.");
                     // [END_EXCLUDE]
                 } else if (e instanceof FirebaseTooManyRequestsException) {
@@ -81,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                    PhoneAuthProvider.ForceResendingToken token) {
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
-
+                informativeTextView.setText(R.string.code_sent);
 
             }
         };
@@ -124,6 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String phoneNumber = mPhoneNumberField.getText().toString();
         if (TextUtils.isEmpty(phoneNumber)) {
             mPhoneNumberField.setError("Invalid phone number.");
+            informativeTextView.setText(R.string.invalid_phone_number);
             return false;
         }
 
@@ -131,6 +135,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
+        if (verificationId == null || code == null || verificationId.equals("") || code.equals("")) {
+            informativeTextView.setText(R.string.invalid_phone_number_or_code);
+            return;
+        }
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         // [END verify_with_code]
         signInWithPhoneAuthCredential(credential);
@@ -145,7 +153,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
 
-                            FirebaseUser user = task.getResult().getUser();
                             // [START_EXCLUDE]
 
                             //TODO

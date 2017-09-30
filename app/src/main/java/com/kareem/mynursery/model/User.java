@@ -29,6 +29,8 @@ public class User extends  RealTimeObject{
     private long type = 1;
     @KeyList
     private ArrayList<String> nurseries = new ArrayList<>();
+    @KeyList
+    private ArrayList<String> favourites = new ArrayList<>();
     //end of database Objects
     //TODO
     public static User get(String id){
@@ -100,4 +102,14 @@ public class User extends  RealTimeObject{
         return REFERENCE_NAME;
     }
 
+    public ArrayList<String> getFavourites() {
+        return favourites;
+    }
+
+    public void addFavourite(String nurseryId)
+    {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(getId()).child("favourites").child(nurseryId).setValue(true, this);
+
+    }
 }

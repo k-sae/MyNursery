@@ -18,8 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kareem.mynursery.LocationTrackerActivity;
 import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.RealTimeObject;
@@ -140,6 +142,7 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     public void onLocationChange(Location location) {
         this.location = location;
         update();
+        ((LocationTrackerActivity)parent).stopLocationSync();
     }
 
     @SuppressWarnings("unchecked")
@@ -167,7 +170,7 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
                         Location location = new Location("loc A");
                         location.setLongitude(nursery.getLongitude());
                         location.setLatitude(nursery.getLatitude());
-                        nursery.setDistanceFromUser((double) location.distanceTo(NurseryListFragment.this.location ));
+                        nursery.setDistanceFromUser(Utils.calculateDistance(location, NurseryListFragment.this.location));
                     }
                     if (isBelongs(nursery)) myNurseryRecyclerViewAdapter.getmValues().add(nursery);
                 }

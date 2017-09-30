@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.authentication.LoginActivity;
+import com.kareem.mynursery.home.FavouriteFragment;
 import com.kareem.mynursery.home.HomeFragment;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
     private Fragment activeFragment;
     private HomeFragment homeFragment;
     private ProfileFragment profileFragment;
-    private HomeFragment favouritesFragment;
+    private FavouriteFragment favouritesFragment;
 
     @Override
     protected void onStart() {
@@ -56,9 +57,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
                     navigate(homeFragment);
                     return true;
                 case R.id.favourites:
-//                    return redirectIfNotAuth(favouritesFragment);
-                    navigate(LocationPicker.class);
-                    return true;
+                    return redirectIfNotAuth(favouritesFragment);
                 case R.id.navigation_notifications:
                     return redirectIfNotAuth(profileFragment);
             }
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
     private void initFragments() {
         homeFragment = new HomeFragment();
         profileFragment = new ProfileFragment();
-        favouritesFragment = new HomeFragment();
+        favouritesFragment = new FavouriteFragment();
     }
 
     @Override
@@ -141,32 +140,10 @@ public class MainActivity extends AppCompatActivity implements  NavigationContex
 
     private void test()
     {
-//        User user = Auth.getLoggedUser(new ObjectChangedListener() {
-//            @Override
-//            public void onChange(RealTimeObject realTimeObject) {
-//                Log.e(TAG, "onChange: " );
-//            }
-//        });
-        final Nursery nursery = new Nursery();
-        nursery.setOnChangeListener(new ObjectChangedListener() {
-            @Override
-            public void onChange(RealTimeObject realTimeObject) {
-                Log.e(TAG, "test: " + realTimeObject );
-                if (nursery.getImagesId().size() > 1) return;
-                nursery.getImagesId().add("https://www.activekidsnursery.com/wp-content/uploads/2016/02/First-day-nursery.jpg");
-                nursery.getImagesId().add("https://www.toadhall-nursery.co.uk/wp-content/gallery/gallery-ottershaw/Toad-Hall-Nursery-Ottershaw-photos-1.JPG");
-                nursery.getImagesId().add("http://www.birminghamdaynursery.co.uk/wp-content/uploads/UOB-nurseries-27-smaller.jpg");
- 
-                nursery.save();
-            }
-        });
-        nursery.setId("-Kuu7bJB9ZyITY6v7EUI");
-        nursery.startSync();
-
-
-
-//        user.setName("update 2");
-//        user.save();
+        Auth.getLoggedUser().addFavourite("-Kuj6ypRkc9FTx0e_igl");
+        Auth.getLoggedUser().addFavourite("-Kuu7bJB9ZyITY6v7EUI");
+        Auth.getLoggedUser().addFavourite("-KvER015nE_ejlUM8meY");
+        Auth.getLoggedUser().addFavourite("-Kv-Bn6Ht96DST2IJ3YR");
 
     }
 
