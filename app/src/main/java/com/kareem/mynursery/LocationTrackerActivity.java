@@ -38,7 +38,7 @@ public abstract class LocationTrackerActivity extends AppCompatActivity implemen
     private LocationRequest locationRequest;
     private FusedLocationProviderApi fusedLocationProviderApi;
     GoogleApiClient googleApiClient;
-
+    private boolean promptTheUserForLocation = true;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +75,7 @@ public abstract class LocationTrackerActivity extends AppCompatActivity implemen
     protected void onStart() {
         super.onStart();
         getLocationPermission();
-        if (!isGpsEnabled()) showSettingsAlert();
+        if (!isGpsEnabled() && promptTheUserForLocation) showSettingsAlert();
     }
 
     private boolean isGpsEnabled() {
@@ -193,5 +193,13 @@ public abstract class LocationTrackerActivity extends AppCompatActivity implemen
             fusedLocationProviderApi.removeLocationUpdates(googleApiClient, this);
             googleApiClient.disconnect();
         }
+    }
+
+    public boolean isPromptTheUserForLocation() {
+        return promptTheUserForLocation;
+    }
+
+    public void setPromptTheUserForLocation(boolean promptTheUserForLocation) {
+        this.promptTheUserForLocation = promptTheUserForLocation;
     }
 }

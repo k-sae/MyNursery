@@ -14,12 +14,17 @@
     <TextView
         android:id="@+id/location"
         style="@style/slider_text_item"
-        android:layout_toEndOf="@id/location_imageView" />
+        android:layout_toEndOf="@id/location_imageView"
+        android:layout_alignParentBottom="true"
+        />
 
     <TextView
         android:id="@+id/title"
         style="@style/slider_text_item"
-        android:layout_below="@id/location"
-        android:layout_toEndOf="@id/location_imageView" />
+        android:layout_toEndOf="@id/location_imageView"
+        android:layout_above="@id/location"
+        />
+
+
 </RelativeLayout>
 

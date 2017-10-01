@@ -12,6 +12,9 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public class Utils {
+
+    public static Location location;
+
     public static void showToast(String text, Context context)
     {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
