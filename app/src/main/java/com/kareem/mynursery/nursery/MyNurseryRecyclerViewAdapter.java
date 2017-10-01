@@ -59,7 +59,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         holder.mIdView.setText(distance);
         for (String s: holder.mItem.getImagesId()
              ) {
-            holder.sliderLayout.addSlider(new DefaultSliderView(context).image(s).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            holder.sliderLayout.addSlider(new DefaultSliderView(context).image(Nursery.BASE_IMAGE_URL + s).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
                     startActivity(mPosition);
