@@ -3,15 +3,18 @@
     android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
+
+
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="match_parent" android:id="@+id/holder"
         android:layout_height="wrap_content" android:layout_alignBottom="@id/slider">
-    <include layout="@layout/overlay_slider_items" android:layout_height="wrap_content" android:layout_width="match_parent"/>
+     <include layout="@layout/overlay_slider_items" android:layout_height="wrap_content" android:layout_width="match_parent"/>
     </RelativeLayout>
+
         <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
