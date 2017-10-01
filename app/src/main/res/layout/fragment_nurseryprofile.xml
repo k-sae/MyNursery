@@ -130,7 +130,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_likeBtn"
+        android:id="@+id/np_favBtn"
         android:src="@drawable/favorite"
         android:layout_marginLeft="120dp"
         />
@@ -227,8 +227,31 @@
         android:drawableLeft="@drawable/favorite_main"
         android:textSize="20sp"
         android:layout_margin="20dp"/>
-
-
+// nav bar
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigation_like"
+        android:text="like"
+        android:layout_weight="1"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigation_edit"
+        android:text="edit"
+        android:layout_weight="1"
+        android:visibility="gone"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigation_delete"
+        android:text="delete"
+        android:layout_weight="1"/>
+</LinearLayout>
 </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -262,8 +285,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/np_addCommentBtn"
         android:text="@string/add_comment_btn"
-        android:drawableLeft="@drawable/add2"
-        android:background="@color/colorPrimary"
+        android:drawableLeft="@drawable/add"
+        android:background="@drawable/button_border"
         android:layout_gravity="center"
         android:padding="10dp"
         android:layout_margin="10dp"

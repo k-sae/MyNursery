@@ -43,8 +43,10 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private String nurseryId;
     private Context context;
     private boolean liked;
-    private ImageView likeButton;
+    private Button likeButton;
+    ImageView favBtn;
     private int likeNum=0;
+
 
 
     public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
@@ -61,7 +63,12 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             }
         });
 
-
+Auth.getLoggedUser(new ObjectChangedListener() {
+    @Override
+    public void onChange(RealTimeObject realTimeObject) {
+        notifyDataSetChanged();
+    }
+});
     }
 
     @Override
@@ -80,6 +87,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
        else setCommentsData(holder ,position-1);
         setListeners(holder);
         checkLike();
+        checkFavorite();
 
     }
 
@@ -127,6 +135,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
         holder.age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
         likeButton=holder.like_btn;
+        favBtn=holder.favBtn;
         holder.likesCount.setText(String.valueOf(nursery.getLikes().size()));
         holder.navBar.setVisibility(View.VISIBLE);
         holder.body.setVisibility(View.VISIBLE);
@@ -259,10 +268,26 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
 
             isLiked();
             if (liked)
-                likeButton.setImageResource(R.drawable.favorite_main);
+                likeButton.setText("DisLike");
             else
-                likeButton.setImageResource(R.drawable.favorite);
+                likeButton.setText("Like");
         }
+    }
+    private void checkFavorite(){
+        if (Auth.getLoggedUser().getFavourites().contains(nurseryId))
+            favBtn.setImageResource(R.drawable.favorite_main);
+        else
+            favBtn.setImageResource(R.drawable.favorite);
+
+    }
+    private void favToggle(){
+        if (!Auth.getLoggedUser().getFavourites().contains(nurseryId))
+        { Auth.getLoggedUser().addFavourite(nurseryId);
+        }
+        else {
+            Auth.getLoggedUser().removeFavourite(nurseryId);
+        }
+        checkFavorite();
     }
 
     private void likeToggle(){
@@ -284,12 +309,18 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     }
 private void setListeners(final ViewHolder holder){
 
-    likeButton.setOnClickListener(new View.OnClickListener() {
+    holder.like_btn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
             likeToggle();
 
+        }
+    });
+    favBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            favToggle();
         }
     });
     holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
@@ -349,11 +380,12 @@ private void loginAuth(){
         public final TextView age;
         public final View sperator;
         public final TextView likesCount;
-        public final ImageView like_btn;
+        public final Button like_btn;
         public final TextView commentContent;
         public final EditText commentField;
         public final Button addCommentBtn;
         public final LinearLayout addCommentSection;
+        public final ImageView favBtn;
 
         public ViewHolder(View view) {
             super(view);
@@ -382,11 +414,12 @@ private void loginAuth(){
             navBar= (LinearLayout) view.findViewById(R.id.np_navBar);
             sperator= (View) view.findViewById(R.id.np_descriptionSp);
             likesCount=(TextView) view.findViewById(R.id.np_likesNum);
-            like_btn = (ImageView) view.findViewById(R.id.np_likeBtn);
+            like_btn = (Button) view.findViewById(R.id.navigation_like);
             commentContent = (TextView) view.findViewById(R.id.np_comment);
             commentField =(EditText) view.findViewById(R.id.np_commentField);
             addCommentBtn = (Button) view.findViewById(R.id.np_addCommentBtn);
             addCommentSection = (LinearLayout) view.findViewById(R.id.np_addCommentSection);
+            favBtn =(ImageView)view.findViewById(R.id.np_favBtn) ;
 
 
         }

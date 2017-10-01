@@ -334,6 +334,8 @@ public class Nursery extends RealTimeObject{
         databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").child(Auth.getLoggedUser().getId()).setValue(true);
     }
     public void disLike(){
+        if (likes.size()==1)
+            likes.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").child(Auth.getLoggedUser().getId()).setValue(null);
 
