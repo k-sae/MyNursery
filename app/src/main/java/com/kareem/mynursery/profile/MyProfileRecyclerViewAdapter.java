@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
@@ -40,11 +41,21 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 //    private final OnListFragmentInteractionListener mListener;
     private Activity parent;
     private final ProfileAdapterOnClickHandler onClickListener;
+    User current_user;
 
 
     public MyProfileRecyclerViewAdapter(Activity parent,ProfileAdapterOnClickHandler onClickListener) {
         this.parent=parent;
         this.onClickListener=onClickListener;
+
+        current_user = Auth.getLoggedUser();
+        Auth.getLoggedUser(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                current_user = (User) realTimeObject;
+                notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -84,7 +95,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     }
     private void renderUser(final ViewHolder holder ){
           EditText userName=holder.holderView.findViewById(R.id.userName);
-        userName.setText(Auth.getLoggedUser().getName());
+        userName.setText(current_user.getName());
 
     }
     private  void renderUserNurseries(final ViewHolder holder, final int position){
@@ -93,10 +104,11 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
          final SliderLayout sliderLayout=holder.holderView.findViewById(R.id.slider);
          final TextView title=holder.holderView.findViewById(R.id.title);
          final TextView location=holder.holderView.findViewById(R.id.location);
-
+        sliderLayout.removeAllSliders();
+        sliderLayout.stopAutoCycle();
 
         Nursery nursery =new Nursery();
-        nursery.setId(Auth.getLoggedUser().getNurseries().get(position));
+        nursery.setId(current_user.getNurseries().get(position));
         nursery.startSync();
         nursery.setOnChangeListener(new ObjectChangedListener() {
             @Override
@@ -104,26 +116,20 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                 Nursery nursery1=(Nursery) realTimeObject;
                 location.setText(nursery1.getCity());
                 title.setText(nursery1.getName());
+                sliderLayout.removeAllSliders();
+                sliderLayout.stopAutoCycle();
                 for (String image: nursery1.getImagesId()) {
-                    GlideSliderView glideSliderView = new GlideSliderView(parent);
-                    glideSliderView.image(image)
-                            .setScaleType(BaseSliderView.ScaleType.Fit);
-                    glideSliderView.bundle(new Bundle());
-                    glideSliderView.getBundle()
-                            .putString("imageUrl",image);
-                    sliderLayout.addSlider(glideSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                    sliderLayout.addSlider(new DefaultSliderView(parent).image(Nursery.BASE_IMAGE_URL+image).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                         @Override
                         public void onSliderClick(BaseSliderView slider) {
                             Intent intent = new Intent(parent, NurseryProfileActivity.class);
-                            intent.putExtra("NurseryId",Auth.getLoggedUser().getNurseries().get(position) );
+                            intent.putExtra("NurseryId",current_user.getNurseries().get(position) );
                             parent.startActivity(intent);
                         }
                     }));
+
                 }
-               sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-               sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                sliderLayout.setCustomAnimation(new DescriptionAnimation());
-                sliderLayout.setDuration(4000);
+
 
             }
         });
@@ -131,7 +137,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(parent, NurseryProfileActivity.class);
-                intent.putExtra("NurseryId",Auth.getLoggedUser().getNurseries().get(position) );
+                intent.putExtra("NurseryId",current_user.getNurseries().get(position) );
                 parent.startActivity(intent);
             }
         });
@@ -156,8 +162,8 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                 String name = userName.getText().toString();
                 if (!name.equals("")&&!name.equals(" "))
                 {
-                    Auth.getLoggedUser().setName(name);
-                    Auth.getLoggedUser().save();
+                    current_user.setName(name);
+                    current_user.save();
                 }
             }
         });
@@ -165,7 +171,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
     @Override
     public int getItemCount() {
-        return Auth.getLoggedUser().getNurseries().size()+1;
+        return current_user.getNurseries().size()+1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -176,6 +182,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public ViewHolder(View view) {
             super(view);
             holderView =view;
+
 
 
 
@@ -191,7 +198,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position>0 && position<getItemCount()-1)
-                onClickListener.onClick(Auth.getLoggedUser().getNurseries().get(position-1));
+                onClickListener.onClick(current_user.getNurseries().get(position-1));
 
         }
     }

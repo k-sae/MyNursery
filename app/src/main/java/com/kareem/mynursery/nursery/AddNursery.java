@@ -402,7 +402,7 @@ lastClickedView=v;
         else if (pickedImagesPath.size()==0)
         {
             nurseryObj.setImagesId(imagesUrl);
-            nurseryObj.save();
+           nurseryObj.save();
             Auth.getLoggedUser().addNursery(nurseryObj.getId());
         }
     }

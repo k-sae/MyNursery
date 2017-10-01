@@ -16,6 +16,8 @@ public class Nursery extends RealTimeObject{
 
     @Exclude
     public static final String REFERENCE_NAME = "nurseries";
+    public static final String BASE_IMAGE_URL="http://drhanadi.com/mynursery/";
+
 
     @KeyList
     private ArrayList<String> likes = new ArrayList<>();
