@@ -28,6 +28,7 @@ import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
+import com.kareem.mynursery.nursery.AddNursery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,9 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private Context context;
     private boolean liked;
     private Button likeButton;
-    ImageView favBtn;
+    private Button edit;
+    private Button delete;
+    private ImageView favBtn;
     private int likeNum=0;
 
 
@@ -135,6 +138,8 @@ Auth.getLoggedUser(new ObjectChangedListener() {
         holder.time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
         holder.age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
         likeButton=holder.like_btn;
+        edit=holder.edit;
+        delete=holder.delete;
         favBtn=holder.favBtn;
         holder.likesCount.setText(String.valueOf(nursery.getLikes().size()));
         holder.navBar.setVisibility(View.VISIBLE);
@@ -339,6 +344,18 @@ private void setListeners(final ViewHolder holder){
 
         }
     });
+
+
+    edit.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(context , AddNursery.class);
+            intent.putExtra("action",AddNursery.EDIT_NURSERY);
+            intent.putExtra(AddNursery.ID,nurseryId);
+            context.startActivity(intent);
+
+        }
+    });
 }
 
 private void loginAuth(){
@@ -386,6 +403,8 @@ private void loginAuth(){
         public final Button addCommentBtn;
         public final LinearLayout addCommentSection;
         public final ImageView favBtn;
+        public final Button edit;
+        public final Button delete;
 
         public ViewHolder(View view) {
             super(view);
@@ -420,6 +439,8 @@ private void loginAuth(){
             addCommentBtn = (Button) view.findViewById(R.id.np_addCommentBtn);
             addCommentSection = (LinearLayout) view.findViewById(R.id.np_addCommentSection);
             favBtn =(ImageView)view.findViewById(R.id.np_favBtn) ;
+            edit = (Button)view.findViewById(R.id.navigation_edit);
+            delete = (Button)view.findViewById(R.id.navigation_delete);
 
 
         }

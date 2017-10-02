@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.model.ObjectChangedListener;
+import com.kareem.mynursery.model.RealTimeObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,8 +28,10 @@ import java.util.Map;
 public class AddNursery extends FileUploaderActivity implements TimePickerDialog.OnTimeSetListener{
 
 
-    private  final String ADD_NURSERY="ADD_NURSERY";
-    private final String EDIT_NURSERY="EDIT_NURSERY";
+    public static   final String ADD_NURSERY="ADD_NURSERY";
+    public static  final String EDIT_NURSERY="EDIT_NURSERY";
+    public static final  String ID = "ID";
+
     private Intent intent;
     private Map<Integer ,String> pickedImagesPath;
     private ArrayList<String>  activities;
@@ -71,8 +75,16 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         this.setComponents();
 
         if (this.intent.hasExtra("action")&&this.intent.getStringExtra("action").equals(this.EDIT_NURSERY)) {
-            NurseryId = intent.getStringExtra("NurseryId");
-            editRender();//TODO fill the form with the nursery data
+            NurseryId = intent.getStringExtra(ID);
+            nurseryObj.setId(NurseryId);
+            nurseryObj.startSync();
+            nurseryObj.setOnChangeListener(new ObjectChangedListener() {
+                @Override
+                public void onChange(RealTimeObject realTimeObject) {
+                    editRender();//TODO fill the form with the nursery data
+                }
+            });
+
         }
 
 
@@ -81,12 +93,10 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
             @Override
             public void onClick(View view) {
                if (fetchData()) {
-                   if (intent.hasExtra("action") && intent.getStringExtra("action").equals(EDIT_NURSERY)) {
 
-                   } else {
                        parseToNursery();
 
-                   }
+
                }
 
 
@@ -123,6 +133,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         district .setText(districtData) ;
         street .setText(streetData) ;
         building .setText(buildingData) ;
+        whats.setText(whatsData);
 
     }
 
@@ -244,16 +255,28 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
 
         if (swimming.isChecked())
             activities.add("SWIMMING");
+        else {
+            if (activities.contains("SWIMMING"))
+                activities.remove("SWIMMING");
+        }
         if (additionalActivitiesData!=null && !additionalActivitiesData.equals(""))
             activities.add(additionalActivitiesData);
         if (disabilites.isChecked())
             disabilitesData=true;
+        else
+            disabilitesData=false;
         if (arabic.isChecked())
             arabicVal=true;
+        else
+            arabicVal=false;
         if (english.isChecked())
             englishVal=true;
+        else
+            englishVal=false;
         if (bus.isChecked())
             busVal=true;
+        else
+            busVal=false;
 
         priceData = Double.parseDouble(str_price);
         minAgeData = Long.parseLong(str_min);
@@ -287,7 +310,14 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setWhatsapp(whatsData);
         String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
         pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
+        while (pickedImagesPath.size()>0&&url.equals("old")){
+        url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
+            pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
+        }
+        if (!url.equals("old"))
         uploadMultipart(url);
+        else
+            nurseryObj.save();
     }
 
     private void parseFromNursery(){
@@ -308,7 +338,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         priceData = nurseryObj.getExpenses();
         minAgeData = nurseryObj.getMinAge();
         maxAgeData = nurseryObj.getMaxAge();
-        additionalActivitiesData =activities.get(activities.size()-1);
+        if (activities.size()>1)
+       additionalActivitiesData =activities.get(activities.size()-1);
         cityData = nurseryObj.getCity();
         districtData =nurseryObj.getDistrict();
         buildingData = nurseryObj.getBuilding();
@@ -318,6 +349,45 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         englishVal=nurseryObj.isEnglish();
         busVal=nurseryObj.isBus();
         whatsData=nurseryObj.getWhatsapp();
+
+        if (nurseryObj.isBus())
+           bus.setChecked(true);
+        if (nurseryObj.isArabic())
+            arabic.setChecked(true);
+        if (nurseryObj.isEnglish())
+           english.setChecked(true);
+        if (nurseryObj.getActivities().contains("SWIMMING"))
+            swimming.setChecked(true);
+        if (nurseryObj.isSupportingDisablilites())
+            disabilites.setChecked(true);
+        int i=1;
+        for (String url : nurseryObj.getImagesId()){
+            if (i==1){
+                setImageViewFromFile(img1,Nursery.BASE_IMAGE_URL+url);
+                pickedImagesPath.put(img1.getId(),"old");
+            }
+           else if (i==2){
+                setImageViewFromFile(img2,Nursery.BASE_IMAGE_URL+url);
+                pickedImagesPath.put(img2.getId(),"old");
+            }
+            else if (i==3){
+                setImageViewFromFile(img3,Nursery.BASE_IMAGE_URL+url);
+                pickedImagesPath.put(img3.getId(),"old");
+            }
+            else if (i==4){
+                setImageViewFromFile(img4,Nursery.BASE_IMAGE_URL+url);
+                pickedImagesPath.put(img4.getId(),"old");
+            }
+            else if (i==5){
+                setImageViewFromFile(img5,Nursery.BASE_IMAGE_URL+url);
+                pickedImagesPath.put(img5.getId(),"old");
+            }
+            else if (i==6){
+                setImageViewFromFile(img6,Nursery.BASE_IMAGE_URL+url);
+                pickedImagesPath.put(img6.getId(),"old");
+            }
+            i++;
+        }
 
     }
 public void pickTime(View v){
@@ -395,9 +465,20 @@ lastClickedView=v;
         imagesUrl.add(imageName);
 
         if (pickedImagesPath.size()>0) {
+
             String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
             pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
+            while (pickedImagesPath.size()>0&&url.equals("old")){
+
+                url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
+                pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
+            }
+            if (!url.equals("old"))
             uploadMultipart(url);
+            else {
+                nurseryObj.setImagesId(imagesUrl);
+                nurseryObj.save();
+            }
         }
         else if (pickedImagesPath.size()==0)
         {
