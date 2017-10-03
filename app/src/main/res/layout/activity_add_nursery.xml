@@ -112,10 +112,13 @@
                 />
         </android.support.design.widget.TextInputLayout>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:drawableLeft="@drawable/location1"
+            android:drawableRight="@drawable/add2"
             android:layout_height="wrap_content"
             android:id="@+id/addNurseryAddLocation_btn"
             android:text="Add Location"
+            android:padding="4dp"
             />
 
     </android.support.design.widget.TextInputLayout>
@@ -358,7 +361,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/addNurseryAdd_btn"
         android:background="@color/colorPrimary"
-        android:text="Add"
+        android:text="Save"
         />
     </LinearLayout>
     </LinearLayout>

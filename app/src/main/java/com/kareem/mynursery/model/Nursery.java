@@ -354,4 +354,13 @@ public class Nursery extends RealTimeObject{
     public void setDistanceFromUser(Double distanceFromUser) {
         DistanceFromUser = distanceFromUser;
     }
+    public void delete(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(getId()).setValue(null);
+
+    }
+    public void clearImageIndex(int index){
+        if (imagesId.size()>index)
+            imagesId.remove(index);
+    }
 }

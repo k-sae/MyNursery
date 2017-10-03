@@ -19,6 +19,7 @@ import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -308,6 +309,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setEnglish(englishVal);
         nurseryObj.setBus(busVal);
         nurseryObj.setWhatsapp(whatsData);
+
         String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
         pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
         while (pickedImagesPath.size()>0&&url.equals("old")){
@@ -316,8 +318,19 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         }
         if (!url.equals("old"))
         uploadMultipart(url);
-        else
+        else{
+            nurseryObj.setOnChangeListener(new ObjectChangedListener() {
+                @Override
+                public void onChange(RealTimeObject realTimeObject) {
+
+                }
+            });
             nurseryObj.save();
+
+            Intent intent = new Intent(this, NurseryProfileActivity.class);
+            intent.putExtra("NurseryId",nurseryObj.getId() );
+           startActivity(intent);
+        }
     }
 
     private void parseFromNursery(){
@@ -476,15 +489,37 @@ lastClickedView=v;
             if (!url.equals("old"))
             uploadMultipart(url);
             else {
+                for (String s: nurseryObj.getImagesId())
+                    imagesUrl.add(s);
                 nurseryObj.setImagesId(imagesUrl);
+                nurseryObj.setOnChangeListener(new ObjectChangedListener() {
+                    @Override
+                    public void onChange(RealTimeObject realTimeObject) {
+
+                    }
+                });
                 nurseryObj.save();
+                Intent intent = new Intent(this, NurseryProfileActivity.class);
+                intent.putExtra("NurseryId",nurseryObj.getId() );
+                startActivity(intent);
             }
         }
         else if (pickedImagesPath.size()==0)
         {
+            for (String s: nurseryObj.getImagesId())
+                imagesUrl.add(s);
             nurseryObj.setImagesId(imagesUrl);
+            nurseryObj.setOnChangeListener(new ObjectChangedListener() {
+                @Override
+                public void onChange(RealTimeObject realTimeObject) {
+
+                }
+            });
            nurseryObj.save();
             Auth.getLoggedUser().addNursery(nurseryObj.getId());
+            Intent intent = new Intent(this, NurseryProfileActivity.class);
+            intent.putExtra("NurseryId",nurseryObj.getId() );
+            startActivity(intent);
         }
     }
 
@@ -492,6 +527,19 @@ lastClickedView=v;
     public void uponImagePicked(String imageLocation) {
     setImageViewFromFile(lastClicked,imageLocation);
         pickedImagesPath.put(lastClicked.getId(),imageLocation);
+        if (lastClicked.getId()==img1.getId())
+            nurseryObj.clearImageIndex(0);
+        else if (lastClicked.getId()==img2.getId())
+            nurseryObj.clearImageIndex(1);
+        else if (lastClicked.getId()==img3.getId())
+            nurseryObj.clearImageIndex(2);
+        else if (lastClicked.getId()==img4.getId())
+            nurseryObj.clearImageIndex(3);
+        else  if (lastClicked.getId()==img5.getId())
+            nurseryObj.clearImageIndex(4);
+        else  if (lastClicked.getId()==img6.getId())
+            nurseryObj.clearImageIndex(5);
+
     }
 
     private void setImageViewFromFile(ImageView imageView, String fileLocation)

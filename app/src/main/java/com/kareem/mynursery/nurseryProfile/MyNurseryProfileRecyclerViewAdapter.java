@@ -28,6 +28,7 @@ import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
+import com.kareem.mynursery.model.User;
 import com.kareem.mynursery.nursery.AddNursery;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private Button delete;
     private ImageView favBtn;
     private int likeNum=0;
-
+private User current_user;
 
 
     public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
@@ -65,32 +66,47 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
                 notifyDataSetChanged();
             }
         });
-
+current_user=Auth.getLoggedUser();
 Auth.getLoggedUser(new ObjectChangedListener() {
     @Override
     public void onChange(RealTimeObject realTimeObject) {
         notifyDataSetChanged();
+        current_user=(User)realTimeObject;
     }
 });
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType==0){
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_nurseryprofile, parent, false);
+            return new ViewHolder(view);
+        }
+        else if(viewType==1){
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.comment, parent, false);
+            return new ViewHolder(view);
+        }
+        else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.add_comment, parent, false);
+            return new ViewHolder(view);
+        }
 
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_nurseryprofile, parent, false);
-        return new ViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-       if (position==0) setNurseryData(holder);
-        else if (position == getItemCount()-1)addCommentLayout(holder);
-       else setCommentsData(holder ,position-1);
-        setListeners(holder);
-        checkLike();
-        checkFavorite();
+       if (position==0) {setNurseryData(holder);
+           setNurseryListeners(holder);
+           checkLike();
+           checkFavorite();}
+        else if (position == getItemCount()-1){addCommentLayout(holder);}
+       else { setCommentsData(holder ,position-1);}
+
 
     }
 
@@ -99,10 +115,81 @@ Auth.getLoggedUser(new ObjectChangedListener() {
         return nursery.getComments().size()+2;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position==0) return position; //nursery data
+        if (position==getItemCount()-1) return 2; //comments
+        return 1; // add comment
+    }
 
     private void setNurseryData(final ViewHolder holder){
+
+
+        final SliderLayout slider;
+         LinearLayout navBar;
+         ImageView instagram;
+         ImageView snapChat;
+         ImageView whats;
+         ImageView facebook;
+         ImageView phone1;
+         ImageView phone2;
+         ImageView location;
+         LinearLayout body;
+         TextView nurseryName;
+         TextView city;
+         TextView description;
+         TextView descriptionData;
+         TextView specialNeeds;
+         TextView bus;
+         TextView swimming;
+         TextView arabic;
+         TextView english;
+         TextView meal;
+         TextView time;
+         TextView age;
+         View sperator;
+         TextView likesCount;
+         Button like_btn;
+        ImageView favBtn;
+        Button edit;
+        Button delete;
+        slider =(SliderLayout) holder.holderView.findViewById(R.id.nurseryProfileSlider);
+        instagram =(ImageView) holder.holderView.findViewById(R.id.np_instagram);
+        snapChat=(ImageView) holder.holderView.findViewById(R.id.np_snapchat);
+        whats=(ImageView) holder.holderView.findViewById(R.id.np_whats);
+        facebook=(ImageView) holder.holderView.findViewById(R.id.np_facebook);
+        phone1=(ImageView) holder.holderView.findViewById(R.id.np_phone1);
+        phone2=(ImageView) holder.holderView.findViewById(R.id.np_phone2);
+        location=(ImageView) holder.holderView.findViewById(R.id.np_location);
+        body=(LinearLayout) holder.holderView.findViewById(R.id.np_body);
+        nurseryName = (TextView) holder.holderView.findViewById(R.id.np_nurseryName);
+        city = (TextView) holder.holderView.findViewById(R.id.np_city);
+        description = (TextView) holder.holderView.findViewById(R.id.np_description);
+        descriptionData = (TextView) holder.holderView.findViewById(R.id.np_nurseryDescription);
+        specialNeeds= (TextView) holder.holderView.findViewById(R.id.np_specialNeeds);
+        bus = (TextView) holder.holderView.findViewById(R.id.np_bus);
+        swimming= (TextView) holder.holderView.findViewById(R.id.np_swimming);
+        arabic = (TextView) holder.holderView.findViewById(R.id.np_arabic);
+        english = (TextView) holder.holderView.findViewById(R.id.np_english);
+        meal= (TextView) holder.holderView.findViewById(R.id.np_Meal);
+        age = (TextView) holder.holderView.findViewById(R.id.np_age);
+        time = (TextView) holder.holderView.findViewById(R.id.np_time);
+        navBar= (LinearLayout) holder.holderView.findViewById(R.id.np_navBar);
+        sperator= (View) holder.holderView.findViewById(R.id.np_descriptionSp);
+        likesCount=(TextView) holder.holderView.findViewById(R.id.np_likesNum);
+        like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
+        favBtn =(ImageView)holder.holderView.findViewById(R.id.np_favBtn) ;
+        edit = (Button)holder.holderView.findViewById(R.id.navigation_edit);
+        delete = (Button)holder.holderView.findViewById(R.id.navigation_delete);
+
+
+
+
+
+        slider.removeAllSliders();
         for (String image : nursery.getImagesId()){
             image=Nursery.BASE_IMAGE_URL+image;
+
             TextSliderView textSliderView = new TextSliderView(context);
             textSliderView
                     .description(nursery.getName())
@@ -113,45 +200,42 @@ Auth.getLoggedUser(new ObjectChangedListener() {
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()
                     .putString("extra",nursery.getName());
-            holder.slider.addSlider(textSliderView);
+           slider.addSlider(textSliderView);
 
         }
-        holder.slider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        holder.slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        holder.slider.setCustomAnimation(new DescriptionAnimation());
-        holder.slider.setDuration(4000);
-        holder.nurseryName.setText(nursery.getName());
-        holder.city.setText(nursery.getCity());
-        holder.description.setText(R.string.description);
-        holder.sperator.setVisibility(View.VISIBLE);
-        holder.descriptionData.setText(nursery.getDescription());
+       slider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        slider.setCustomAnimation(new DescriptionAnimation());
+        slider.setDuration(4000);
+        nurseryName.setText(nursery.getName());
+        city.setText(nursery.getCity());
+        description.setText(R.string.description);
+        sperator.setVisibility(View.VISIBLE);
+        descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
-        holder.swimming.setText("Swimming");
+        swimming.setText("Swimming");
         if (nursery.isArabic())
-            holder.arabic.setText("Arabic");
+            arabic.setText("Arabic");
         if (nursery.isEnglish())
-            holder.english.setText("English");
+            english.setText("English");
         if (nursery.isBus())
-            holder.bus.setText("Bus");
+            bus.setText("Bus");
         if (nursery.isSupportingDisablilites())
-            holder.specialNeeds.setText("Special Needs");
-        holder.time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
-        holder.age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
-        likeButton=holder.like_btn;
-        edit=holder.edit;
-        delete=holder.delete;
-        favBtn=holder.favBtn;
-        holder.likesCount.setText(String.valueOf(nursery.getLikes().size()));
-        holder.navBar.setVisibility(View.VISIBLE);
-        holder.body.setVisibility(View.VISIBLE);
-        holder.slider.setVisibility(View.VISIBLE);
-        holder.commentContent.setVisibility(View.GONE);
-        holder.addCommentSection.setVisibility(View.GONE);
+            specialNeeds.setText("Special Needs");
+        time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
+        age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
+        likeButton=like_btn;
+        this.edit=edit;
+        this.delete=delete;
+        this.favBtn=favBtn;
+        likesCount.setText(String.valueOf(nursery.getLikes().size()));
+
+
 
         loginAuth();
        checkLike();
 
-        holder.whats.setOnClickListener(new View.OnClickListener() {
+        whats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri uri = Uri.parse("smsto:" + nursery.getWhatsapp());
@@ -167,7 +251,7 @@ Auth.getLoggedUser(new ObjectChangedListener() {
 
             }
         });
-        holder.instagram.setOnClickListener(new View.OnClickListener() {
+        instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String instaUrl;
@@ -187,7 +271,7 @@ Auth.getLoggedUser(new ObjectChangedListener() {
                 }
             }
         });
-        holder.facebook.setOnClickListener(new View.OnClickListener() {
+        facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String faceUrl;
@@ -203,7 +287,7 @@ Auth.getLoggedUser(new ObjectChangedListener() {
 
             }
         });
-        holder.phone1.setOnClickListener(new View.OnClickListener() {
+        phone1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -211,14 +295,14 @@ Auth.getLoggedUser(new ObjectChangedListener() {
                 context.startActivity(intent);
             }
         });
-        holder.phone2.setOnClickListener(new View.OnClickListener() {
+        phone2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", nursery.getPhone2(), null));
                 context.startActivity(intent);
             }
         });
-        holder.location.setOnClickListener(new View.OnClickListener() {
+        location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -252,12 +336,11 @@ Auth.getLoggedUser(new ObjectChangedListener() {
     }
     private void setCommentsData(final ViewHolder holder , int position){
         //TODO find nursery
-        holder.commentContent.setText(nursery.getComments().get(position).getContent());
-        holder.commentContent.setVisibility(View.VISIBLE);
-        holder.navBar.setVisibility(View.GONE);
-        holder.body.setVisibility(View.GONE);
-        holder.slider.setVisibility(View.GONE);
-        holder.addCommentSection.setVisibility(View.GONE);
+        TextView commentContent;
+        commentContent = (TextView) holder.holderView.findViewById(R.id.np_comment);
+
+       commentContent.setText(nursery.getComments().get(position).getContent());
+
     }
 
     private void isLiked(){
@@ -279,7 +362,8 @@ Auth.getLoggedUser(new ObjectChangedListener() {
         }
     }
     private void checkFavorite(){
-        if (Auth.getLoggedUser().getFavourites().contains(nurseryId))
+
+        if (current_user.getFavourites().contains(nurseryId))
             favBtn.setImageResource(R.drawable.favorite_main);
         else
             favBtn.setImageResource(R.drawable.favorite);
@@ -312,9 +396,10 @@ Auth.getLoggedUser(new ObjectChangedListener() {
         }
         checkLike();
     }
-private void setListeners(final ViewHolder holder){
-
-    holder.like_btn.setOnClickListener(new View.OnClickListener() {
+private void setNurseryListeners(final ViewHolder holder){
+    Button like_btn;
+    like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
+    like_btn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
@@ -328,22 +413,7 @@ private void setListeners(final ViewHolder holder){
             favToggle();
         }
     });
-    holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String comment_content =holder.commentField.getText().toString();
-            Comment comment = new Comment();
-            if (!comment_content.equals("")){
 
-            comment.setContent(comment_content);
-                //TODO set date
-            comment.setDate("");
-                comment.setName(Auth.getLoggedUser().getName());
-                nursery.addComment(comment);
-            }
-
-        }
-    });
 
 
     edit.setOnClickListener(new View.OnClickListener() {
@@ -356,91 +426,70 @@ private void setListeners(final ViewHolder holder){
 
         }
     });
+    delete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Auth.getLoggedUser().removeNursery(nurseryId);
+            nursery.delete();
+        }
+    });
 }
 
-private void loginAuth(){
-    if (Auth.getLoggedUser()==null)
-    {
+private void loginAuth() {
+    if (Auth.getLoggedUser() == null) {
         likeButton.setVisibility(View.INVISIBLE);
         //TODO hide comment section
     }
+    else {
+        likeButton.setVisibility(View.VISIBLE);
+    }
+if (Auth.getLoggedUser() == null || !Auth.getLoggedUser().getNurseries().contains(nurseryId)) {
+    edit.setVisibility(View.GONE);
+    delete.setVisibility(View.GONE);
+}
+else {
+    edit.setVisibility(View.VISIBLE);
+    delete.setVisibility(View.VISIBLE);
+}
 }
 
 
     public void addCommentLayout(final ViewHolder holder){
+       final EditText commentField;
+        Button addCommentBtn;
+        LinearLayout addCommentSection;
+        commentField =(EditText) holder.holderView.findViewById(R.id.np_commentField);
+        addCommentBtn = (Button)  holder.holderView.findViewById(R.id.np_addCommentBtn);
 
-        holder.addCommentSection.setVisibility(View.VISIBLE);
+      addCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment_content =commentField.getText().toString();
+                Comment comment = new Comment();
+                if (!comment_content.equals("")){
+
+                    comment.setContent(comment_content);
+                    //TODO set date
+                    comment.setDate("");
+                    comment.setName(Auth.getLoggedUser().getName());
+                    nursery.addComment(comment);
+                }
+
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final SliderLayout slider;
-        public final LinearLayout navBar;
-        public final ImageView instagram;
-        public final ImageView snapChat;
-        public final ImageView whats;
-        public final ImageView facebook;
-        public final ImageView phone1;
-        public final ImageView phone2;
-        public final ImageView location;
-        public final LinearLayout body;
-        public final TextView nurseryName;
-        public final TextView city;
-        public final TextView description;
-        public final TextView descriptionData;
-        public final TextView specialNeeds;
-        public final TextView bus;
-        public final TextView swimming;
-        public final TextView arabic;
-        public final TextView english;
-        public final TextView meal;
-        public final TextView time;
-        public final TextView age;
-        public final View sperator;
-        public final TextView likesCount;
-        public final Button like_btn;
-        public final TextView commentContent;
-        public final EditText commentField;
-        public final Button addCommentBtn;
-        public final LinearLayout addCommentSection;
-        public final ImageView favBtn;
-        public final Button edit;
-        public final Button delete;
+         View holderView;
+
+
+
+
 
         public ViewHolder(View view) {
             super(view);
+            holderView =view;
 
-            slider =(SliderLayout) view.findViewById(R.id.nurseryProfileSlider);
-            instagram =(ImageView) view.findViewById(R.id.np_instagram);
-            snapChat=(ImageView) view.findViewById(R.id.np_snapchat);
-            whats=(ImageView) view.findViewById(R.id.np_whats);
-            facebook=(ImageView) view.findViewById(R.id.np_facebook);
-            phone1=(ImageView) view.findViewById(R.id.np_phone1);
-            phone2=(ImageView) view.findViewById(R.id.np_phone2);
-            location=(ImageView) view.findViewById(R.id.np_location);
-            body=(LinearLayout) view.findViewById(R.id.np_body);
-            nurseryName = (TextView) view.findViewById(R.id.np_nurseryName);
-            city = (TextView) view.findViewById(R.id.np_city);
-            description = (TextView) view.findViewById(R.id.np_description);
-            descriptionData = (TextView) view.findViewById(R.id.np_nurseryDescription);
-            specialNeeds= (TextView) view.findViewById(R.id.np_specialNeeds);
-            bus = (TextView) view.findViewById(R.id.np_bus);
-            swimming= (TextView) view.findViewById(R.id.np_swimming);
-            arabic = (TextView) view.findViewById(R.id.np_arabic);
-            english = (TextView) view.findViewById(R.id.np_english);
-            meal= (TextView) view.findViewById(R.id.np_Meal);
-            age = (TextView) view.findViewById(R.id.np_age);
-            time = (TextView) view.findViewById(R.id.np_time);
-            navBar= (LinearLayout) view.findViewById(R.id.np_navBar);
-            sperator= (View) view.findViewById(R.id.np_descriptionSp);
-            likesCount=(TextView) view.findViewById(R.id.np_likesNum);
-            like_btn = (Button) view.findViewById(R.id.navigation_like);
-            commentContent = (TextView) view.findViewById(R.id.np_comment);
-            commentField =(EditText) view.findViewById(R.id.np_commentField);
-            addCommentBtn = (Button) view.findViewById(R.id.np_addCommentBtn);
-            addCommentSection = (LinearLayout) view.findViewById(R.id.np_addCommentSection);
-            favBtn =(ImageView)view.findViewById(R.id.np_favBtn) ;
-            edit = (Button)view.findViewById(R.id.navigation_edit);
-            delete = (Button)view.findViewById(R.id.navigation_delete);
 
 
         }
