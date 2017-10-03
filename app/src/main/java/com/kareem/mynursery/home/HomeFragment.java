@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date strDate = sdf.parse(nursery.getSponsorshipEndDate());
         if (new Date().after(strDate))return;
-        sliderLayout.addSlider(new GlideSliderView(parentActivity).image(nursery.getImagesId().get(0)).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+        sliderLayout.addSlider(new GlideSliderView(parentActivity).image(Nursery.BASE_IMAGE_URL + nursery.getImagesId().get(0)).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
             @Override
             public void onSliderClick(BaseSliderView slider) {
                     Intent intent = new Intent(parentActivity, NurseryProfileActivity.class);

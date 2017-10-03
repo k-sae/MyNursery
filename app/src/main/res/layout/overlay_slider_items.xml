@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
     android:background="@color/overlay">
+
     <ImageView
         android:id="@+id/location_imageView"
         style="@style/slider_text_item"
-        android:layout_alignParentBottom="true"
         android:contentDescription="@string/nursery_location"
+        android:layout_gravity="bottom"
         android:src="@drawable/location1" />
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:orientation="vertical">
     <TextView
         android:id="@+id/location"
         style="@style/slider_text_item"
-        android:layout_toEndOf="@id/location_imageView"
-        android:layout_alignParentBottom="true"
         />
 
     <TextView
         android:id="@+id/title"
-        style="@style/slider_text_item"
-        android:layout_toEndOf="@id/location_imageView"
-        android:layout_above="@id/location"
-        />
+        style="@style/slider_text_item" />
+    </LinearLayout>
 
-
-</RelativeLayout>
+</LinearLayout>
 
