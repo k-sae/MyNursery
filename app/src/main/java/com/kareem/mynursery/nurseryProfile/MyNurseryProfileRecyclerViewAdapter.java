@@ -67,13 +67,15 @@ private User current_user;
             }
         });
 current_user=Auth.getLoggedUser();
-Auth.getLoggedUser(new ObjectChangedListener() {
-    @Override
-    public void onChange(RealTimeObject realTimeObject) {
-        notifyDataSetChanged();
-        current_user=(User)realTimeObject;
-    }
-});
+        current_user.startSync();
+        current_user.setOnChangeListener(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                notifyDataSetChanged();
+                current_user=(User)realTimeObject;
+            }
+        });
+
     }
 
     @Override
