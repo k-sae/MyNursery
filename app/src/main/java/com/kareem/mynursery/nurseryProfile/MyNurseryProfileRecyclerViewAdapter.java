@@ -67,14 +67,16 @@ private User current_user;
             }
         });
 current_user=Auth.getLoggedUser();
-        current_user.startSync();
-        current_user.setOnChangeListener(new ObjectChangedListener() {
-            @Override
-            public void onChange(RealTimeObject realTimeObject) {
-                notifyDataSetChanged();
-                current_user=(User)realTimeObject;
-            }
-        });
+        if (current_user!=null) {
+            current_user.startSync();
+            current_user.setOnChangeListener(new ObjectChangedListener() {
+                @Override
+                public void onChange(RealTimeObject realTimeObject) {
+                    notifyDataSetChanged();
+                    current_user = (User) realTimeObject;
+                }
+            });
+        }
 
     }
 
@@ -365,7 +367,7 @@ current_user=Auth.getLoggedUser();
     }
     private void checkFavorite(){
 
-        if (current_user.getFavourites().contains(nurseryId))
+        if (current_user!=null&&current_user.getFavourites().contains(nurseryId))
             favBtn.setImageResource(R.drawable.favorite_main);
         else
             favBtn.setImageResource(R.drawable.favorite);
@@ -399,6 +401,7 @@ current_user=Auth.getLoggedUser();
         checkLike();
     }
 private void setNurseryListeners(final ViewHolder holder){
+    if (current_user!=null){
     Button like_btn;
     like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
     like_btn.setOnClickListener(new View.OnClickListener() {
@@ -435,7 +438,7 @@ private void setNurseryListeners(final ViewHolder holder){
             nursery.delete();
         }
     });
-}
+}}
 
 private void loginAuth() {
     if (Auth.getLoggedUser() == null) {
