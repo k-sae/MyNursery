@@ -115,13 +115,13 @@
         android:id="@+id/np_nurseryName"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_city"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"/>
         </LinearLayout>
@@ -138,7 +138,7 @@
         android:id="@+id/np_description"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         />
 
     </LinearLayout>
@@ -147,8 +147,8 @@
         android:layout_height="0.5dp"
         android:visibility="invisible"
         android:id="@+id/np_descriptionSp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+       android:layout_marginEnd="25dp"
         android:background="@android:color/darker_gray"/>
     <TextView
         android:layout_width="match_parent"
@@ -163,8 +163,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/np_grid"
         android:columnCount="3"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+       android:layout_marginEnd="25dp"
         >
 
 
