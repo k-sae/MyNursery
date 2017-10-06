@@ -6,7 +6,9 @@
 
 
     >
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/nurseryProfileSlider"
         android:layout_width="match_parent"
@@ -15,6 +17,16 @@
 
         />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/np_favBtn"
+        android:src="@drawable/favorite"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="8dp"
+        />
+</RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,13 +140,7 @@
         android:textSize="14sp"
         android:layout_marginLeft="10dp"
         />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/np_favBtn"
-        android:src="@drawable/favorite"
-        android:layout_marginLeft="120dp"
-        />
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
