@@ -71,6 +71,7 @@
     <string name="invalid_phone_number">Invalid phone number</string>
     <string name="code_sent">Code sent by sms</string>
     <string name="invalid_phone_number_or_code">invalid phone number or code</string>
-    <string name="km"> KM</string>
+    <string name="km">KM</string>
+    <string name="add_nursery">Add Nursery</string>
 
 </resources>

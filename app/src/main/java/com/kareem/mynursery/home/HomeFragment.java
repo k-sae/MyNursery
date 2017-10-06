@@ -19,12 +19,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kareem.mynursery.AuthorizationNavigationContext;
 import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.NavigationContext;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.nursery.AddNursery;
 import com.kareem.mynursery.nursery.NurseryListActivity;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
@@ -54,6 +56,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_home, container, false);
         view.findViewById(R.id.search_for_nursery).setOnClickListener(this);
+        view.findViewById(R.id.profileAddNursery).setOnClickListener(this);
         sliderLayout = view.findViewById(R.id.slider);
         titleTextView = view.findViewById(R.id.title);
         locationTextView = view.findViewById(R.id.location);
@@ -115,6 +118,8 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         switch (view.getId()){
             case R.id.search_for_nursery:
                 ((NavigationContext)parentActivity).navigate(NurseryListActivity.class);
+                case R.id.profileAddNursery:
+                ((AuthorizationNavigationContext)parentActivity).redirectIfNotAuth(AddNursery.class);
         }
     }
 
@@ -138,12 +143,13 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public void onPageSelected(int position) {
         titleTextView.setText(nurseries.get(position).getName());
         String distance = nurseries.get(position).getCity() + " ";
-        if (Utils.location == null) distance += "~ ";
+        if (Utils.location == null) distance += "~";
         else {
             mLocation.setLatitude(nurseries.get(position).getLatitude());
             mLocation.setLongitude(nurseries.get(position).getLongitude());
            distance +=  Utils.calculateDistance(mLocation, Utils.location);
         }
+        distance += " " + parentActivity.getString(R.string.km);
         locationTextView.setText(distance);
     }
 
