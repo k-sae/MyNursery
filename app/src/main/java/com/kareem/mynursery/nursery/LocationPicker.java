@@ -223,6 +223,8 @@ public class LocationPicker extends AppCompatActivity implements OnMapReadyCallb
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                             new LatLng(mLastKnownLocation.getLatitude(),
                                     mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    if (marker == null)
+                    marker = mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("location"));
                 }
             };
             try {
