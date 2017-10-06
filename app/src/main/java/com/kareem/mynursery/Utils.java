@@ -21,7 +21,7 @@ public class Utils {
     }
     public static double calculateDistance(Location locationA,Location locationB )
     {
-       return Math.round(locationA.distanceTo(locationB) * 10) / 10;
+       return Math.round((locationA.distanceTo(locationB)/1000) * 10) / 10;
     }
     private static FirebaseDatabase mDatabase;
 
