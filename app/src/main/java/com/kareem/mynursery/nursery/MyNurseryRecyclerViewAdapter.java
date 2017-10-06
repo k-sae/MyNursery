@@ -6,12 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
@@ -71,8 +74,29 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
               startActivity(mPosition);
             }
         });
+        if (Auth.getLoggedUser() != null)
+        {
+            holder.favouriteIcon.setVisibility(View.VISIBLE);
+            setFavouriteLayout(holder.favouriteIcon, isInFavourites(holder.mItem));
+            holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean isInFav = isInFavourites(holder.mItem);
+                    if (!isInFav) {
+                        Auth.getLoggedUser().addFavourite(holder.mItem.getId());
+                    }
+                    else  Auth.getLoggedUser().removeFavourite(holder.mItem.getId());
+                    setFavouriteLayout((ImageView) view, !isInFav);
+                }
+            });
+        }
     }
 
+    private void setFavouriteLayout(ImageView mItem, boolean isInFavourite)
+    {
+        if (isInFavourite) Glide.with(context).load(R.drawable.star_filled).into(mItem);
+        else Glide.with(context).load(R.drawable.star).into(mItem);
+    }
     public List<Nursery> getmValues() {
         return mValues;
     }
@@ -83,7 +107,14 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         intent.putExtra("NurseryId", mValues.get(mPosition).getId() );
         context.startActivity(intent);
     }
-
+    private boolean isInFavourites(Nursery nursery)
+    {
+        for (String s:
+            Auth.getLoggedUser().getFavourites() ) {
+            if (s.equals(nursery.getId())) return true;
+        }
+        return false;
+    }
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -94,6 +125,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         public final TextView titleView;
         public final TextView locationView;
         public final SliderLayout sliderLayout;
+        public final ImageView favouriteIcon;
         public Nursery mItem;
 
         public ViewHolder(View view) {
@@ -102,6 +134,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
             titleView = (TextView) view.findViewById(R.id.title);
             locationView = (TextView) view.findViewById(R.id.location);
             sliderLayout = view.findViewById(R.id.slider);
+            favouriteIcon = view.findViewById(R.id.fav_button);
             sliderLayout.stopAutoCycle();
         }
 
