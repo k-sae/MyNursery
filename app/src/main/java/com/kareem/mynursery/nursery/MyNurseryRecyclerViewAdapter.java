@@ -2,7 +2,6 @@ package com.kareem.mynursery.nursery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,7 @@ import android.widget.TextView;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.R;
-import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
@@ -52,11 +49,11 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mContentView.setText(mValues.get(position).getName());
+        holder.titleView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
         final int mPosition = position;
         String distance = holder.mItem.getCity() + " " + (mValues.get(position).getDistanceFromUser() == null ? "~" + context.getString(R.string.km) : mValues.get(position).getDistanceFromUser() + context.getString(R.string.km) );
-        holder.mIdView.setText(distance);
+        holder.locationView.setText(distance);
         for (String s: holder.mItem.getImagesId()
              ) {
             holder.sliderLayout.addSlider(new DefaultSliderView(context).image(Nursery.BASE_IMAGE_URL + s).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
@@ -94,23 +91,23 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView titleView;
+        public final TextView locationView;
         public final SliderLayout sliderLayout;
         public Nursery mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.title);
-            mContentView = (TextView) view.findViewById(R.id.location);
+            titleView = (TextView) view.findViewById(R.id.title);
+            locationView = (TextView) view.findViewById(R.id.location);
             sliderLayout = view.findViewById(R.id.slider);
             sliderLayout.stopAutoCycle();
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + locationView.getText() + "'";
         }
     }
 }
