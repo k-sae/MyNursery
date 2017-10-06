@@ -70,7 +70,6 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   //TODo
               startActivity(mPosition);
             }
         });
