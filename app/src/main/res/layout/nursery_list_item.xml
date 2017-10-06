@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="7dp"
     >
 
     <com.daimajia.slider.library.SliderLayout
@@ -23,4 +22,7 @@
         android:visibility="invisible"
         />
  <include layout="@layout/overlay_slider_items" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp" android:background="@color/colorPrimary"/>
 </RelativeLayout>
