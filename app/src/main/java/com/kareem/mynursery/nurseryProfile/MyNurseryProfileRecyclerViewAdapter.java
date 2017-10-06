@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
@@ -39,7 +42,7 @@ import java.util.List;
  * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder> {
+public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder>   {
 
     public   Nursery nursery;
     private String nurseryId;
@@ -49,6 +52,8 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private ImageView favBtn;
     private int likeNum=0;
     private User current_user;
+    TextView distance;
+    String str_distance="~";
 
 
     public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
@@ -178,9 +183,9 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         navBar= (LinearLayout) holder.holderView.findViewById(R.id.np_navBar);
         sperator= (View) holder.holderView.findViewById(R.id.np_descriptionSp);
         likesCount=(TextView) holder.holderView.findViewById(R.id.np_likesNum);
-
+        distance = (TextView)holder.holderView.findViewById(R.id.distance);
         favBtn =(ImageView)holder.holderView.findViewById(R.id.np_favBtn) ;
-
+        distance.setText(str_distance+" KM");
 
 
 
@@ -445,4 +450,5 @@ commentField.setText("");
             return super.toString() + " '" +  "'";
         }
     }
+
 }

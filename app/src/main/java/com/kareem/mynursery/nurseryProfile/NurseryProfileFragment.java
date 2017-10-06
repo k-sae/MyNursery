@@ -2,6 +2,7 @@ package com.kareem.mynursery.nurseryProfile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +17,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
@@ -34,7 +37,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link }
  * interface.
  */
-public class NurseryProfileFragment extends Fragment {
+public class NurseryProfileFragment extends Fragment implements LocationTrackerFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -46,6 +49,7 @@ public class NurseryProfileFragment extends Fragment {
     private boolean liked;
     Nursery nursery;
     Context context;
+
     MyNurseryProfileRecyclerViewAdapter myNurseryProfileRecyclerViewAdapter;
 
     /**
@@ -242,4 +246,12 @@ private void likeToggle(){
 
     }
 
+    @Override
+    public void onLocationChange(Location location) {
+        Location location1 = new Location("");
+        location1.setLatitude(nursery.getLatitude());
+        location1.setLongitude(nursery.getLongitude());
+        myNurseryProfileRecyclerViewAdapter.str_distance=Utils.calculateDistance(location,location1)+"";
+        myNurseryProfileRecyclerViewAdapter.notifyDataSetChanged();
+    }
 }
