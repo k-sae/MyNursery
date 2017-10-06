@@ -12,7 +12,7 @@
     tools:showIn="@layout/activity_filter">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"     android:orientation="vertical">
+        android:layout_height="wrap_content" android:background="#fff"     android:orientation="vertical">
     <LinearLayout
         style="@style/filterItems" android:orientation="horizontal">
         <EditText
