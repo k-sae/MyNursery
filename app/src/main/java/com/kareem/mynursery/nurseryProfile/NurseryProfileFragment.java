@@ -65,12 +65,13 @@ public class NurseryProfileFragment extends Fragment {
         intent=getActivity().getIntent();
 
         View view = inflater.inflate(R.layout.fragment_nurseryprofile_list, container, false);
-        sliderLayout=inflater.inflate(R.layout.fragment_nurseryprofile, container, false).findViewById(R.id.nurseryProfileSlider);
+        android.support.v7.widget.RecyclerView recycler =(android.support.v7.widget.RecyclerView )view.findViewById(R.id.np_list);
+                sliderLayout=inflater.inflate(R.layout.fragment_nurseryprofile, container, false).findViewById(R.id.nurseryProfileSlider);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (recycler instanceof RecyclerView) {
+            Context context = recycler.getContext();
+            RecyclerView recyclerView = (RecyclerView) recycler ;
 
             LinearLayoutManager linearLayoutManager =new LinearLayoutManager(context, OrientationHelper.VERTICAL, false);
 

@@ -148,10 +148,10 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
 
     private void test()
     {
-        Auth.getLoggedUser().addFavourite("-Kuj6ypRkc9FTx0e_igl");
-        Auth.getLoggedUser().addFavourite("-Kuu7bJB9ZyITY6v7EUI");
-        Auth.getLoggedUser().addFavourite("-KvER015nE_ejlUM8meY");
-        Auth.getLoggedUser().addFavourite("-Kv-Bn6Ht96DST2IJ3YR");
+//        Auth.getLoggedUser().addFavourite("-Kuj6ypRkc9FTx0e_igl");
+//        Auth.getLoggedUser().addFavourite("-Kuu7bJB9ZyITY6v7EUI");
+//        Auth.getLoggedUser().addFavourite("-KvER015nE_ejlUM8meY");
+//        Auth.getLoggedUser().addFavourite("-Kv-Bn6Ht96DST2IJ3YR");
 
     }
 

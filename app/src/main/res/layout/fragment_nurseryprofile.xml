@@ -4,13 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
 
+
     >
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/nurseryProfileSlider"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:visibility="gone"
+        
 
         />
 
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/np_navBar"
         android:orientation="horizontal"
-        android:visibility="gone"
+        
         android:background="#999999"        >
 
         <ImageView
@@ -88,7 +89,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/np_body"
     android:orientation="vertical"
-    android:visibility="gone"
+    
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +131,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_likeBtn"
+        android:id="@+id/np_favBtn"
         android:src="@drawable/favorite"
         android:layout_marginLeft="120dp"
         />
@@ -165,14 +166,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_specialNeeds"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_bus"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
 
         />
@@ -180,42 +181,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_swimming"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_arabic"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_english"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_Meal"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_time"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_age"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_margin="5dp"
         />
 
@@ -227,48 +228,33 @@
         android:drawableLeft="@drawable/favorite_main"
         android:textSize="20sp"
         android:layout_margin="20dp"/>
-
-
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/np_commentSection"
-        android:layout_margin="14dp"
-        >
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/np_comment"
-            android:textSize="14sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:id="@+id/np_addCommentSection">
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/add_comment_field"
-        android:id="@+id/np_commentField"/>
+// nav bar
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/np_addCommentBtn"
-        android:text="@string/add_comment_btn"
-        android:drawableLeft="@drawable/add2"
-        android:background="@color/colorPrimary"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:textColor="@color/textSecondary"
-
+        android:id="@+id/navigation_like"
+        android:text="like"
+        android:layout_weight="1"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigation_edit"
+        android:text="edit"
+        android:layout_weight="1"
         />
-    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigation_delete"
+        android:text="delete"
+        android:layout_weight="1"/>
+</LinearLayout>
+</LinearLayout>
+    
+
+   
 </LinearLayout>

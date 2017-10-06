@@ -57,7 +57,7 @@ public  abstract class FileUploaderActivity extends AppCompatActivity implements
         }
     }
     private String getImageName(String respond){
-        return respond.substring("{\"apiRespond\":\"".length() - 1, respond.indexOf("\"}"));
+        return respond.substring("{\"apiRespond\":\"".length() , respond.indexOf("\"}"));
     }
 
     @Override

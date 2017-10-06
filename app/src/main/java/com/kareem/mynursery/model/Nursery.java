@@ -334,6 +334,8 @@ public class Nursery extends RealTimeObject{
         databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").child(Auth.getLoggedUser().getId()).setValue(true);
     }
     public void disLike(){
+        if (likes.size()==1)
+            likes.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).child("likes").child(Auth.getLoggedUser().getId()).setValue(null);
 
@@ -351,5 +353,14 @@ public class Nursery extends RealTimeObject{
 
     public void setDistanceFromUser(Double distanceFromUser) {
         DistanceFromUser = distanceFromUser;
+    }
+    public void delete(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(REFERENCE_NAME).child(getId()).setValue(null);
+
+    }
+    public void clearImageIndex(int index){
+        if (imagesId.size()>index)
+            imagesId.remove(index);
     }
 }
