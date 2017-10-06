@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     private Location mLocation = new Location("A");
     private TextView titleTextView;
     private TextView locationTextView;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -54,7 +55,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view  = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         view.findViewById(R.id.search_for_nursery).setOnClickListener(this);
         view.findViewById(R.id.profileAddNursery).setOnClickListener(this);
         sliderLayout = view.findViewById(R.id.slider);
@@ -91,13 +92,13 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         if (nursery.getImagesId().size() < 1 || nursery.getSponsorshipEndDate().equals("")) return;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date strDate = sdf.parse(nursery.getSponsorshipEndDate());
-        if (new Date().after(strDate))return;
+        if (new Date().after(strDate)) return;
         sliderLayout.addSlider(new GlideSliderView(parentActivity).image(Nursery.BASE_IMAGE_URL + nursery.getImagesId().get(0)).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
             @Override
             public void onSliderClick(BaseSliderView slider) {
-                    Intent intent = new Intent(parentActivity, NurseryProfileActivity.class);
-                    intent.putExtra("NurseryId", nursery.getId());
-                    parentActivity.startActivity(intent);
+                Intent intent = new Intent(parentActivity, NurseryProfileActivity.class);
+                intent.putExtra("NurseryId", nursery.getId());
+                parentActivity.startActivity(intent);
             }
         }));
     }
@@ -115,11 +116,13 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.search_for_nursery:
-                ((NavigationContext)parentActivity).navigate(NurseryListActivity.class);
-                case R.id.profileAddNursery:
-                ((AuthorizationNavigationContext)parentActivity).redirectIfNotAuth(AddNursery.class);
+                ((NavigationContext) parentActivity).navigate(NurseryListActivity.class);
+                break;
+            case R.id.profileAddNursery:
+                ((AuthorizationNavigationContext) parentActivity).redirectIfNotAuth(AddNursery.class);
+                break;
         }
     }
 
@@ -128,6 +131,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         sliderLayout.stopAutoCycle();
         super.onStop();
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -147,7 +151,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         else {
             mLocation.setLatitude(nurseries.get(position).getLatitude());
             mLocation.setLongitude(nurseries.get(position).getLongitude());
-           distance +=  Utils.calculateDistance(mLocation, Utils.location);
+            distance += Utils.calculateDistance(mLocation, Utils.location);
         }
         distance += " " + parentActivity.getString(R.string.km);
         locationTextView.setText(distance);

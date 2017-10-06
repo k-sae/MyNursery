@@ -142,7 +142,7 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     public void onLocationChange(Location location) {
         this.location = location;
         update();
-        ((LocationTrackerActivity)parent).stopLocationSync();
+//        ((LocationTrackerActivity)parent).stopLocationSync();
     }
 
     @SuppressWarnings("unchecked")
