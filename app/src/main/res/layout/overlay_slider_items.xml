@@ -19,11 +19,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/title" android:textAlignment="textStart"
             style="@style/slider_text_item" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/location" android:textAlignment="textStart"
             style="@style/slider_text_item" />
 
     </LinearLayout>

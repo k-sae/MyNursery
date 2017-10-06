@@ -138,12 +138,13 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public void onPageSelected(int position) {
         titleTextView.setText(nurseries.get(position).getName());
         String distance = nurseries.get(position).getCity() + " ";
-        if (Utils.location == null) distance += "~ ";
+        if (Utils.location == null) distance += "~";
         else {
             mLocation.setLatitude(nurseries.get(position).getLatitude());
             mLocation.setLongitude(nurseries.get(position).getLongitude());
            distance +=  Utils.calculateDistance(mLocation, Utils.location);
         }
+        distance += " " + parentActivity.getString(R.string.km);
         locationTextView.setText(distance);
     }
 
