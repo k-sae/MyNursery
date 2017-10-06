@@ -114,10 +114,10 @@ public class User extends  RealTimeObject{
     }
     public void removeFavourite(String nurseryId)
     {
-        Auth.getLoggedUser().favourites.remove(nurseryId);
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).child("favourites").child(nurseryId).setValue(null, this);
-
+        favourites.remove(nurseryId);
     }
     public void removeNursery(String nurseryId){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

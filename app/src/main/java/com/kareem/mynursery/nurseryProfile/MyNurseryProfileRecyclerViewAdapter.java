@@ -41,16 +41,14 @@ import java.util.List;
  */
 public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder> {
 
-    private  Nursery nursery;
+    public   Nursery nursery;
     private String nurseryId;
     private Context context;
     private boolean liked;
     private Button likeButton;
-    private Button edit;
-    private Button delete;
     private ImageView favBtn;
     private int likeNum=0;
-private User current_user;
+    private User current_user;
 
 
     public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
@@ -66,14 +64,15 @@ private User current_user;
                 notifyDataSetChanged();
             }
         });
-current_user=Auth.getLoggedUser();
+        current_user=Auth.getLoggedUser();
         if (current_user!=null) {
             current_user.startSync();
             current_user.setOnChangeListener(new ObjectChangedListener() {
                 @Override
                 public void onChange(RealTimeObject realTimeObject) {
                     notifyDataSetChanged();
-                    current_user = (User) realTimeObject;
+                   checkFavorite();
+
                 }
             });
         }
@@ -106,7 +105,6 @@ current_user=Auth.getLoggedUser();
 
        if (position==0) {setNurseryData(holder);
            setNurseryListeners(holder);
-           checkLike();
            checkFavorite();}
         else if (position == getItemCount()-1){addCommentLayout(holder);}
        else { setCommentsData(holder ,position-1);}
@@ -153,10 +151,9 @@ current_user=Auth.getLoggedUser();
          TextView age;
          View sperator;
          TextView likesCount;
-         Button like_btn;
+
         ImageView favBtn;
-        Button edit;
-        Button delete;
+
         slider =(SliderLayout) holder.holderView.findViewById(R.id.nurseryProfileSlider);
         instagram =(ImageView) holder.holderView.findViewById(R.id.np_instagram);
         snapChat=(ImageView) holder.holderView.findViewById(R.id.np_snapchat);
@@ -181,10 +178,8 @@ current_user=Auth.getLoggedUser();
         navBar= (LinearLayout) holder.holderView.findViewById(R.id.np_navBar);
         sperator= (View) holder.holderView.findViewById(R.id.np_descriptionSp);
         likesCount=(TextView) holder.holderView.findViewById(R.id.np_likesNum);
-        like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
+
         favBtn =(ImageView)holder.holderView.findViewById(R.id.np_favBtn) ;
-        edit = (Button)holder.holderView.findViewById(R.id.navigation_edit);
-        delete = (Button)holder.holderView.findViewById(R.id.navigation_delete);
 
 
 
@@ -228,16 +223,13 @@ current_user=Auth.getLoggedUser();
             specialNeeds.setText("Special Needs");
         time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
         age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
-        likeButton=like_btn;
-        this.edit=edit;
-        this.delete=delete;
+
+
         this.favBtn=favBtn;
         likesCount.setText(String.valueOf(nursery.getLikes().size()));
 
 
 
-        loginAuth();
-       checkLike();
 
         whats.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,16 +347,7 @@ current_user=Auth.getLoggedUser();
             liked=false;
 
     }
-    private void checkLike(){
-        if (Auth.getLoggedUser()!=null) {
 
-            isLiked();
-            if (liked)
-                likeButton.setText("DisLike");
-            else
-                likeButton.setText("Like");
-        }
-    }
     private void checkFavorite(){
 
         if (current_user!=null&&current_user.getFavourites().contains(nurseryId))
@@ -374,11 +357,11 @@ current_user=Auth.getLoggedUser();
 
     }
     private void favToggle(){
-        if (!Auth.getLoggedUser().getFavourites().contains(nurseryId))
-        { Auth.getLoggedUser().addFavourite(nurseryId);
+        if (!current_user.getFavourites().contains(nurseryId))
+        {current_user.addFavourite(nurseryId);
         }
         else {
-            Auth.getLoggedUser().removeFavourite(nurseryId);
+           current_user.removeFavourite(nurseryId);
         }
         checkFavorite();
     }
@@ -398,20 +381,11 @@ current_user=Auth.getLoggedUser();
             if (!likes.contains(Auth.getLoggedUser().getId()))
             nursery.like();
         }
-        checkLike();
+
     }
 private void setNurseryListeners(final ViewHolder holder){
     if (current_user!=null){
-    Button like_btn;
-    like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
-    like_btn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
 
-            likeToggle();
-
-        }
-    });
     favBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -421,42 +395,9 @@ private void setNurseryListeners(final ViewHolder holder){
 
 
 
-    edit.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(context , AddNursery.class);
-            intent.putExtra("action",AddNursery.EDIT_NURSERY);
-            intent.putExtra(AddNursery.ID,nurseryId);
-            context.startActivity(intent);
 
-        }
-    });
-    delete.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Auth.getLoggedUser().removeNursery(nurseryId);
-            nursery.delete();
-        }
-    });
 }}
 
-private void loginAuth() {
-    if (Auth.getLoggedUser() == null) {
-        likeButton.setVisibility(View.INVISIBLE);
-        //TODO hide comment section
-    }
-    else {
-        likeButton.setVisibility(View.VISIBLE);
-    }
-if (Auth.getLoggedUser() == null || !Auth.getLoggedUser().getNurseries().contains(nurseryId)) {
-    edit.setVisibility(View.GONE);
-    delete.setVisibility(View.GONE);
-}
-else {
-    edit.setVisibility(View.VISIBLE);
-    delete.setVisibility(View.VISIBLE);
-}
-}
 
 
     public void addCommentLayout(final ViewHolder holder){
@@ -479,7 +420,7 @@ else {
                     comment.setName(Auth.getLoggedUser().getName());
                     nursery.addComment(comment);
                 }
-
+commentField.setText("");
             }
         });
     }
