@@ -8,7 +8,7 @@
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="250dp" />
     <RelativeLayout
         android:layout_width="match_parent" android:id="@+id/holder"
         android:layout_height="wrap_content" android:layout_alignBottom="@id/slider">
