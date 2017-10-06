@@ -173,14 +173,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/np_specialNeeds"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_bus"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
 
         />
     <TextView
@@ -188,42 +188,42 @@
         android:layout_height="wrap_content"
         android:id="@+id/np_swimming"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_arabic"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_english"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_Meal"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_time"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/np_age"
         android:textSize="12sp"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
         />
 
     </GridLayout>
