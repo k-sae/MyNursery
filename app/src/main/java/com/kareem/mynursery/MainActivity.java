@@ -33,7 +33,7 @@ import org.mini2Dx.beanutils.PropertyUtils;
 import java.lang.reflect.InvocationTargetException;
 
 
-public class MainActivity extends LocationTrackerActivity implements  NavigationContext  {
+public class MainActivity extends LocationTrackerActivity implements  NavigationContext, AuthorizationNavigationContext  {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     private static final String TAG =  MainActivity.class.getName();
@@ -130,7 +130,7 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
 
     }
 
-    private boolean redirectIfNotAuth(Fragment fragment)
+    public boolean redirectIfNotAuth(Fragment fragment)
     {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Utils.showToast(getString(R.string.please_wait), this);
@@ -145,9 +145,24 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
         navigate(fragment);
         return true;
     }
-
+    public boolean redirectIfNotAuth(Class<?> cls)
+    {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Utils.showToast(getString(R.string.please_wait), this);
+            return false;
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
+        {
+            navigate(LoginActivity.class);
+            return false;
+        }
+        else
+            navigate(cls);
+        return true;
+    }
     private void test()
     {
+
 //        Auth.getLoggedUser().addFavourite("-Kuj6ypRkc9FTx0e_igl");
 //        Auth.getLoggedUser().addFavourite("-Kuu7bJB9ZyITY6v7EUI");
 //        Auth.getLoggedUser().addFavourite("-KvER015nE_ejlUM8meY");
