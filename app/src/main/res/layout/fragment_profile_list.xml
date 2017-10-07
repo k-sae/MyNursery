@@ -6,10 +6,10 @@
     android:name="com.kareem.mynursery.profile.ProfileFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.kareem.mynursery.profile.ProfileFragment"
     tools:listitem="@layout/fragment_profile"
-
+    android:background="@drawable/background"
     />

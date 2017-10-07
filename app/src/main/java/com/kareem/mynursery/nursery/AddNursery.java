@@ -1,5 +1,6 @@
 package com.kareem.mynursery.nursery;
 
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     EditText nurseryName , nurseryDescription  ,
              phone1 , phone2 , facebook , instagram , snapchat , price,
              minAge , maxAge , additionalActivities ,city ,district ,
-            street  , building ,whats;
+            street  , building ,whats,government,neighbour;
     TextView startTime , endTime;
 
     CheckBox swimming  , disabilites , english , arabic , bus;
@@ -56,7 +57,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     String nurseryNameData ,nurseryDescriptionData , startTimeData , endTimeData,
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
-            , notesData,whatsData;
+            , notesData,whatsData,governmentData,neighbourData;
     ImageView img1 ,img2,img3,img4,img5,img6,lastClicked;
     double  priceData;
     long minAgeData , maxAgeData;
@@ -135,6 +136,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         street .setText(streetData) ;
         building .setText(buildingData) ;
         whats.setText(whatsData);
+        government.setText(governmentData);
+        neighbour.setText(neighbourData);
 
     }
 
@@ -161,6 +164,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         district = (EditText) findViewById(R.id.addNurseryDistrict);
         street = (EditText) findViewById(R.id.addNurseryStreet);
         building = (EditText) findViewById(R.id.addNurseryBuilding);
+        government = (EditText)findViewById(R.id.addNurseryGov);
+        neighbour = (EditText)findViewById(R.id.addNurseryNeighbour);
 
         startTime = (TextView) findViewById(R.id.addNurseryStartTime);
         endTime= (TextView) findViewById(R.id.addNurseryEndTime);
@@ -201,6 +206,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         buildingData = building.getText().toString();
         streetData = street.getText().toString();
         whatsData=whats.getText().toString();
+        governmentData =government.getText().toString();
+        neighbourData = neighbour.getText().toString();
 
 
 
@@ -252,7 +259,14 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
             showRequiredError(getString(R.string.street));
             return false;
         }
-
+        if (governmentData.equals("") || governmentData.length()==0){
+            showRequiredError(getString(R.string.government));
+            return false;
+        }
+        if (pickedImagesPath.size()==0){
+            showRequiredError(getString(R.string.one_image));
+            return false;
+        }
 
         if (swimming.isChecked())
             activities.add("SWIMMING");
@@ -286,6 +300,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     }
 
     private void parseToNursery(){
+        ProgressDialog dialog = ProgressDialog.show(AddNursery.this, "",
+              this.getBaseContext().getString(R.string.add_nursery_loading), true);
         nurseryObj.setName(nurseryNameData);
         nurseryObj.setDescription(nurseryDescriptionData);
         nurseryObj.setStartTime(startTimeData);
@@ -309,6 +325,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setEnglish(englishVal);
         nurseryObj.setBus(busVal);
         nurseryObj.setWhatsapp(whatsData);
+        nurseryObj.setGovenment(governmentData);
+        nurseryObj.setNeighbourhood(neighbourData);
 
         String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
         pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
@@ -328,7 +346,9 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
             nurseryObj.save();
 
             Intent intent = new Intent(this, NurseryProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("NurseryId",nurseryObj.getId() );
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
            startActivity(intent);
         }
     }
@@ -362,6 +382,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         englishVal=nurseryObj.isEnglish();
         busVal=nurseryObj.isBus();
         whatsData=nurseryObj.getWhatsapp();
+        neighbourData=nurseryObj.getNeighbourhood();
+        governmentData=nurseryObj.getGovenment();
 
         if (nurseryObj.isBus())
            bus.setChecked(true);
@@ -464,11 +486,14 @@ lastClickedView=v;
                 nurseryObj.setLatitude(lat);
                 nurseryObj.setLongitude(lng);
                 this.city.setText(city);
-                nurseryObj.setMoreDetails(address);
+                nurseryObj.setMoreDetails(country+","+address);
+                government.setText(state+"");
+                district.setText(address);
 
                 Toast toast = Toast.makeText(this,
              "lat : "+lat+"\n lng : "+lng+  "\n country : "+country+"\n address: "+address+"\n city : "+city +"\n state : "+state
                         ,Toast.LENGTH_LONG);
+                //toast.show();
             }
         }
     }
@@ -501,6 +526,7 @@ lastClickedView=v;
                 nurseryObj.save();
                 Intent intent = new Intent(this, NurseryProfileActivity.class);
                 intent.putExtra("NurseryId",nurseryObj.getId() );
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         }
@@ -518,6 +544,7 @@ lastClickedView=v;
            nurseryObj.save();
             Auth.getLoggedUser().addNursery(nurseryObj.getId());
             Intent intent = new Intent(this, NurseryProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("NurseryId",nurseryObj.getId() );
             startActivity(intent);
         }
@@ -597,7 +624,7 @@ public void setImagesListeners(){
 public void showRequiredError(String message){
     if (errorMessage!=null)
         errorMessage.cancel();
-    errorMessage=Toast.makeText(this.getBaseContext(),message+R.string.required,Toast.LENGTH_LONG);
+    errorMessage=Toast.makeText(this.getBaseContext(),message+" "+this.getBaseContext().getString(R.string.required),Toast.LENGTH_LONG);
     errorMessage.show();
 }
 }

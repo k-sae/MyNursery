@@ -1,5 +1,6 @@
 package com.kareem.mynursery.nurseryProfile;
 
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -7,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.kareem.mynursery.LocationTrackerActivity;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.profile.ProfileFragment;
 
-public class NurseryProfileActivity extends AppCompatActivity  {
+import java.util.Locale;
+
+public class NurseryProfileActivity extends LocationTrackerActivity {
 
 
 
@@ -22,13 +26,16 @@ public class NurseryProfileActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nursery_profile);
         initFragments();
         navigate(nurseryProfileFragment);
     }
 
+    @Override
+    protected void onLocationChange(Location location) {
+
+    }
 
 
     public void navigate(Fragment fragment) {

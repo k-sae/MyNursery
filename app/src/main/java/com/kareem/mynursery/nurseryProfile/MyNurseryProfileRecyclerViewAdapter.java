@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
@@ -39,18 +42,18 @@ import java.util.List;
  * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder> {
+public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyNurseryProfileRecyclerViewAdapter.ViewHolder>   {
 
-    private  Nursery nursery;
+    public   Nursery nursery;
     private String nurseryId;
     private Context context;
     private boolean liked;
     private Button likeButton;
-    private Button edit;
-    private Button delete;
     private ImageView favBtn;
     private int likeNum=0;
-private User current_user;
+    private User current_user;
+    TextView distance;
+    String str_distance="~";
 
 
     public MyNurseryProfileRecyclerViewAdapter(final Context context, final String nurseryId) {
@@ -66,14 +69,15 @@ private User current_user;
                 notifyDataSetChanged();
             }
         });
-current_user=Auth.getLoggedUser();
+        current_user=Auth.getLoggedUser();
         if (current_user!=null) {
             current_user.startSync();
             current_user.setOnChangeListener(new ObjectChangedListener() {
                 @Override
                 public void onChange(RealTimeObject realTimeObject) {
                     notifyDataSetChanged();
-                    current_user = (User) realTimeObject;
+                   checkFavorite();
+
                 }
             });
         }
@@ -106,7 +110,6 @@ current_user=Auth.getLoggedUser();
 
        if (position==0) {setNurseryData(holder);
            setNurseryListeners(holder);
-           checkLike();
            checkFavorite();}
         else if (position == getItemCount()-1){addCommentLayout(holder);}
        else { setCommentsData(holder ,position-1);}
@@ -153,10 +156,10 @@ current_user=Auth.getLoggedUser();
          TextView age;
          View sperator;
          TextView likesCount;
-         Button like_btn;
+        TextView address , government,street,neighbour;
+
         ImageView favBtn;
-        Button edit;
-        Button delete;
+
         slider =(SliderLayout) holder.holderView.findViewById(R.id.nurseryProfileSlider);
         instagram =(ImageView) holder.holderView.findViewById(R.id.np_instagram);
         snapChat=(ImageView) holder.holderView.findViewById(R.id.np_snapchat);
@@ -179,13 +182,15 @@ current_user=Auth.getLoggedUser();
         age = (TextView) holder.holderView.findViewById(R.id.np_age);
         time = (TextView) holder.holderView.findViewById(R.id.np_time);
         navBar= (LinearLayout) holder.holderView.findViewById(R.id.np_navBar);
+        address = (TextView)holder.holderView.findViewById(R.id.np_address);
+        government =(TextView)holder.holderView.findViewById(R.id.np_government);
+        street =(TextView)holder.holderView.findViewById(R.id.np_street);
+        neighbour = (TextView)holder.holderView.findViewById(R.id.np_neighbour);
         sperator= (View) holder.holderView.findViewById(R.id.np_descriptionSp);
         likesCount=(TextView) holder.holderView.findViewById(R.id.np_likesNum);
-        like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
+        distance = (TextView)holder.holderView.findViewById(R.id.distance);
         favBtn =(ImageView)holder.holderView.findViewById(R.id.np_favBtn) ;
-        edit = (Button)holder.holderView.findViewById(R.id.navigation_edit);
-        delete = (Button)holder.holderView.findViewById(R.id.navigation_delete);
-
+        distance.setText(str_distance+" KM");
 
 
 
@@ -214,30 +219,31 @@ current_user=Auth.getLoggedUser();
         nurseryName.setText(nursery.getName());
         city.setText(nursery.getCity());
         description.setText(R.string.description);
+        address.setText(nursery.getDistrict());
+        street.setText(nursery.getStreet());
+        government.setText(nursery.getGovenment());
+        neighbour.setText(nursery.getNeighbourhood());
         sperator.setVisibility(View.VISIBLE);
         descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
-        swimming.setText("Swimming");
+        swimming.setText(context.getString(R.string.swimming));
         if (nursery.isArabic())
-            arabic.setText("Arabic");
+            arabic.setText(context.getString(R.string.arabic));
         if (nursery.isEnglish())
-            english.setText("English");
+            english.setText(context.getString(R.string.english));
         if (nursery.isBus())
-            bus.setText("Bus");
+            bus.setText(context.getString(R.string.bus));
         if (nursery.isSupportingDisablilites())
-            specialNeeds.setText("Special Needs");
-        time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
-        age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
-        likeButton=like_btn;
-        this.edit=edit;
-        this.delete=delete;
+            specialNeeds.setText(context.getString(R.string.special_needs));
+        time.setText(nursery.getStartTime()+" "+context.getString(R.string.to)+" "+nursery.getEndTime());
+        age.setText(context.getString(R.string.age)+":"+nursery.getMinAge()+" To "+nursery.getMaxAge());
+
+
         this.favBtn=favBtn;
         likesCount.setText(String.valueOf(nursery.getLikes().size()));
 
 
 
-        loginAuth();
-       checkLike();
 
         whats.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,16 +361,7 @@ current_user=Auth.getLoggedUser();
             liked=false;
 
     }
-    private void checkLike(){
-        if (Auth.getLoggedUser()!=null) {
 
-            isLiked();
-            if (liked)
-                likeButton.setText("DisLike");
-            else
-                likeButton.setText("Like");
-        }
-    }
     private void checkFavorite(){
 
         if (current_user!=null&&current_user.getFavourites().contains(nurseryId))
@@ -374,11 +371,11 @@ current_user=Auth.getLoggedUser();
 
     }
     private void favToggle(){
-        if (!Auth.getLoggedUser().getFavourites().contains(nurseryId))
-        { Auth.getLoggedUser().addFavourite(nurseryId);
+        if (!current_user.getFavourites().contains(nurseryId))
+        {current_user.addFavourite(nurseryId);
         }
         else {
-            Auth.getLoggedUser().removeFavourite(nurseryId);
+           current_user.removeFavourite(nurseryId);
         }
         checkFavorite();
     }
@@ -398,20 +395,11 @@ current_user=Auth.getLoggedUser();
             if (!likes.contains(Auth.getLoggedUser().getId()))
             nursery.like();
         }
-        checkLike();
+
     }
 private void setNurseryListeners(final ViewHolder holder){
     if (current_user!=null){
-    Button like_btn;
-    like_btn = (Button) holder.holderView.findViewById(R.id.navigation_like);
-    like_btn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
 
-            likeToggle();
-
-        }
-    });
     favBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -421,42 +409,9 @@ private void setNurseryListeners(final ViewHolder holder){
 
 
 
-    edit.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(context , AddNursery.class);
-            intent.putExtra("action",AddNursery.EDIT_NURSERY);
-            intent.putExtra(AddNursery.ID,nurseryId);
-            context.startActivity(intent);
 
-        }
-    });
-    delete.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Auth.getLoggedUser().removeNursery(nurseryId);
-            nursery.delete();
-        }
-    });
 }}
 
-private void loginAuth() {
-    if (Auth.getLoggedUser() == null) {
-        likeButton.setVisibility(View.INVISIBLE);
-        //TODO hide comment section
-    }
-    else {
-        likeButton.setVisibility(View.VISIBLE);
-    }
-if (Auth.getLoggedUser() == null || !Auth.getLoggedUser().getNurseries().contains(nurseryId)) {
-    edit.setVisibility(View.GONE);
-    delete.setVisibility(View.GONE);
-}
-else {
-    edit.setVisibility(View.VISIBLE);
-    delete.setVisibility(View.VISIBLE);
-}
-}
 
 
     public void addCommentLayout(final ViewHolder holder){
@@ -479,7 +434,7 @@ else {
                     comment.setName(Auth.getLoggedUser().getName());
                     nursery.addComment(comment);
                 }
-
+commentField.setText("");
             }
         });
     }
@@ -504,4 +459,5 @@ else {
             return super.toString() + " '" +  "'";
         }
     }
+
 }

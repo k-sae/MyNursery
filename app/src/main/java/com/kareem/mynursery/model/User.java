@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"DefaultFileTemplate", "WeakerAccess"})
 public class User extends  RealTimeObject{
     @Exclude
-    private static final String REFERENCE_NAME = "users";
+    public static final String REFERENCE_NAME = "users";
     //database objects
     private String name = "";
     private long type = 1;
@@ -110,14 +110,14 @@ public class User extends  RealTimeObject{
     {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).child("favourites").child(nurseryId).setValue(true, this);
-
+        favourites.add(nurseryId);
     }
     public void removeFavourite(String nurseryId)
     {
-        Auth.getLoggedUser().favourites.remove(nurseryId);
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).child("favourites").child(nurseryId).setValue(null, this);
-
+        favourites.remove(nurseryId);
     }
     public void removeNursery(String nurseryId){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

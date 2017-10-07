@@ -49,13 +49,14 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         this.onClickListener=onClickListener;
 
         current_user = Auth.getLoggedUser();
-        Auth.getLoggedUser(new ObjectChangedListener() {
+        current_user.startSync();
+        current_user.setOnChangeListener(new ObjectChangedListener() {
             @Override
             public void onChange(RealTimeObject realTimeObject) {
-                current_user = (User) realTimeObject;
                 notifyDataSetChanged();
             }
         });
+
 
     }
 
