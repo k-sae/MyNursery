@@ -12,6 +12,8 @@ import com.kareem.mynursery.LocationTrackerActivity;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.profile.ProfileFragment;
 
+import java.util.Locale;
+
 public class NurseryProfileActivity extends LocationTrackerActivity {
 
 
@@ -24,7 +26,6 @@ public class NurseryProfileActivity extends LocationTrackerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nursery_profile);
         initFragments();

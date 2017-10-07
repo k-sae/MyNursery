@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"DefaultFileTemplate", "WeakerAccess"})
 public class User extends  RealTimeObject{
     @Exclude
-    private static final String REFERENCE_NAME = "users";
+    public static final String REFERENCE_NAME = "users";
     //database objects
     private String name = "";
     private long type = 1;

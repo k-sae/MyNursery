@@ -358,6 +358,7 @@ public class Nursery extends RealTimeObject{
     public void delete(){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).setValue(null);
+        databaseReference.child(User.REFERENCE_NAME).child(REFERENCE_NAME).child(getId()).setValue(null);
 
     }
     public void clearImageIndex(int index){
