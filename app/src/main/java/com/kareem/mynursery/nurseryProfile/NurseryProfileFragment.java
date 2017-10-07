@@ -1,5 +1,6 @@
 package com.kareem.mynursery.nurseryProfile;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -29,6 +31,7 @@ import com.kareem.mynursery.nursery.AddNursery;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,7 +40,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link }
  * interface.
  */
-public class NurseryProfileFragment extends Fragment implements LocationTrackerFragment {
+public class NurseryProfileFragment extends Fragment implements LocationTrackerFragment,  DatePickerDialog.OnDateSetListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -45,7 +48,7 @@ public class NurseryProfileFragment extends Fragment implements LocationTrackerF
     private int mColumnCount = 1;
     private Intent intent;
     private SliderLayout sliderLayout;
-    Button like_btn,edit,delete;
+    Button like_btn,edit,delete,sponsored;
     private boolean liked;
     Nursery nursery;
     Context context;
@@ -111,6 +114,8 @@ public class NurseryProfileFragment extends Fragment implements LocationTrackerF
         like_btn = (Button) view.findViewById(R.id.navigation_like);
         edit = (Button)view.findViewById(R.id.navigation_edit);
         delete = (Button)view.findViewById(R.id.navigation_delete);
+        sponsored = (Button)view.findViewById(R.id.navigation_sponsored);
+
 
         like_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +143,12 @@ public class NurseryProfileFragment extends Fragment implements LocationTrackerF
                 nursery.delete();
             }
         });
+        sponsored.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickDate();
+            }
+        });
         final User current_user=Auth.getLoggedUser();
         if (current_user!=null) {
             current_user.startSync();
@@ -153,6 +164,11 @@ public class NurseryProfileFragment extends Fragment implements LocationTrackerF
                     }
                 }
             });
+            if (current_user.getType()==2){
+                sponsored.setVisibility(View.VISIBLE);
+            }
+            else
+                sponsored.setVisibility(View.GONE);
         }
         if (Auth.getLoggedUser() == null || !Auth.getLoggedUser().getNurseries().contains(nursery.getId())) {
             edit.setVisibility(View.GONE);
@@ -246,6 +262,16 @@ private void likeToggle(){
 
     }
 
+
+    private void pickDate(){
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog =new DatePickerDialog(context, this, year, month, day);
+        datePickerDialog.show();
+    }
+
     @Override
     public void onLocationChange(Location location) {
         Location location1 = new Location("");
@@ -253,5 +279,13 @@ private void likeToggle(){
         location1.setLongitude(nursery.getLongitude());
         myNurseryProfileRecyclerViewAdapter.str_distance=Utils.calculateDistance(location,location1)+"";
         myNurseryProfileRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        String date =i2+"/"+i1+"/"+i;
+        nursery.setSponsorshipEndDate(date);
+        nursery.save(); 
+        Toast.makeText(context,i+"-"+i1+"-"+i2,Toast.LENGTH_LONG).show();
     }
 }
