@@ -78,7 +78,6 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
-            nurseries.add(nursery);
             nursery.setId(snapshot.getKey());
             try {
                 addSlider(nursery);
@@ -93,6 +92,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date strDate = sdf.parse(nursery.getSponsorshipEndDate());
         if (new Date().after(strDate)) return;
+        nurseries.add(nursery);
         sliderLayout.addSlider(new GlideSliderView(parentActivity).image(Nursery.BASE_IMAGE_URL + nursery.getImagesId().get(0)).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
             @Override
             public void onSliderClick(BaseSliderView slider) {
