@@ -18,6 +18,12 @@
         tools:ignore="UselessParent"
         android:background="#fff"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal">
+            <com.hbb20.CountryCodePicker
+                android:layout_width="wrap_content" android:id="@+id/country_picker"
+                android:layout_height="wrap_content"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +32,7 @@
         android:id="@+id/phone_number"
         android:drawableEnd="@drawable/call"
         />
+        </LinearLayout>
         <LinearLayout android:orientation="vertical" android:visibility="gone" android:id="@+id/verification_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -50,6 +57,25 @@
         android:background="@color/colorSecondary"
         android:textColor="@color/textSecondary"
         />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/multi_space_extra">
+            <Switch
+                android:layout_width="wrap_content"
+                android:id="@+id/is_school_owner_switch"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingLeft="@dimen/space_extra"
+                android:paddingRight="@dimen/space_extra"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nursery_owner" android:layout_toStartOf="@id/is_school_owner_switch" />
+
+        </RelativeLayout>
     </LinearLayout>
   <RelativeLayout
       android:layout_width="match_parent"

@@ -27,7 +27,7 @@
             android:id="@+id/special_needs_switch"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="centerc_vertical"
             android:paddingLeft="@dimen/space_extra"
             android:paddingRight="@dimen/space_extra"
             />

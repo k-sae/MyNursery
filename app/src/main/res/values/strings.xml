@@ -79,5 +79,6 @@
     <string name="username">User Name</string>
     <string name="address">Address</string>
     <string name="one_image">One image at least</string>
+    <string name="nursery_owner">Nursery Owner</string>
 
 </resources>

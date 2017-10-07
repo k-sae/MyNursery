@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,8 +23,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.hbb20.CountryCodePicker;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.Utils;
+import com.kareem.mynursery.model.User;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "PhoneAuthActivity";
     private FirebaseAuth mAuth;
     private TextView informativeTextView;
+    private CountryCodePicker countryCodePicker;
+    private Switch schoolOwnerSwitch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.verify).setOnClickListener(this);
         verificationContainer = findViewById(R.id.verification_container);
         informativeTextView = findViewById(R.id.informative_textView);
+        countryCodePicker = findViewById(R.id.country_picker);
+        schoolOwnerSwitch = findViewById(R.id.is_school_owner_switch);
     }
     private void initVerificationCallBack() {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -92,8 +99,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
+        String phonePrefix;
+        try {
+            phonePrefix = countryCodePicker.getFullNumberWithPlus();
+        }catch (Exception e)
+        {
+            phonePrefix = "+1";
+        }
+
+
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+               phonePrefix + phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,                // Activity (for callback binding)
@@ -154,7 +170,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.d(TAG, "signInWithCredential:success");
 
                             // [START_EXCLUDE]
-
+                            FirebaseUser firebaseUser = task.getResult().getUser();
+                            User  user = new User();
+                            user.setId(firebaseUser.getUid());
+                            if (schoolOwnerSwitch.isChecked()) user.update("type", 1);
+                            else user.update("type", 3);
                             //TODO
                             finish();
                             // [END_EXCLUDE]
