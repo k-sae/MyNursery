@@ -34,6 +34,7 @@ public class Nursery extends RealTimeObject{
     private String street = "";
     private String building = "";
     private String moreDetails = "";
+    private String neighbourhood ="";
 
     // contact info
     private String phone1 = "";
@@ -362,5 +363,13 @@ public class Nursery extends RealTimeObject{
     public void clearImageIndex(int index){
         if (imagesId.size()>index)
             imagesId.remove(index);
+    }
+
+    public String getNeighbourhood() {
+        return neighbourhood;
+    }
+
+    public void setNeighbourhood(String neighbourhood) {
+        this.neighbourhood = neighbourhood;
     }
 }

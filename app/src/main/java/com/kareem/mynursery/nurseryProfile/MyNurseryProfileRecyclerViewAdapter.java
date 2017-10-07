@@ -156,6 +156,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
          TextView age;
          View sperator;
          TextView likesCount;
+        TextView address , government,street,neighbour;
 
         ImageView favBtn;
 
@@ -181,6 +182,10 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         age = (TextView) holder.holderView.findViewById(R.id.np_age);
         time = (TextView) holder.holderView.findViewById(R.id.np_time);
         navBar= (LinearLayout) holder.holderView.findViewById(R.id.np_navBar);
+        address = (TextView)holder.holderView.findViewById(R.id.np_address);
+        government =(TextView)holder.holderView.findViewById(R.id.np_government);
+        street =(TextView)holder.holderView.findViewById(R.id.np_street);
+        neighbour = (TextView)holder.holderView.findViewById(R.id.np_neighbour);
         sperator= (View) holder.holderView.findViewById(R.id.np_descriptionSp);
         likesCount=(TextView) holder.holderView.findViewById(R.id.np_likesNum);
         distance = (TextView)holder.holderView.findViewById(R.id.distance);
@@ -214,20 +219,24 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         nurseryName.setText(nursery.getName());
         city.setText(nursery.getCity());
         description.setText(R.string.description);
+        address.setText(nursery.getDistrict());
+        street.setText(nursery.getStreet());
+        government.setText(nursery.getGovenment());
+        neighbour.setText(nursery.getNeighbourhood());
         sperator.setVisibility(View.VISIBLE);
         descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
-        swimming.setText("Swimming");
+        swimming.setText(context.getString(R.string.swimming));
         if (nursery.isArabic())
-            arabic.setText("Arabic");
+            arabic.setText(context.getString(R.string.arabic));
         if (nursery.isEnglish())
-            english.setText("English");
+            english.setText(context.getString(R.string.english));
         if (nursery.isBus())
-            bus.setText("Bus");
+            bus.setText(context.getString(R.string.bus));
         if (nursery.isSupportingDisablilites())
-            specialNeeds.setText("Special Needs");
-        time.setText(nursery.getStartTime()+" To "+nursery.getEndTime());
-        age.setText("age:"+nursery.getMinAge()+" To "+nursery.getMaxAge());
+            specialNeeds.setText(context.getString(R.string.special_needs));
+        time.setText(nursery.getStartTime()+" "+context.getString(R.string.to)+" "+nursery.getEndTime());
+        age.setText(context.getString(R.string.age)+":"+nursery.getMinAge()+" To "+nursery.getMaxAge());
 
 
         this.favBtn=favBtn;

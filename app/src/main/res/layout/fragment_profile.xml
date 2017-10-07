@@ -14,8 +14,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/userName"
             android:gravity="center_horizontal"
-            android:drawableLeft="@drawable/profile"
-            android:hint="User Name"
+            android:drawableStart="@drawable/profile"
+            android:hint="@string/username"
             android:padding="10dp"
             />
     </android.support.design.widget.TextInputLayout>
@@ -24,10 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/saveUsername"
-        android:text="Save"
+        android:text="@string/save"
         android:background="@color/colorPrimary"
         android:layout_gravity="center"
-        android:drawableRight="@drawable/add2"
+        android:drawableEnd="@drawable/add2"
         android:padding="10dp"
         android:layout_margin="10dp"
         android:textColor="@color/textSecondary"
@@ -40,11 +40,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/profileAddNursery"
-        android:text="Add Nursery"
+        android:text="@string/add_nursery"
         android:drawableStart="@drawable/add_school"
         android:drawableEnd="@drawable/list"
         android:background="?android:attr/selectableItemBackground"
         android:padding="10dp"
+        android:textSize="24sp"
         android:layout_marginBottom="10dp"
    />
 </LinearLayout>
