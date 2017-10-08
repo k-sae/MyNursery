@@ -86,7 +86,7 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
         //if so just w8 for the async task to finish then continue as normal
         // in case iam wondering where is the async task:
         //          the signout function returns an async task :)
-//        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut();
         if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
         Log.e("firebase", "onCreate: " + FirebaseAuth.getInstance().getCurrentUser());
         test();

@@ -27,6 +27,7 @@ public class User extends  RealTimeObject{
     //database objects
     private String name = "";
     private long type = 1;
+    private String country = "";
     @KeyList
     private ArrayList<String> nurseries = new ArrayList<>();
     @KeyList
@@ -123,5 +124,13 @@ public class User extends  RealTimeObject{
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(REFERENCE_NAME).child(getId()).child("nurseries").child(nurseryId).setValue(null, this);
 
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
