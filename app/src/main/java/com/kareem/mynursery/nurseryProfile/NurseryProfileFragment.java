@@ -162,17 +162,25 @@ public class NurseryProfileFragment extends Fragment implements LocationTrackerF
                         edit.setVisibility(View.VISIBLE);
                         delete.setVisibility(View.VISIBLE);
                     }
+                    if (current_user.getType()==2){
+                        sponsored.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        sponsored.setVisibility(View.GONE);
+                    }
                 }
             });
             if (current_user.getType()==2){
                 sponsored.setVisibility(View.VISIBLE);
             }
-            else
+            else {
                 sponsored.setVisibility(View.GONE);
+            }
         }
         if (Auth.getLoggedUser() == null || !Auth.getLoggedUser().getNurseries().contains(nursery.getId())) {
             edit.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
+            sponsored.setVisibility(View.GONE);
         }
         else {
             edit.setVisibility(View.VISIBLE);
@@ -283,9 +291,9 @@ private void likeToggle(){
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        String date =i2+"/"+i1+"/"+i;
+        String date =i2+"/"+(i1+1)+"/"+i;
         nursery.setSponsorshipEndDate(date);
-        nursery.save(); 
+        nursery.save();
         Toast.makeText(context,i+"-"+i1+"-"+i2,Toast.LENGTH_LONG).show();
     }
 }
