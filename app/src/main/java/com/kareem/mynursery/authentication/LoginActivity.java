@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView informativeTextView;
     private CountryCodePicker countryCodePicker;
     private Switch schoolOwnerSwitch;
+    private String country;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +101,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
         String phonePrefix;
+
         try {
             phonePrefix = countryCodePicker.getFullNumberWithPlus();
+            country = countryCodePicker.getSelectedCountryNameCode();
         }catch (Exception e)
         {
             phonePrefix = "+1";
@@ -175,6 +178,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             user.setId(firebaseUser.getUid());
                             if (schoolOwnerSwitch.isChecked()) user.update("type", 1);
                             else user.update("type", 3);
+                            user.update("country", country );
                             //TODO
                             finish();
                             // [END_EXCLUDE]
