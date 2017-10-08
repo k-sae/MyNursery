@@ -25,6 +25,7 @@
             app:ccpDialog_showPhoneCode="false"
             android:layout_alignParentEnd="true"
             android:id="@+id/country_picker"
+            style="SpinnerwithNoArrow"
             />
     </RelativeLayout>
     <FrameLayout

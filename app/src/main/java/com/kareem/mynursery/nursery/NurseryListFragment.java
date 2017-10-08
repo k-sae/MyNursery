@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kareem.mynursery.Initializer;
 import com.kareem.mynursery.LocationTrackerActivity;
 import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
@@ -127,8 +128,10 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
-            nursery.setId(snapshot.getKey());
-            nurseries.add(nursery);
+            if (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())) {
+                nursery.setId(snapshot.getKey());
+                nurseries.add(nursery);
+            }
         }
         update();
     }
@@ -203,14 +206,14 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
 
 
     public boolean isBelongs(Nursery nursery) {
-            return filters == null
+        return  filters == null
                 || compareTo(nursery.getCity(), "city")
                 && compareTo(nursery.getCity(), "government")
                 && compareTo(nursery.getBuilding(), "block")
                 && compareTo(nursery.getMinAge() + "", "age_from")
                 && compareTo(nursery.getMaxAge() + "", "age_to")
-                && compareTo(nursery.getStartTime()+ "", "time_from")
-                && compareTo(nursery.getEndTime()+ "", "time_to");
+                && compareTo(nursery.getStartTime() + "", "time_from")
+                && compareTo(nursery.getEndTime() + "", "time_to");
 
     }
 

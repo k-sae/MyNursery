@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder>  implements AdapterView.OnItemSelectedListenergi {
+public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder>  implements AdapterView.OnItemSelectedListener {
 
 //    private final OnListFragmentInteractionListener mListener;
     private Activity parent;
