@@ -24,8 +24,11 @@ import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.NavigationContext;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.Utils;
+import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.model.ObjectChangedListener;
+import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.nursery.AddNursery;
 import com.kareem.mynursery.nursery.NurseryListActivity;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
@@ -45,7 +48,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     private Location mLocation = new Location("A");
     private TextView titleTextView;
     private TextView locationTextView;
-
+    private View addNurseryButton;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -57,7 +60,8 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         view.findViewById(R.id.search_for_nursery).setOnClickListener(this);
-        view.findViewById(R.id.profileAddNursery).setOnClickListener(this);
+        addNurseryButton = view.findViewById(R.id.profileAddNursery);
+        updateAddNurseryButton();
         sliderLayout = view.findViewById(R.id.slider);
         titleTextView = view.findViewById(R.id.title);
         locationTextView = view.findViewById(R.id.location);
@@ -136,6 +140,14 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public void onStart() {
         super.onStart();
         if (sliderLayout != null) sliderLayout.startAutoCycle();
+        if (Auth.getLoggedUser() != null)
+            Auth.getLoggedUser().setOnChangeListener(new ObjectChangedListener() {
+                @Override
+                public void onChange(RealTimeObject realTimeObject) {
+                    updateAddNurseryButton();
+                }
+            });
+
     }
 
     @Override
@@ -161,5 +173,10 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public void onPageScrollStateChanged(int state) {
 
     }
-
+    private void updateAddNurseryButton(){
+        if (Auth.getLoggedUser() != null && Auth.getLoggedUser().getType() == 3)
+           addNurseryButton.setVisibility(View.GONE);
+        else
+            addNurseryButton.setOnClickListener(this);
+    }
 }

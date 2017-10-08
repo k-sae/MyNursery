@@ -23,13 +23,5 @@ public class Utils {
     {
        return ((double)Math.round((locationA.distanceTo(locationB)/1000) * 10)) / 10.0;
     }
-    private static FirebaseDatabase mDatabase;
 
-    public static FirebaseDatabase initDatabase() {
-        if (mDatabase == null) {
-            mDatabase = FirebaseDatabase.getInstance();
-            mDatabase.setPersistenceEnabled(true);
-        }
-        return mDatabase;
-    }
 }

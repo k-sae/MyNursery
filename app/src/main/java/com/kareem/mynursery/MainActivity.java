@@ -78,7 +78,6 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragments();
-        Utils.initDatabase();
         navigate(homeFragment);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -86,8 +85,7 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
         //if so just w8 for the async task to finish then continue as normal
         // in case iam wondering where is the async task:
         //          the signout function returns an async task :)
-        FirebaseAuth.getInstance().signOut();
-        if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
+//        FirebaseAuth.getInstance().signOut();
         Log.e("firebase", "onCreate: " + FirebaseAuth.getInstance().getCurrentUser());
         test();
     }
@@ -134,7 +132,7 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
 
     public boolean redirectIfNotAuth(Fragment fragment)
     {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (Auth.getLoggedUser() == null) {
             Utils.showToast(getString(R.string.please_wait), this);
             return false;
         }

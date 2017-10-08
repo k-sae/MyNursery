@@ -2,6 +2,10 @@ package com.kareem.mynursery;
 
 import android.app.Application;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.kareem.mynursery.model.Auth;
+
 import net.gotev.uploadservice.UploadService;
 
 /**
@@ -18,5 +22,8 @@ public class Initializer extends Application {
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
         // Or, you can define it manually.
         UploadService.NAMESPACE = "com.kareem.mynursery";
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
+        if (Auth.getLoggedUser() != null) Auth.getLoggedUser().startSync();
     }
 }
