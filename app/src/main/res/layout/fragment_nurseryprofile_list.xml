@@ -17,8 +17,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
+        android:background="@color/textSecondary">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/navigation_sponsored"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Sponsored"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:background="@color/textSecondary"
         >
 
@@ -58,20 +71,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:text="delete"
             android:layout_weight="1"/>
-        <View
-            android:layout_width="1px"
-            android:layout_height="fill_parent"
-            android:layout_margin="4dp"
-            android:background="@color/place_autocomplete_prediction_secondary_text"
-
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/navigation_sponsored"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Sponsored"
-            android:layout_weight="1"/>
     </LinearLayout>
+   </LinearLayout>
 
 </RelativeLayout>

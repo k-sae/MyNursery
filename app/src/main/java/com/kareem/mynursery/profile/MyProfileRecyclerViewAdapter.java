@@ -50,12 +50,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
         current_user = Auth.getLoggedUser();
         current_user.startSync();
-        current_user.setOnChangeListener(new ObjectChangedListener() {
-            @Override
-            public void onChange(RealTimeObject realTimeObject) {
-                notifyDataSetChanged();
-            }
-        });
+
 
 
     }
@@ -97,6 +92,25 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
     private void renderUser(final ViewHolder holder ){
           EditText userName=holder.holderView.findViewById(R.id.userName);
         userName.setText(current_user.getName());
+        final Button button =(Button) holder.holderView.findViewById(R.id.profileAddNursery);
+        if (current_user.getType()==3){
+            button.setVisibility(View.GONE);
+        }
+        else {
+            button.setVisibility(View.VISIBLE);
+        }
+        current_user.setOnChangeListener(new ObjectChangedListener() {
+            @Override
+            public void onChange(RealTimeObject realTimeObject) {
+                notifyDataSetChanged();
+                if (current_user.getType()==3){
+                    button.setVisibility(View.GONE);
+                }
+                else {
+                    button.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
     }
     private  void renderUserNurseries(final ViewHolder holder, final int position){
