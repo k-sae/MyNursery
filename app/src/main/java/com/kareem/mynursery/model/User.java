@@ -26,7 +26,7 @@ public class User extends  RealTimeObject{
     public static final String REFERENCE_NAME = "users";
     //database objects
     private String name = "";
-    private long type = 1;
+    private long type = 3;
     private String country = "";
     @KeyList
     private ArrayList<String> nurseries = new ArrayList<>();

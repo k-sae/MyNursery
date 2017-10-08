@@ -25,7 +25,9 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,11 +48,6 @@
             android:name=".nursery.NurseryListActivity"
             android:label="@string/title_activity_nursery_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".nursery.FilterActivity"
-            android:label="@string/title_activity_filter"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".nursery.FileUploaderActivity"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,10 @@ public class Auth {
     {
         if (loggedUser == null ){
             //TODO
-            if (!FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
+            if (FirebaseAuth.getInstance().getCurrentUser() ==null)
+                FirebaseAuth.getInstance().signInAnonymously();
+            else
+            if (  !FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
 
               loggedUser = User.get(FirebaseAuth.getInstance().getCurrentUser().getUid());
             }

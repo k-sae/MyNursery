@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hbb20.CountryCodePicker;
 import com.kareem.mynursery.authentication.LoginActivity;
 import com.kareem.mynursery.home.FavouriteFragment;
 import com.kareem.mynursery.home.HomeFragment;
@@ -24,7 +25,9 @@ import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
+import com.kareem.mynursery.model.RealmUtils;
 import com.kareem.mynursery.model.User;
+import com.kareem.mynursery.model.UserPreferences;
 import com.kareem.mynursery.nursery.LocationPicker;
 import com.kareem.mynursery.profile.ProfileFragment;
 
@@ -33,7 +36,7 @@ import org.mini2Dx.beanutils.PropertyUtils;
 import java.lang.reflect.InvocationTargetException;
 
 
-public class MainActivity extends LocationTrackerActivity implements  NavigationContext, AuthorizationNavigationContext  {
+public class MainActivity extends LocationTrackerActivity implements CountryCodePicker.OnCountryChangeListener, NavigationContext, AuthorizationNavigationContext  {
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     private static final String TAG =  MainActivity.class.getName();
@@ -42,7 +45,8 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
     private HomeFragment homeFragment;
     private ProfileFragment profileFragment;
     private FavouriteFragment favouritesFragment;
-
+    private CountryCodePicker countryCodePicker;
+    private RealmUtils realmUtils;
     @Override
     protected void onStart() {
         setPromptTheUserForLocation(false);
@@ -78,7 +82,6 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragments();
-        Utils.initDatabase();
         navigate(homeFragment);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -87,7 +90,19 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
         // in case iam wondering where is the async task:
         //          the signout function returns an async task :)
         if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
+
         Log.e("firebase", "onCreate: " + FirebaseAuth.getInstance().getCurrentUser());
+        realmUtils =  new RealmUtils(this);
+        countryCodePicker = findViewById(R.id.country_picker);
+        countryCodePicker.setOnCountryChangeListener(this);
+        if (Initializer.userPreferences == null)
+        {
+            Initializer.userPreferences =new UserPreferences();
+            Initializer.userPreferences.setCountry(countryCodePicker.getDefaultCountryNameCode());
+
+            realmUtils.save(Initializer.userPreferences);
+        }
+        else  countryCodePicker.setCountryForNameCode(Initializer.userPreferences.getCountry());
         test();
     }
 
@@ -133,8 +148,9 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
 
     public boolean redirectIfNotAuth(Fragment fragment)
     {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() ==null) {
             Utils.showToast(getString(R.string.please_wait), this);
+            FirebaseAuth.getInstance().signInAnonymously();
             return false;
         }
         if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
@@ -167,4 +183,11 @@ public class MainActivity extends LocationTrackerActivity implements  Navigation
     }
 
 
+    @Override
+    public void onCountrySelected() {
+        realmUtils.getRealm().beginTransaction();
+        Initializer.userPreferences.setCountry(countryCodePicker.getSelectedCountryNameCode());
+        realmUtils.getRealm().commitTransaction();
+
+    }
 }

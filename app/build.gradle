@@ -50,5 +50,6 @@ dependencies {
     compile 'com.hbb20:ccp:2.0.2'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+    compile 'io.realm:realm-android:0.84.1'
 }
 apply plugin: 'com.google.gms.google-services'

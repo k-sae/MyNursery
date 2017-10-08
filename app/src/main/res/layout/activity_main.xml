@@ -7,7 +7,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.kareem.mynursery.MainActivity">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:background="@color/colorPrimary"
+        android:padding="@dimen/space_extra"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="@dimen/text_title_size" android:textColor="@color/textSecondary" android:text="@string/title_home" android:layout_centerInParent="true" />
+        <com.hbb20.CountryCodePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ccp_showFullName="false"
+            app:ccp_showFlag="true"
+            app:ccp_showNameCode="false"
+            app:ccp_showPhoneCode="false"
+            app:ccpDialog_showPhoneCode="false"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/country_picker"
+            />
+    </RelativeLayout>
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -20,6 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation"  />
 
 </LinearLayout>
