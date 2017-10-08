@@ -18,7 +18,7 @@
 package org.mini2Dx.beanutils;
 
 /**
- * Thrown to indicate that the <em>Bean Access Language</em> cannot execute query
+ * Thrown to indicate that the <em>Bean Access UserPreferences</em> cannot execute query
  * against given bean since a nested bean referenced is null.
  *
  * @since 1.7

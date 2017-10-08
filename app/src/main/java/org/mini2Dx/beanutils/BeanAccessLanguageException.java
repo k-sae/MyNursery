@@ -18,7 +18,7 @@
 package org.mini2Dx.beanutils;
 
 /**
- * Thrown to indicate that the <em>Bean Access Language</em> cannot execute query
+ * Thrown to indicate that the <em>Bean Access UserPreferences</em> cannot execute query
  * against given bean. This is a runtime exception and access langauges are encouraged
  * to subclass to create custom exceptions whenever appropriate.
  *
