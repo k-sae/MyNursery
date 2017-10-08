@@ -48,6 +48,10 @@
             android:name=".nursery.NurseryListActivity"
             android:label="@string/title_activity_nursery_list"
             android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="426249733f33a1b54fcf36674e648247bb96fa7c" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

@@ -2,12 +2,14 @@ package com.kareem.mynursery;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.RealmUtils;
 import com.kareem.mynursery.model.UserPreferences;
 
+import io.fabric.sdk.android.Fabric;
 import net.gotev.uploadservice.UploadService;
 
 /**
@@ -18,6 +20,7 @@ public class Initializer extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         // setup the broadcast action namespace string which will
         // be used to notify upload status.
         // Gradle automatically generates proper variable as below.
