@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.kareem.mynursery.CustomSlider;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
@@ -123,7 +124,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         public final View mView;
         public final TextView titleView;
         public final TextView locationView;
-        public final SliderLayout sliderLayout;
+        public final CustomSlider sliderLayout;
         public final ImageView favouriteIcon;
         public Nursery mItem;
 

@@ -174,9 +174,11 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     }
     private void updateAddNurseryButton(){
-        if (Auth.getLoggedUser() != null && Auth.getLoggedUser().getType() == 3)
+        if (Auth.getLoggedUser() == null || Auth.getLoggedUser().getType() == 3)
            addNurseryButton.setVisibility(View.GONE);
-        else
+        else {
+            addNurseryButton.setVisibility(View.VISIBLE);
             addNurseryButton.setOnClickListener(this);
+        }
     }
 }
