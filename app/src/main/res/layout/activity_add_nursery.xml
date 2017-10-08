@@ -121,6 +121,12 @@
             android:text="@string/nursery_location"
             android:padding="4dp"
             />
+        <com.hbb20.CountryCodePicker
+            android:layout_width="match_parent" android:id="@+id/country_picker"
+            android:layout_height="wrap_content"
+            app:ccp_showFullName="true"
+            app:ccp_showPhoneCode="false"
+            app:ccp_showNameCode="false"/>
 
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout

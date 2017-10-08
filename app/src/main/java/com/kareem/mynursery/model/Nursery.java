@@ -35,6 +35,7 @@ public class Nursery extends RealTimeObject{
     private String building = "";
     private String moreDetails = "";
     private String neighbourhood ="";
+    private String country="";
 
     // contact info
     private String phone1 = "";
@@ -316,6 +317,14 @@ public class Nursery extends RealTimeObject{
 
     public void setBus(boolean bus) {
         this.bus = bus;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

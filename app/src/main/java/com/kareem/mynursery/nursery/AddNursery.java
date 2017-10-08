@@ -15,6 +15,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.hbb20.CountryCodePicker;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
@@ -51,13 +52,14 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
              minAge , maxAge , additionalActivities ,city ,district ,
             street  , building ,whats,government,neighbour;
     TextView startTime , endTime;
+    CountryCodePicker countryCodePicker;
 
     CheckBox swimming  , disabilites , english , arabic , bus;
 
     String nurseryNameData ,nurseryDescriptionData , startTimeData , endTimeData,
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
-            , notesData,whatsData,governmentData,neighbourData;
+            , notesData,whatsData,governmentData,neighbourData,counteryData="";
     ImageView img1 ,img2,img3,img4,img5,img6,lastClicked;
     double  priceData;
     long minAgeData , maxAgeData;
@@ -138,6 +140,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         whats.setText(whatsData);
         government.setText(governmentData);
         neighbour.setText(neighbourData);
+        countryCodePicker.setCountryForNameCode(counteryData);
 
     }
 
@@ -181,6 +184,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         img4 = (ImageView) findViewById(R.id.addNurseryImg4);
         img5 = (ImageView) findViewById(R.id.addNurseryImg5);
         img6 = (ImageView) findViewById(R.id.addNurseryImg6);
+        countryCodePicker = (CountryCodePicker) findViewById(R.id.country_picker) ;
     }
 
     private boolean fetchData(){
@@ -208,6 +212,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         whatsData=whats.getText().toString();
         governmentData =government.getText().toString();
         neighbourData = neighbour.getText().toString();
+        counteryData = countryCodePicker.getSelectedCountryNameCode();
 
 
 
@@ -261,6 +266,10 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         }
         if (governmentData.equals("") || governmentData.length()==0){
             showRequiredError(getString(R.string.government));
+            return false;
+        }
+        if (counteryData.equals("") || counteryData.length()==0){
+            showRequiredError(getString(R.string.country));
             return false;
         }
         if (pickedImagesPath.size()==0){
@@ -327,6 +336,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setWhatsapp(whatsData);
         nurseryObj.setGovenment(governmentData);
         nurseryObj.setNeighbourhood(neighbourData);
+        nurseryObj.setCountry(counteryData);
 
         String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
         pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
@@ -384,6 +394,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         whatsData=nurseryObj.getWhatsapp();
         neighbourData=nurseryObj.getNeighbourhood();
         governmentData=nurseryObj.getGovenment();
+        counteryData=nurseryObj.getCountry();
 
         if (nurseryObj.isBus())
            bus.setChecked(true);

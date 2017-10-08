@@ -80,5 +80,9 @@
     <string name="username">اسم المستخدم</string>
     <string name="address">العنوان</string>
     <string name="one_image">صوره واحده علي الاقل</string>
-
+    <string name="country">الدوله</string>
+    <string-array name="lang_array">
+        <item>العربيه</item>
+        <item>الانجليزيه</item>
+    </string-array>
 </resources>
