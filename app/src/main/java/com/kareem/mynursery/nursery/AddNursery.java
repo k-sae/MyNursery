@@ -354,12 +354,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
                 }
             });
             nurseryObj.save();
-
-            Intent intent = new Intent(this, NurseryProfileActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("NurseryId",nurseryObj.getId() );
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-           startActivity(intent);
+            finish();
         }
     }
 
@@ -535,10 +530,7 @@ lastClickedView=v;
                     }
                 });
                 nurseryObj.save();
-                Intent intent = new Intent(this, NurseryProfileActivity.class);
-                intent.putExtra("NurseryId",nurseryObj.getId() );
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                finish();
             }
         }
         else if (pickedImagesPath.size()==0)
@@ -553,11 +545,7 @@ lastClickedView=v;
                 }
             });
            nurseryObj.save();
-            Auth.getLoggedUser().addNursery(nurseryObj.getId());
-            Intent intent = new Intent(this, NurseryProfileActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("NurseryId",nurseryObj.getId() );
-            startActivity(intent);
+            finish();
         }
     }
 
