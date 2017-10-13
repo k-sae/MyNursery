@@ -188,6 +188,6 @@ public class MainActivity extends LocationTrackerActivity implements CountryCode
         realmUtils.getRealm().beginTransaction();
         Initializer.userPreferences.setCountry(countryCodePicker.getSelectedCountryNameCode());
         realmUtils.getRealm().commitTransaction();
-
+        if(activeFragment instanceof CountryFragment) ((CountryFragment)activeFragment).onCountryChanged( Initializer.userPreferences.getCountry());
     }
 }

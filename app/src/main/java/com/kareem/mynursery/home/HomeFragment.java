@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.AuthorizationNavigationContext;
+import com.kareem.mynursery.CountryFragment;
 import com.kareem.mynursery.GlideSliderView;
 import com.kareem.mynursery.Initializer;
 import com.kareem.mynursery.NavigationContext;
@@ -42,10 +43,11 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeListener, View.OnClickListener, ValueEventListener {
+public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeListener, View.OnClickListener, ValueEventListener , CountryFragment{
     private Activity parentActivity;
     private SliderLayout sliderLayout;
     private ArrayList<Nursery> nurseries;
+    private ArrayList<Nursery> filteredNurseries;
     private Location mLocation = new Location("A");
     private TextView titleTextView;
     private TextView locationTextView;
@@ -68,6 +70,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         locationTextView = view.findViewById(R.id.location);
         sliderLayout.addOnPageChangeListener(this);
         nurseries = new ArrayList<>();
+        filteredNurseries = new ArrayList<>();
         startSync();
         return view;
     }
@@ -80,14 +83,14 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public void onDataChange(DataSnapshot dataSnapshot) {
         sliderLayout.removeAllSliders();
         nurseries.clear();
+        filteredNurseries.clear();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
             nursery.setId(snapshot.getKey());
+            nurseries.add(nursery);
             try {
-                if (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())) {
-                    addSlider(nursery);
-                }
+                if(isBelongs(nursery))   addSlider(nursery);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -100,7 +103,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date strDate = sdf.parse(nursery.getSponsorshipEndDate());
         if (new Date().after(strDate)) return;
-        nurseries.add(nursery);
+        filteredNurseries.add(nursery);
         sliderLayout.addSlider(new GlideSliderView(parentActivity).image(Nursery.BASE_IMAGE_URL + nursery.getImagesId().get(0)).setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
             @Override
             public void onSliderClick(BaseSliderView slider) {
@@ -161,12 +164,12 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     @Override
     public void onPageSelected(int position) {
-        titleTextView.setText(nurseries.get(position).getName());
-        String distance = nurseries.get(position).getCity() + " ";
+        titleTextView.setText(filteredNurseries.get(position).getName());
+        String distance = filteredNurseries.get(position).getCity() + " ";
         if (Utils.location == null) distance += "~";
         else {
-            mLocation.setLatitude(nurseries.get(position).getLatitude());
-            mLocation.setLongitude(nurseries.get(position).getLongitude());
+            mLocation.setLatitude(filteredNurseries.get(position).getLatitude());
+            mLocation.setLongitude(filteredNurseries.get(position).getLongitude());
             distance += Utils.calculateDistance(mLocation, Utils.location);
         }
         distance += " " + parentActivity.getString(R.string.km);
@@ -184,5 +187,29 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
             addNurseryButton.setVisibility(View.VISIBLE);
             addNurseryButton.setOnClickListener(this);
         }
+    }
+    private void updateFiltered(){
+        sliderLayout.removeAllSliders();
+        filteredNurseries.clear();
+        for (Nursery nursery: nurseries
+             ) {
+            try {
+                if(isBelongs(nursery))   addSlider(nursery);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean isBelongs(Nursery nursery)
+    {
+        return (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
+                && Auth.getLoggedUser() != null
+                && Auth.getLoggedUser().getType() != 2 );
+    }
+
+    @Override
+    public void onCountryChanged(String countryCode) {
+        updateFiltered();
     }
 }
