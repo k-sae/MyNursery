@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kareem.mynursery.AuthorizationNavigationContext;
 import com.kareem.mynursery.GlideSliderView;
+import com.kareem.mynursery.Initializer;
 import com.kareem.mynursery.NavigationContext;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.Utils;
@@ -84,7 +85,10 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
             nursery.setId(snapshot.getKey());
             try {
-                addSlider(nursery);
+                if (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())) {
+                    addSlider(nursery);
+                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
