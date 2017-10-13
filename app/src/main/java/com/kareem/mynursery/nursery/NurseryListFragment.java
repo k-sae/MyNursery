@@ -23,6 +23,7 @@ import com.kareem.mynursery.LocationTrackerActivity;
 import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
 import com.kareem.mynursery.Utils;
+import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.RealTimeObject;
@@ -128,7 +129,9 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
-            if (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())) {
+            if (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
+                    && Auth.getLoggedUser() != null
+                    && Auth.getLoggedUser().getType() != 2 ) {
                 nursery.setId(snapshot.getKey());
                 nurseries.add(nursery);
             }
