@@ -129,9 +129,9 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
-            if (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
-                    && Auth.getLoggedUser() != null
-                    && Auth.getLoggedUser().getType() != 2 ) {
+            if ((nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
+                    && Auth.getLoggedUser() != null)
+                    || Auth.getLoggedUser().getType() == 2 ) {
                 nursery.setId(snapshot.getKey());
                 nurseries.add(nursery);
             }
@@ -211,12 +211,14 @@ public class NurseryListFragment extends Fragment implements ValueEventListener,
     public boolean isBelongs(Nursery nursery) {
         return  filters == null
                 || compareTo(nursery.getCity(), "city")
-                && compareTo(nursery.getCity(), "government")
+                && compareTo(nursery.getGovernment(), "government")
                 && compareTo(nursery.getBuilding(), "block")
                 && compareTo(nursery.getMinAge() + "", "age_from")
                 && compareTo(nursery.getMaxAge() + "", "age_to")
                 && compareTo(nursery.getStartTime() + "", "time_from")
-                && compareTo(nursery.getEndTime() + "", "time_to");
+                && compareTo(nursery.getEndTime() + "", "time_to")
+                && compareTo(nursery.isSupportingDisablilites() + "" , "special_needs");
+
 
     }
 

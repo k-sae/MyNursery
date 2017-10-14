@@ -4,8 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -23,19 +21,15 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
-import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Comment;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
-import com.kareem.mynursery.nursery.AddNursery;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
@@ -221,7 +215,7 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         description.setText(R.string.description);
         address.setText(nursery.getDistrict());
         street.setText(nursery.getStreet());
-        government.setText(nursery.getGovenment());
+        government.setText(nursery.getGovernment());
         neighbour.setText(nursery.getNeighbourhood());
         sperator.setVisibility(View.VISIBLE);
         descriptionData.setText(nursery.getDescription());

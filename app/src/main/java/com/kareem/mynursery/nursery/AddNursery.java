@@ -3,7 +3,6 @@ package com.kareem.mynursery.nursery;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +16,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hbb20.CountryCodePicker;
 import com.kareem.mynursery.R;
-import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
-import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -334,7 +331,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setEnglish(englishVal);
         nurseryObj.setBus(busVal);
         nurseryObj.setWhatsapp(whatsData);
-        nurseryObj.setGovenment(governmentData);
+        nurseryObj.setGovernment(governmentData);
         nurseryObj.setNeighbourhood(neighbourData);
         nurseryObj.setCountry(counteryData);
 
@@ -388,7 +385,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         busVal=nurseryObj.isBus();
         whatsData=nurseryObj.getWhatsapp();
         neighbourData=nurseryObj.getNeighbourhood();
-        governmentData=nurseryObj.getGovenment();
+        governmentData=nurseryObj.getGovernment();
         counteryData=nurseryObj.getCountry();
 
         if (nurseryObj.isBus())

@@ -62,10 +62,11 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        sliderLayout = view.findViewById(R.id.slider);
         view.findViewById(R.id.search_for_nursery).setOnClickListener(this);
         addNurseryButton = view.findViewById(R.id.profileAddNursery);
         updateAddNurseryButton();
-        sliderLayout = view.findViewById(R.id.slider);
+
         titleTextView = view.findViewById(R.id.title);
         locationTextView = view.findViewById(R.id.location);
         sliderLayout.addOnPageChangeListener(this);
@@ -189,6 +190,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         }
     }
     private void updateFiltered(){
+        if (sliderLayout == null) return;
         sliderLayout.removeAllSliders();
         filteredNurseries.clear();
         for (Nursery nursery: nurseries
@@ -201,11 +203,10 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
         }
     }
 
-    private boolean isBelongs(Nursery nursery)
-    {
-        return (nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
-                && Auth.getLoggedUser() != null
-                && Auth.getLoggedUser().getType() != 2 );
+    private boolean isBelongs(Nursery nursery) {
+        return ((nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
+                && Auth.getLoggedUser() != null)
+                || Auth.getLoggedUser().getType() == 2);
     }
 
     @Override
