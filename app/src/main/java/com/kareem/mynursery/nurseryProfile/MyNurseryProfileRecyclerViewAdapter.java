@@ -365,9 +365,9 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     private void checkFavorite(){
 
         if (current_user!=null&&current_user.getFavourites().contains(nurseryId))
-            favBtn.setImageResource(R.drawable.favorite_main);
+            favBtn.setImageResource(R.drawable.star_filled);
         else
-            favBtn.setImageResource(R.drawable.favorite);
+            favBtn.setImageResource(R.drawable.star);
 
     }
     private void favToggle(){
