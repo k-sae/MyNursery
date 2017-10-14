@@ -153,6 +153,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
                 @Override
                 public void onChange(RealTimeObject realTimeObject) {
                     updateAddNurseryButton();
+                    updateFiltered();
                 }
             });
 
