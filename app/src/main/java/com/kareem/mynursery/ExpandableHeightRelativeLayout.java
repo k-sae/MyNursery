@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
 /**
  * Created by kareem on 10/14/17.
  */
@@ -34,7 +36,12 @@ public class ExpandableHeightRelativeLayout extends RelativeLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int mode = MeasureSpec.getMode(widthMeasureSpec);
         int size = MeasureSpec.getSize(widthMeasureSpec);
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((int) (size * (9.0/16.0)), mode));
+        double ratio = FirebaseRemoteConfig
+                .getInstance()
+                .getDouble("nursery_item_width_height_ratio");
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                (int) (size *ratio),mode);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
     }
 }
