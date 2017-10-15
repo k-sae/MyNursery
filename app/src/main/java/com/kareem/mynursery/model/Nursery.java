@@ -28,7 +28,7 @@ public class Nursery extends RealTimeObject{
 
     private double longitude =  0;
     private double latitude = 0;
-    private String govenment = "";
+    private String government = "";
     private String city  = "";
     private String district = "";
     private String street = "";
@@ -87,12 +87,12 @@ public class Nursery extends RealTimeObject{
         this.latitude = latitude;
     }
 
-    public String getGovenment() {
-        return govenment;
+    public String getGovernment() {
+        return government;
     }
 
-    public void setGovenment(String govenment) {
-        this.govenment = govenment;
+    public void setGovernment(String government) {
+        this.government = government;
     }
 
     public String getCity() {

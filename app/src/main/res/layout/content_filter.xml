@@ -13,26 +13,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:background="#fff"     android:orientation="vertical">
-    <LinearLayout
+    <RelativeLayout
         style="@style/filterItems" android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/special_needs_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/space_extra"
+            android:paddingRight="@dimen/space_extra"
+            android:layout_alignParentEnd="true"
+            />
         <EditText
             style="@style/filterItems"
             android:inputType=""
             android:editable="false"
             android:focusable="false"
             android:clickable="false"
-            android:hint="@string/special_needs" />
-
-        <Switch
-            android:id="@+id/special_needs_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/space_extra"
-            android:paddingRight="@dimen/space_extra"
+            android:hint="@string/special_needs"
+            android:layout_toStartOf="@id/special_needs_switch"
             />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

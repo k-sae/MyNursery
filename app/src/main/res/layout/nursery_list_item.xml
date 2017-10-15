@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kareem.mynursery.ExpandableHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     >
 
-    <com.kareem.mynursery.CustomSlider
+    <com.daimajia.slider.library.SliderLayout
         android:background="@color/cardview_dark_background"
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
     <ImageView
@@ -26,4 +26,4 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp" android:background="@color/colorPrimary"/>
-</RelativeLayout>
+</com.kareem.mynursery.ExpandableHeightRelativeLayout>
