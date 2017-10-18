@@ -206,8 +206,8 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     private boolean isBelongs(Nursery nursery) {
         return ((nursery.getCountry().equalsIgnoreCase(Initializer.userPreferences.getCountry())
-                && Auth.getLoggedUser() != null)
-                || Auth.getLoggedUser().getType() == 2);
+                ||(Auth.getLoggedUser() != null)
+                && Auth.getLoggedUser().getType() == 2));
     }
 
     @Override
