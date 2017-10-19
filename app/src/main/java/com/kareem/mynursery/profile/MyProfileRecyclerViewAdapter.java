@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * specified {@link }.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder>  implements AdapterView.OnItemSelectedListener {
+public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfileRecyclerViewAdapter.ViewHolder>  {
 
 //    private final OnListFragmentInteractionListener mListener;
     private Activity parent;
@@ -93,7 +93,6 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
     }
     private void renderUser(final ViewHolder holder ){
-        Spinner spinner = (Spinner) holder.holderView.findViewById(R.id.lang_spinner);
           EditText userName=holder.holderView.findViewById(R.id.userName);
         userName.setText(current_user.getName());
         final Button button =(Button) holder.holderView.findViewById(R.id.profileAddNursery);
@@ -115,14 +114,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                 }
             }
         });
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(parent,
-                R.array.lang_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+
 
     }
     private  void renderUserNurseries(final ViewHolder holder, final int position){
@@ -234,13 +226,5 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
         void onClick(String nurseryId);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(parent,adapterView.getItemAtPosition(i)+"",Toast.LENGTH_LONG).show();
-    }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }

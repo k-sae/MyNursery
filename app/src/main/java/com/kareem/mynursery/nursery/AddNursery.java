@@ -2,9 +2,11 @@ package com.kareem.mynursery.nursery;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hbb20.CountryCodePicker;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
@@ -40,6 +43,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     private ArrayList<String> imagesUrl;
     private int LOCATION_CODE =1;
     Toast errorMessage;
+    ProgressDialog dialog;
 
     //Form Buttons
     Button  addLocation , addNursery;
@@ -94,7 +98,11 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
             @Override
             public void onClick(View view) {
                if (fetchData()) {
+                   InputMethodManager inputManager = (InputMethodManager)
+                           getSystemService(Context.INPUT_METHOD_SERVICE);
 
+                   inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                           InputMethodManager.HIDE_NOT_ALWAYS);
                        parseToNursery();
 
 
@@ -182,6 +190,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         img5 = (ImageView) findViewById(R.id.addNurseryImg5);
         img6 = (ImageView) findViewById(R.id.addNurseryImg6);
         countryCodePicker = (CountryCodePicker) findViewById(R.id.country_picker) ;
+        countryCodePicker.setCountryForNameCode("KW");
+
     }
 
     private boolean fetchData(){
@@ -306,7 +316,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     }
 
     private void parseToNursery(){
-        ProgressDialog dialog = ProgressDialog.show(AddNursery.this, "",
+         dialog = ProgressDialog.show(AddNursery.this, "",
               this.getBaseContext().getString(R.string.add_nursery_loading), true);
         nurseryObj.setName(nurseryNameData);
         nurseryObj.setDescription(nurseryDescriptionData);
@@ -351,6 +361,9 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
                 }
             });
             nurseryObj.save();
+            if (!Auth.getLoggedUser().getNurseries().contains(nurseryObj.getId()))
+                Auth.getLoggedUser().addNursery(nurseryObj.getId());
+             dialog.dismiss();
             finish();
         }
     }
@@ -527,6 +540,9 @@ lastClickedView=v;
                     }
                 });
                 nurseryObj.save();
+                if (!Auth.getLoggedUser().getNurseries().contains(nurseryObj.getId()))
+                    Auth.getLoggedUser().addNursery(nurseryObj.getId());
+                dialog.dismiss();
                 finish();
             }
         }
@@ -542,6 +558,9 @@ lastClickedView=v;
                 }
             });
            nurseryObj.save();
+            if (!Auth.getLoggedUser().getNurseries().contains(nurseryObj.getId()))
+            Auth.getLoggedUser().addNursery(nurseryObj.getId());
+            dialog.dismiss();
             finish();
         }
     }
