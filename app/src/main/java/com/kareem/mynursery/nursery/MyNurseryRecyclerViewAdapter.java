@@ -55,7 +55,7 @@ public class MyNurseryRecyclerViewAdapter extends RecyclerView.Adapter<MyNursery
         holder.titleView.setText(mValues.get(position).getName());
         holder.sliderLayout.removeAllSliders();
         final int mPosition = position;
-        String distance = holder.mItem.getCity() + " " + (mValues.get(position).getDistanceFromUser() == null ? "~ " + context.getString(R.string.km) : mValues.get(position).getDistanceFromUser() + " " + context.getString(R.string.km) );
+        String distance =(mValues.get(position).getDistanceFromUser() == null ? "~ " + context.getString(R.string.km) : mValues.get(position).getDistanceFromUser() + " " + context.getString(R.string.km) );
         holder.locationView.setText(distance);
         for (String s: holder.mItem.getImagesId()
              ) {

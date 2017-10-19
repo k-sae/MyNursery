@@ -2,6 +2,7 @@ package com.kareem.mynursery.home;
 
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kareem.mynursery.LocationTrackerFragment;
 import com.kareem.mynursery.R;
+import com.kareem.mynursery.Utils;
 import com.kareem.mynursery.model.Auth;
 import com.kareem.mynursery.model.Nursery;
 import com.kareem.mynursery.model.ObjectChangedListener;
@@ -21,13 +24,18 @@ import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
 import com.kareem.mynursery.nursery.FilterActivity;
 import com.kareem.mynursery.nursery.MyNurseryRecyclerViewAdapter;
+import com.kareem.mynursery.nursery.NurseryListFragment;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavouriteFragment extends Fragment implements ObjectChangedListener {
+public class FavouriteFragment extends Fragment implements ObjectChangedListener, LocationTrackerFragment
+{
     private MyNurseryRecyclerViewAdapter myNurseryRecyclerViewAdapter;
     private User loggedUser;
+    private Location location;
     public FavouriteFragment() {
         // Required empty public constructor
     }
@@ -61,6 +69,7 @@ public class FavouriteFragment extends Fragment implements ObjectChangedListener
                     ) {
                 Nursery nursery = new Nursery();
                 nursery.setId( nurseryID);
+                setNurseryLocation(nursery);
                 myNurseryRecyclerViewAdapter.getmValues().add(nursery);
                 nursery.setOnChangeListener(this);
                 nursery.updateData();
@@ -68,5 +77,28 @@ public class FavouriteFragment extends Fragment implements ObjectChangedListener
         }
         else myNurseryRecyclerViewAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onLocationChange(Location location) {
+        this.location = location;
+        update();
+    }
+    private void update()
+    {
+        for (Nursery nursery: myNurseryRecyclerViewAdapter.getmValues()
+             ) {
+            setNurseryLocation(nursery);
+        }
+        myNurseryRecyclerViewAdapter.notifyDataSetChanged();
+    }
+    private void setNurseryLocation(Nursery nursery)
+    {
+        if(FavouriteFragment.this.location != null){
+            Location location = new Location("loc A");
+            location.setLongitude(nursery.getLongitude());
+            location.setLatitude(nursery.getLatitude());
+            nursery.setDistanceFromUser(Utils.calculateDistance(location, FavouriteFragment.this.location));
+        }
     }
 }

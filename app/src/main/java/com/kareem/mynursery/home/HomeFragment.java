@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         titleTextView.setText(filteredNurseries.get(position).getName());
-        String distance = filteredNurseries.get(position).getCity() + " ";
+        String distance ="";
         if (Utils.location == null) distance += "~";
         else {
             mLocation.setLatitude(filteredNurseries.get(position).getLatitude());

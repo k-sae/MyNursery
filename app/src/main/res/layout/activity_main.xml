@@ -22,6 +22,8 @@
             app:ccp_showFlag="true"
             app:ccp_showNameCode="false"
             app:ccp_showPhoneCode="false"
+            app:ccp_defaultNameCode="KW"
+            app:ccp_autoDetectCountry="true"
             app:ccpDialog_showPhoneCode="false"
             android:layout_alignParentEnd="true"
             android:id="@+id/country_picker"

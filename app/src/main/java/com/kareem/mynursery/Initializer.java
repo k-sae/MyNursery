@@ -36,7 +36,7 @@ public class Initializer extends Application {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         if ( FirebaseAuth.getInstance().getCurrentUser() == null) FirebaseAuth.getInstance().signInAnonymously();
         if (Auth.getLoggedUser() != null) Auth.getLoggedUser().startSync();
-        houserPreferences = new RealmUtils(this).getUserPreference();
+        userPreferences = new RealmUtils(this).getUserPreference();
 
         //remote config
         final FirebaseRemoteConfig mFirebaseRemoteConfig= FirebaseRemoteConfig.getInstance();
