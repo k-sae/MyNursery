@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -43,6 +44,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CountryCodePicker countryCodePicker;
     private Switch schoolOwnerSwitch;
     private String country;
+    //TODO
+    //remove this and add it to the initializer
+    //next use this  to sutilsend analytics
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 Log.w(TAG, "onVerificationFailed", e);
-
+                Utils.sendAnalytics("onVerificationFailed", e.getMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     informativeTextView.setText(R.string.invalid_phone_number);
                     mPhoneNumberField.setError("Invalid phone number.");
@@ -110,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             phonePrefix = "+1";
         }
 
-
+        Utils.sendAnalytics("startPhoneNumberVerification", "phonePrefix: "+ phonePrefix + " phoneNumber: " + phoneNumber);
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                phonePrefix + phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
@@ -156,6 +160,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // [START verify_with_code]
         if (verificationId == null || code == null || verificationId.equals("") || code.equals("")) {
             informativeTextView.setText(R.string.invalid_phone_number_or_code);
+            Utils.sendAnalytics("verifyPhoneNumberWithCode", "verificationId: "+ verificationId + " code: " + code);
+
             return;
         }
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
