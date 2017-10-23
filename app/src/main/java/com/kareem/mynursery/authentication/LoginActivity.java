@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             country = countryCodePicker.getSelectedCountryNameCode();
         }catch (Exception e)
         {
-            phonePrefix = "+1";
+            phonePrefix = "+965";
         }
 
         Utils.sendAnalytics("startPhoneNumberVerification", "phonePrefix: "+ phonePrefix + " phoneNumber: " + phoneNumber);

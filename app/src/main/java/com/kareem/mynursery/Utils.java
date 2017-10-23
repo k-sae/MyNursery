@@ -10,8 +10,12 @@ import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kareem.mynursery.model.FirebaseParser.ObjectParser;
 import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.model.TestModule;
 import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 /**
@@ -33,10 +37,16 @@ public class Utils {
 
     public static void sendAnalytics(String id, String name)
     {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        //for some reason this not works
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        FirebaseDatabase.getInstance()
+                .getReference("tests")
+                .push()
+                .setValue(new TestModule(id, name)
+                );
 
     }
     public static BaseSliderView getImageNotFoundSlider(Context context)
