@@ -47,7 +47,7 @@ public class Nursery extends RealTimeObject{
 
     //profile info
     private String name = "";
-    private String description = "";
+    private String description = "Data is either missing or deleted";
     private double expenses = 0;
     private long minAge = 0;
     private long maxAge = 0;
@@ -69,7 +69,9 @@ public class Nursery extends RealTimeObject{
     @Exclude
     private Double DistanceFromUser;
 
-
+    public Nursery() {
+        imagesId.add("vr2pwP/1.jpg");
+    }
 
     public double getLongitude() {
         return longitude;
