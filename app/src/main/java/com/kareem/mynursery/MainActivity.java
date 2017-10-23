@@ -181,7 +181,6 @@ public class MainActivity extends LocationTrackerActivity implements CountryCode
     }
     private void test()
     {
-       Utils.sendAnalytics("test", "test");
     }
 
 
