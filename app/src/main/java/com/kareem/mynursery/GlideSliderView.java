@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
@@ -16,6 +17,7 @@ public class GlideSliderView extends DefaultSliderView {
     public GlideSliderView(Context context) {
         super(context);
     }
+    public boolean loadError = false;
     protected void bindEventAndShow(final View v, ImageView targetImageView) {
         View progressBar = v.findViewById(com.daimajia.slider.library.R.id.loading_bar);
         if (progressBar != null) {
@@ -31,9 +33,18 @@ public class GlideSliderView extends DefaultSliderView {
                 }
             }
         });
-
+        if (loadError) {
+            GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(targetImageView);
+            Glide.with(getContext()).load(R.mipmap.image_not_found).centerCrop().into(imageViewTarget);
+        }else
         Glide.with(getContext())
                 .load(getUrl()).centerCrop()
                 .into(targetImageView);
+
+    }
+
+    public BaseSliderView loadGif(boolean loadGif){
+        this.loadError = loadGif;
+        return this;
     }
 }

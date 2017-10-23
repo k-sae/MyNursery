@@ -2,7 +2,6 @@ package com.kareem.mynursery.home;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -55,7 +54,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     public HomeFragment() {
         // Required empty public constructor
     }
-
+    private int sliderCount = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,20 +81,29 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     }
 
     public void onDataChange(DataSnapshot dataSnapshot) {
-        sliderLayout.removeAllSliders();
+        clearSliders();
         nurseries.clear();
-        filteredNurseries.clear();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()
                 ) {
             Nursery nursery = new ObjectParser().getValue(Nursery.class, snapshot);
             nursery.setId(snapshot.getKey());
             nurseries.add(nursery);
             try {
-                if(isBelongs(nursery))   addSlider(nursery);
+                if (isBelongs(nursery)) addSlider(nursery);
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+        checkForAvailability();
+    }
+
+    private void checkForAvailability() {
+        if (sliderCount == 0)
+        {
+            //TODO
+            //add slider contain the error message
+            sliderLayout.addSlider( Utils.getImageNotFoundSlider(parentActivity));
         }
     }
 
@@ -113,6 +121,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
                 parentActivity.startActivity(intent);
             }
         }));
+        sliderCount++;
     }
 
     @Override
@@ -166,6 +175,11 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
 
     @Override
     public void onPageSelected(int position) {
+        if (filteredNurseries.size() < 1) {
+            titleTextView.setText(R.string.no_sponsored_nurseries);
+            locationTextView.setText("");
+            return;
+        }
         titleTextView.setText(filteredNurseries.get(position).getName());
         String distance ="";
         if (Utils.location == null) distance += "~";
@@ -192,8 +206,7 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
     }
     private void updateFiltered(){
         if (sliderLayout == null) return;
-        sliderLayout.removeAllSliders();
-        filteredNurseries.clear();
+        clearSliders();
         for (Nursery nursery: nurseries
              ) {
             try {
@@ -202,6 +215,13 @@ public class HomeFragment extends Fragment implements ViewPagerEx.OnPageChangeLi
                 e.printStackTrace();
             }
         }
+        checkForAvailability();
+    }
+
+    private void clearSliders() {
+        sliderLayout.removeAllSliders();
+        filteredNurseries.clear();
+        sliderCount = 0;
     }
 
     private boolean isBelongs(Nursery nursery) {

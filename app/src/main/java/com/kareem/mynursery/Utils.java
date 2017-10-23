@@ -1,14 +1,18 @@
 package com.kareem.mynursery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kareem.mynursery.model.Nursery;
+import com.kareem.mynursery.nurseryProfile.NurseryProfileActivity;
 
 /**
  * Created by kareem on 9/13/17.
@@ -35,5 +39,8 @@ public class Utils {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
     }
-
+    public static BaseSliderView getImageNotFoundSlider(Context context)
+    {
+       return new GlideSliderView(context).loadGif(true).image(R.mipmap.not_found);
+    }
 }

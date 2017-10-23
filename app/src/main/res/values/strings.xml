@@ -81,6 +81,7 @@
     <string name="one_image">One image at least</string>
     <string name="nursery_owner">Nursery Owner</string>
     <string name="country">Country</string>
+    <string name="no_sponsored_nurseries">No sponsored nurseries in this area</string>
     <string-array name="lang_array">
     <item>arabic</item>
     <item>english</item>
