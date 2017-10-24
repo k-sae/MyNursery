@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.kareem.mynursery.MainActivity;
+import com.kareem.mynursery.NavigationContext;
 import com.kareem.mynursery.model.ObjectChangedListener;
 import com.kareem.mynursery.model.RealTimeObject;
 import com.kareem.mynursery.model.User;
@@ -120,6 +126,12 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
             @Override
             public void onClick(View view) {
                 //TODO logout
+                Auth.logout().addOnCompleteListener(parent, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        ((NavigationContext)parent).navigate(R.id.navigation_home);
+                    }
+                });
             }
         });
 

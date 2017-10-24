@@ -41,6 +41,7 @@ public class MainActivity extends LocationTrackerActivity implements CountryCode
 
     private static final int LOGIN_ACTIVITY_RESULT_CODE = 2133;
     private static final String TAG =  MainActivity.class.getName();
+    public static final int HOME = 0;
     //leave it as it is i will need it later
     private Fragment activeFragment;
     private HomeFragment homeFragment;
@@ -48,6 +49,7 @@ public class MainActivity extends LocationTrackerActivity implements CountryCode
     private FavouriteFragment favouritesFragment;
     private CountryCodePicker countryCodePicker;
     private RealmUtils realmUtils;
+    BottomNavigationView navigation;
     @Override
     protected void onStart() {
         setPromptTheUserForLocation(false);
@@ -84,7 +86,7 @@ public class MainActivity extends LocationTrackerActivity implements CountryCode
         setContentView(R.layout.activity_main);
         initFragments();
         navigate(homeFragment);
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //this may introduce a bug in app first run
         //if so just w8 for the async task to finish then continue as normal
@@ -136,6 +138,12 @@ public class MainActivity extends LocationTrackerActivity implements CountryCode
 
         navigate(cls, LOGIN_ACTIVITY_RESULT_CODE);
     }
+
+    @Override
+    public void navigate(int code) {
+      navigation.setSelectedItemId(code);
+    }
+
     public void navigate(Class<?> cls, int resultCode) {
         Intent intent = new Intent(this, cls);
         startActivityForResult(intent,resultCode);

@@ -1,5 +1,7 @@
 package com.kareem.mynursery.model;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -32,5 +34,11 @@ public class Auth {
         }
         loggedUser.setOnChangeListener(objectChangedListener);
         return loggedUser;
+    }
+    public static Task<AuthResult> logout()
+    {
+        FirebaseAuth.getInstance().signOut();
+        loggedUser = null;
+        return FirebaseAuth.getInstance().signInAnonymously();
     }
 }

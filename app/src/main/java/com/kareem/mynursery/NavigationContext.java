@@ -10,4 +10,5 @@ import android.support.v4.app.Fragment;
 public interface NavigationContext {
     void navigate(Fragment fragment);
     void navigate(Class<?> activity);
+    void navigate(int code);
 }
