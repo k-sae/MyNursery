@@ -137,6 +137,8 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
          ImageView location;
          LinearLayout body;
          TextView nurseryName;
+        TextView avenu1;
+        TextView avenu2;
          TextView city;
          TextView description;
          TextView descriptionData;
@@ -185,6 +187,8 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         distance = (TextView)holder.holderView.findViewById(R.id.distance);
         favBtn =(ImageView)holder.holderView.findViewById(R.id.np_favBtn) ;
         distance.setText(str_distance+" KM");
+        avenu1 = (TextView)holder.holderView.findViewById(R.id.np_avenu1);
+        avenu2 = (TextView)holder.holderView.findViewById(R.id.np_avenu2);
 
 
 
@@ -218,6 +222,8 @@ public class MyNurseryProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         government.setText(nursery.getGovernment());
         neighbour.setText(nursery.getNeighbourhood());
         sperator.setVisibility(View.VISIBLE);
+        avenu1.setText(nursery.getAvenu1());
+        avenu2.setText(nursery.getAvenu2());
         descriptionData.setText(nursery.getDescription());
         if (nursery.getActivities().contains("SWIMMING"))
         swimming.setText(context.getString(R.string.swimming));

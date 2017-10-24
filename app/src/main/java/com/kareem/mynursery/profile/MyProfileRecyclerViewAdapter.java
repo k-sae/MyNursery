@@ -96,6 +96,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
           EditText userName=holder.holderView.findViewById(R.id.userName);
         userName.setText(current_user.getName());
         final Button button =(Button) holder.holderView.findViewById(R.id.profileAddNursery);
+        Button logout =(Button)holder.holderView.findViewById(R.id.profile_logout);
         if (current_user.getType()==3){
             button.setVisibility(View.GONE);
         }
@@ -112,6 +113,13 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
                 else {
                     button.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO logout
             }
         });
 

@@ -51,7 +51,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     EditText nurseryName , nurseryDescription  ,
              phone1 , phone2 , facebook , instagram , snapchat , price,
              minAge , maxAge , additionalActivities ,city ,district ,
-            street  , building ,whats,government,neighbour;
+            street  , building ,whats,government,neighbour,avenu1,avenu2;
     TextView startTime , endTime;
     CountryCodePicker countryCodePicker;
 
@@ -60,7 +60,7 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
     String nurseryNameData ,nurseryDescriptionData , startTimeData , endTimeData,
             phone1Data , phone2Data , facebookData , instagramData , snapchatData ,
              additionalActivitiesData ,cityData ,districtData , streetData  , buildingData
-            , notesData,whatsData,governmentData,neighbourData,counteryData="";
+            , notesData,whatsData,governmentData,neighbourData,counteryData,avenu1Data,avenu2Data="";
     ImageView img1 ,img2,img3,img4,img5,img6,lastClicked;
     double  priceData;
     long minAgeData , maxAgeData;
@@ -145,6 +145,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         whats.setText(whatsData);
         government.setText(governmentData);
         neighbour.setText(neighbourData);
+        avenu1.setText(avenu1Data);
+        avenu2.setText(avenu2Data);
         countryCodePicker.setCountryForNameCode(counteryData);
 
     }
@@ -174,6 +176,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         building = (EditText) findViewById(R.id.addNurseryBuilding);
         government = (EditText)findViewById(R.id.addNurseryGov);
         neighbour = (EditText)findViewById(R.id.addNurseryNeighbour);
+        avenu1 = (EditText)findViewById(R.id.avenu1);
+        avenu2 = (EditText)findViewById(R.id.avenu2);
 
         startTime = (TextView) findViewById(R.id.addNurseryStartTime);
         endTime= (TextView) findViewById(R.id.addNurseryEndTime);
@@ -220,6 +224,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         governmentData =government.getText().toString();
         neighbourData = neighbour.getText().toString();
         counteryData = countryCodePicker.getSelectedCountryNameCode();
+        avenu1Data = avenu1.getText().toString();
+        avenu2Data = avenu2.getText().toString();
 
 
 
@@ -344,6 +350,8 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         nurseryObj.setGovernment(governmentData);
         nurseryObj.setNeighbourhood(neighbourData);
         nurseryObj.setCountry(counteryData);
+        nurseryObj.setAvenu1(avenu1Data);
+        nurseryObj.setAvenu2(avenu2Data);
 
         String url = pickedImagesPath.get(pickedImagesPath.keySet().toArray()[0]);
         pickedImagesPath.remove(pickedImagesPath.keySet().toArray()[0]);
@@ -400,6 +408,9 @@ public class AddNursery extends FileUploaderActivity implements TimePickerDialog
         neighbourData=nurseryObj.getNeighbourhood();
         governmentData=nurseryObj.getGovernment();
         counteryData=nurseryObj.getCountry();
+        avenu1Data = nurseryObj.getAvenu1();
+        avenu2Data =nurseryObj.getAvenu2();
+
 
         if (nurseryObj.isBus())
            bus.setChecked(true);

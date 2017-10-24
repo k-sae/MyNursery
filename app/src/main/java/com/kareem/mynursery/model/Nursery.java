@@ -36,6 +36,8 @@ public class Nursery extends RealTimeObject{
     private String moreDetails = "";
     private String neighbourhood ="";
     private String country="";
+    private String avenu1="";
+    private String avenu2="";
 
     // contact info
     private String phone1 = "";
@@ -247,6 +249,22 @@ public class Nursery extends RealTimeObject{
 
     public void setSupportingDisablilites(boolean supportingDisablilites) {
         isSupportingDisablilites = supportingDisablilites;
+    }
+
+    public String getAvenu1() {
+        return avenu1;
+    }
+
+    public void setAvenu1(String avenu1) {
+        this.avenu1 = avenu1;
+    }
+
+    public String getAvenu2() {
+        return avenu2;
+    }
+
+    public void setAvenu2(String avenu2) {
+        this.avenu2 = avenu2;
     }
 
     public ArrayList<Comment> getComments() {
